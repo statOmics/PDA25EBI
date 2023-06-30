@@ -1,0 +1,45 @@
+---
+title: Tutorial on msqrob2 with the GUI
+author: "Lieven Clement"
+date: "[statOmics](https://statomics.github.io), Ghent University"
+output:
+    html_document:
+      theme: cosmo      
+      code_download: false
+      toc: false
+      toc_float: false
+      number_sections: false
+bibliography: msqrob2.bib
+
+---
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+# Additional resources
+
+- [Install msqrob2 software](./software.html)
+- [Download data](https://github.com/statOmics/hupo21/archive/refs/heads/data.zip)
+
+# Heart example
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/ZZ89tCCcA7M"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+![Figure 3. Heart](./figures/heart.png)
+
+Researchers have assessed the proteome in different regions of the heart for 3 patients (identifiers 3, 4, and 8). For each patient they sampled the left atrium (LA), right atrium (RA), left ventricle (LV) and the right ventricle (RV). The data are a small subset of the public dataset  [PXD006675](https://www.ebi.ac.uk/pride/archive/projects/PXD006675) on PRIDE.
+
+Suppose that researchers are mainly interested in comparing the ventricular to the atrial proteome.
+Particularly, they would like to compare the expression between
+- the left atrium to the left ventricle
+- the right atrium to the right ventricle
+- the average ventricular vs atrial proteome and 
+- if ventricular vs atrial proteome shifts differ between left and right heart region.
+
+
+
+

@@ -1,0 +1,43 @@
+name : "PDA23EBI"
+title : "Proteomics Data Analysis 23 for EBI (PDA22EBI)"
+navbar:
+  title: "PDA23EBI"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Topics"
+      icon: fa-chalkboard-teacher
+      menu:
+      - text: Quantification - Preprocessing
+        href: pda_quantification_preprocessing.html
+      - text: Wrap-up Preprocessing - Peptide-Level-Models
+        href: pda_robustSummarisation_peptideModels.html
+      - text: Quantification - Differential Abundance Analysis
+        href: pda_quantification_inference.html
+    - text: "Exercises"
+      icon: fa-laptop
+      menu:
+      - text: Quantification - Preprocessing
+        href: cptac_robust_gui.html
+      - text: Quantification - Design
+        href: msqrob2guiTutorial.html
+  right:
+    - icon: fab fa-github      
+      href: https://github.com/statOmics/PDA23EBI
+    - text: "statOmics"
+      href: http://statomics.github.io/
+output:
+  html_document:
+      code_download: true
+      df_print: paged
+      theme: flatly
+      highlight: tango
+      toc: true
+      toc_float: true
+      number_sections: true
+      code_folding: show
+      include:
+        after_body: footer.html
+      css: style.css
+new_session: true
+exclude: ["renv.lock", "update_install_R.R", "install.R"]
