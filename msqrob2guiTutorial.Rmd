@@ -35,6 +35,7 @@ Researchers have assessed the proteome in different regions of the heart for 3 p
 
 Suppose that researchers are mainly interested in comparing the ventricular to the atrial proteome.
 Particularly, they would like to compare the expression between
+
 - the left atrium to the left ventricle
 - the right atrium to the right ventricle
 - the average ventricular vs atrial proteome and 
