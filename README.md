@@ -1,14 +1,14 @@
-#  Proteomics Data Analysis for EBI 2023
+#  Proteomics Data Analysis for EBI 2024
 
 
-Course site for Proteomics Data Analysis for EBI 2023
+Course site for Proteomics Data Analysis for EBI 2024
 
-https://statomics.github.io/PDA23EBI/
+https://statomics.github.io/PDA24EBI/
 
 
 ### Issues
 
-If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, ...), please consider [posting an issue on GitHub](https://github.com/statOmics/PDA23EBI/issues).
+If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, ...), please consider [posting an issue on GitHub](https://github.com/statOmics/PDA24EBI/issues).
 
 
 
