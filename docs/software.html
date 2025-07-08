@@ -12,9 +12,8 @@
 <meta name="author" content="Lieven Clement" />
 
 
-<title>2. Software for Proteomics Data Analysis (PDA)</title>
+<title>Software for Proteomics Data Analysis (PDA)</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -30,11 +29,16 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -45,22 +49,128 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
 
 
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
 
 
-
-
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 
 
@@ -219,7 +329,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -229,6 +405,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -306,55 +492,109 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">2. Software for Proteomics Data Analysis
-(PDA)</h1>
+
+<h1 class="title toc-ignore">Software for Proteomics Data Analysis (PDA)</h1>
 <h4 class="author">Lieven Clement</h4>
-<h4 class="date"><a href="https://statomics.github.io">statOmics</a>,
-Ghent University</h4>
+<h4 class="date"><a href="https://statomics.github.io">statOmics</a>, Ghent University</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<ul>
-<li>Install [R version 4.1 or higher] (<a
-href="https://cran.r-project.org/"
-class="uri">https://cran.r-project.org/</a>)</li>
-<li>Install <a
-href="https://www.rstudio.com/products/rstudio/download/">Rstudio</a></li>
-<li>Install <em>msqrob2</em>, start R and run the following
-command.</li>
-</ul>
-<pre><code>if(!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE)) {
- install.packages(&quot;BiocManager&quot;)
-}
-BiocManager::install(&quot;msqrob2&quot;)</code></pre>
-<ul>
-<li>Participants who want to use the graphical user interface (GUI) can
-install the msqrob2gui shiny app, start R and run the following
-commands</li>
-</ul>
-<pre><code>if(!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE)) {
- install.packages(&quot;BiocManager&quot;)
-}
-if(!requireNamespace(&quot;remotes&quot;, quietly = TRUE)) {
- BiocManager::install(&quot;remotes&quot;)
-}
-BiocManager::install(&quot;statomics/msqrob2gui&quot;)</code></pre>
-<ul>
-<li>check if your installation is working with the following
-example</li>
-</ul>
-<pre><code>library(msqrob2)
-data(pe)
-pe &lt;- aggregateFeatures(pe,i=&quot;peptide&quot;,fcol=&quot;Proteins&quot;,name=&quot;protein&quot;)
-pe &lt;- msqrob(pe,i=&quot;protein&quot;,formula=~condition,modelColumnName=&quot;rlm&quot;)
-getCoef(rowData(pe[[&quot;protein&quot;]])$rlm[[1]])</code></pre>
+<div id="install-rrstudio" class="section level2" number="1">
+<h2><span class="header-section-number">1</span> Install R/Rstudio</h2>
+<p>You can install R from the <a href="https://cran.r-project.org/">CRAN repository</a>.
+Yo will need R version 4.5 or higher.</p>
+<p>You can install from the <a href="https://posit.co/download/rstudio-desktop/">Posit website</a>.</p>
+</div>
+<div id="install-the-github-and-bioconductor-installers" class="section level2" number="2">
+<h2><span class="header-section-number">2</span> Install the GitHub and Bioconductor installers</h2>
+<p>Open Rstudio and paste the following command in the console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="at">version =</span> <span class="st">&quot;devel&quot;</span>)</span></code></pre></div>
+<p>The first command will install a utility package that will enable to
+install packages from GitHub. The second line will install the
+Bioconductor package installer. Ensure the installation succeeded by
+running the following command:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">version</span>()</span></code></pre></div>
+<pre><code>## [1] &#39;3.22&#39;</code></pre>
+<p>It should return 3.22 or higher.</p>
+</div>
+<div id="install-qfeatures" class="section level2" number="3">
+<h2><span class="header-section-number">3</span> Install QFeatures</h2>
+<p>The workshop will require a specific version of <code>QFeatures</code>, you can
+install it using the following command:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;cvanderaa/QFeatures&quot;</span>, <span class="at">ref =</span> <span class="st">&quot;uniquePrecId&quot;</span>)</span></code></pre></div>
+<p>Test the package has been correctly installed using the following
+command:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(QFeatures)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">data</span>(feat2)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">joinAssays</span>(feat2, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">fcol =</span> <span class="st">&quot;Prot&quot;</span>)</span></code></pre></div>
+<pre><code>## An instance of class QFeatures (type: bulk) with 4 sets:
+## 
+##  [1] assay1: SummarizedExperiment with 10 rows and 4 columns 
+##  [2] assay2: SummarizedExperiment with 4 rows and 4 columns 
+##  [3] assay3: SummarizedExperiment with 7 rows and 4 columns 
+##  [4] joinedAssay: SummarizedExperiment with 14 rows and 12 columns</code></pre>
+</div>
+<div id="install-msqrob2" class="section level2" number="4">
+<h2><span class="header-section-number">4</span> Install msqrob2</h2>
+<p>The workshop will also require a specific version of <code>msqrob2</code>, you
+can install it using the following command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;statOmics/msqrob2&quot;</span>) <span class="do">## this installs msqrob2</span></span></code></pre></div>
+<p>Test whether the package has been correctly installed using the
+following command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(msqrob2)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">data</span>(pe)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>pe <span class="ot">&lt;-</span> <span class="fu">aggregateFeatures</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    pe, <span class="at">i =</span> <span class="st">&quot;peptide&quot;</span>, <span class="at">fcol =</span> <span class="st">&quot;Proteins&quot;</span>, <span class="at">name =</span> <span class="st">&quot;protein&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">msqrob</span>(pe,<span class="at">i =</span> <span class="st">&quot;protein&quot;</span>, <span class="at">formula =</span> <span class="sc">~</span> condition)</span></code></pre></div>
+<pre><code>## An instance of class QFeatures (type: bulk) with 2 sets:
+## 
+##  [1] peptide: SummarizedExperiment with 631 rows and 20 columns 
+##  [2] protein: SummarizedExperiment with 100 rows and 20 columns</code></pre>
+</div>
+<div id="install-the-graphical-user-interfaces" class="section level2" number="5">
+<h2><span class="header-section-number">5</span> Install the graphical user interfaces</h2>
+<p>In this course, we will use 2 graphical user interfaces (GUIs):
+<code>QFeaturesGUI</code> for the data preprocessing and <code>msqrob2gui</code> for the
+data modelling. For installing the GUIs, you’ll again need to install
+specific versions as the software is still in a developmental stage.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;statOmics/QFeaturesGUI&quot;</span>) <span class="do">## this installs QFeaturesGUI</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;statOmics/msqrob2gui&quot;</span>, <span class="at">ref =</span> <span class="st">&quot;gui2modules&quot;</span>) <span class="do">## this installs msqrob2gui</span></span></code></pre></div>
+<p>Test whether the <code>QFeaturesGUI</code> package has been correctly installed
+using the following command:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>QFeaturesGUI<span class="sc">::</span><span class="fu">importQFeatures</span>()</span></code></pre></div>
+<p>This should open a new window. You can close it for now.</p>
+<p>Test whether the <code>msqrob2gui</code> package has been correctly installed
+using the following command:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>msqrob2gui<span class="sc">::</span><span class="fu">launchMsqrob2App</span>()</span></code></pre></div>
+<p>Again, this should open a new window, but you can close it for now.</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiBTb2Z0d2FyZSBmb3IgUHJvdGVvbWljcyBEYXRhIEFuYWx5c2lzIChQREEpIAphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCIKZGF0ZTogIltzdGF0T21pY3NdKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbyksIEdoZW50IFVuaXZlcnNpdHkiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIHRoZW1lOiBmbGF0bHkgICAgICAKICAgICAgY29kZV9kb3dubG9hZDogZmFsc2UKICAgICAgdG9jOiBmYWxzZQogICAgICB0b2NfZmxvYXQ6IGZhbHNlCiAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKCi0tLQoKPGEgcmVsPSJsaWNlbnNlIiBocmVmPSJodHRwczovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnktbmMtc2EvNC4wIj48aW1nIGFsdD0iQ3JlYXRpdmUgQ29tbW9ucyBMaWNlbnNlIiBzdHlsZT0iYm9yZGVyLXdpZHRoOjAiIHNyYz0iaHR0cHM6Ly9pLmNyZWF0aXZlY29tbW9ucy5vcmcvbC9ieS1uYy1zYS80LjAvODh4MzEucG5nIiAvPjwvYT4KCiMjIEluc3RhbGwgUi9Sc3R1ZGlvCgpZb3UgY2FuIGluc3RhbGwgUiBmcm9tIHRoZSBbQ1JBTiByZXBvc2l0b3J5XShodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy8pLgpZbyB3aWxsIG5lZWQgUiB2ZXJzaW9uIDQuNSBvciBoaWdoZXIuCgpZb3UgY2FuIGluc3RhbGwgZnJvbSB0aGUgW1Bvc2l0IHdlYnNpdGVdKGh0dHBzOi8vcG9zaXQuY28vZG93bmxvYWQvcnN0dWRpby1kZXNrdG9wLykuCgojIyBJbnN0YWxsIHRoZSBHaXRIdWIgYW5kIEJpb2NvbmR1Y3RvciBpbnN0YWxsZXJzCgpPcGVuIFJzdHVkaW8gYW5kIHBhc3RlIHRoZSBmb2xsb3dpbmcgY29tbWFuZCBpbiB0aGUgY29uc29sZToKCmBgYHtyLCBldmFsPUZBTFNFfQppbnN0YWxsLnBhY2thZ2VzKCJkZXZ0b29scyIpCmluc3RhbGwucGFja2FnZXMoIkJpb2NNYW5hZ2VyIikKQmlvY01hbmFnZXI6Omluc3RhbGwodmVyc2lvbiA9ICJkZXZlbCIpCmBgYAoKVGhlIGZpcnN0IGNvbW1hbmQgd2lsbCBpbnN0YWxsIGEgdXRpbGl0eSBwYWNrYWdlIHRoYXQgd2lsbCBlbmFibGUgdG8KaW5zdGFsbCBwYWNrYWdlcyBmcm9tIEdpdEh1Yi4gVGhlIHNlY29uZCBsaW5lIHdpbGwgaW5zdGFsbCB0aGUKQmlvY29uZHVjdG9yIHBhY2thZ2UgaW5zdGFsbGVyLiBFbnN1cmUgdGhlIGluc3RhbGxhdGlvbiBzdWNjZWVkZWQgYnkKcnVubmluZyB0aGUgZm9sbG93aW5nIGNvbW1hbmQ6CgpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KQmlvY01hbmFnZXI6OnZlcnNpb24oKQpgYGAKCkl0IHNob3VsZCByZXR1cm4gMy4yMiBvciBoaWdoZXIuCgojIyBJbnN0YWxsIFFGZWF0dXJlcwoKVGhlIHdvcmtzaG9wIHdpbGwgcmVxdWlyZSBhIHNwZWNpZmljIHZlcnNpb24gb2YgYFFGZWF0dXJlc2AsIHlvdSBjYW4KaW5zdGFsbCBpdCB1c2luZyB0aGUgZm9sbG93aW5nIGNvbW1hbmQ6CgpgYGB7ciwgZXZhbD1GQUxTRX0KQmlvY01hbmFnZXI6Omluc3RhbGwoImN2YW5kZXJhYS9RRmVhdHVyZXMiLCByZWYgPSAidW5pcXVlUHJlY0lkIikKYGBgCgpUZXN0IHRoZSBwYWNrYWdlIGhhcyBiZWVuIGNvcnJlY3RseSBpbnN0YWxsZWQgdXNpbmcgdGhlIGZvbGxvd2luZwpjb21tYW5kOgoKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2U9RkFMU0V9CmxpYnJhcnkoUUZlYXR1cmVzKQpkYXRhKGZlYXQyKQpqb2luQXNzYXlzKGZlYXQyLCAxOjMsIGZjb2wgPSAiUHJvdCIpCmBgYAoKIyMgSW5zdGFsbCBtc3Fyb2IyCgpUaGUgd29ya3Nob3Agd2lsbCBhbHNvIHJlcXVpcmUgYSBzcGVjaWZpYyB2ZXJzaW9uIG9mIGBtc3Fyb2IyYCwgeW91CmNhbiBpbnN0YWxsIGl0IHVzaW5nIHRoZSBmb2xsb3dpbmcgY29tbWFuZDoKCmBgYHtyLCBldmFsPUZBTFNFfQpCaW9jTWFuYWdlcjo6aW5zdGFsbCgic3RhdE9taWNzL21zcXJvYjIiKSAjIyB0aGlzIGluc3RhbGxzIG1zcXJvYjIKYGBgCgpUZXN0IHdoZXRoZXIgdGhlIHBhY2thZ2UgaGFzIGJlZW4gY29ycmVjdGx5IGluc3RhbGxlZCB1c2luZyB0aGUKZm9sbG93aW5nIGNvbW1hbmQ6CgpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KbGlicmFyeShtc3Fyb2IyKQpkYXRhKHBlKQpwZSA8LSBhZ2dyZWdhdGVGZWF0dXJlcygKICAgIHBlLCBpID0gInBlcHRpZGUiLCBmY29sID0gIlByb3RlaW5zIiwgbmFtZSA9ICJwcm90ZWluIgopCm1zcXJvYihwZSxpID0gInByb3RlaW4iLCBmb3JtdWxhID0gfiBjb25kaXRpb24pCmBgYAojIyBJbnN0YWxsIHRoZSBncmFwaGljYWwgdXNlciBpbnRlcmZhY2VzCgpJbiB0aGlzIGNvdXJzZSwgd2Ugd2lsbCB1c2UgMiBncmFwaGljYWwgdXNlciBpbnRlcmZhY2VzIChHVUlzKToKYFFGZWF0dXJlc0dVSWAgZm9yIHRoZSBkYXRhIHByZXByb2Nlc3NpbmcgYW5kIGBtc3Fyb2IyZ3VpYCBmb3IgdGhlCmRhdGEgbW9kZWxsaW5nLiBGb3IgaW5zdGFsbGluZyB0aGUgR1VJcywgeW91J2xsIGFnYWluIG5lZWQgdG8gaW5zdGFsbApzcGVjaWZpYyB2ZXJzaW9ucyBhcyB0aGUgc29mdHdhcmUgaXMgc3RpbGwgaW4gYSBkZXZlbG9wbWVudGFsIHN0YWdlLgoKYGBge3IsIGV2YWw9RkFMU0V9CkJpb2NNYW5hZ2VyOjppbnN0YWxsKCJzdGF0T21pY3MvUUZlYXR1cmVzR1VJIikgIyMgdGhpcyBpbnN0YWxscyBRRmVhdHVyZXNHVUkKQmlvY01hbmFnZXI6Omluc3RhbGwoInN0YXRPbWljcy9tc3Fyb2IyZ3VpIiwgcmVmID0gImd1aTJtb2R1bGVzIikgIyMgdGhpcyBpbnN0YWxscyBtc3Fyb2IyZ3VpCmBgYAoKVGVzdCB3aGV0aGVyIHRoZSBgUUZlYXR1cmVzR1VJYCBwYWNrYWdlIGhhcyBiZWVuIGNvcnJlY3RseSBpbnN0YWxsZWQKdXNpbmcgdGhlIGZvbGxvd2luZyBjb21tYW5kOgoKYGBge3IsIGV2YWw9RkFMU0V9ClFGZWF0dXJlc0dVSTo6aW1wb3J0UUZlYXR1cmVzKCkKYGBgCgpUaGlzIHNob3VsZCBvcGVuIGEgbmV3IHdpbmRvdy4gWW91IGNhbiBjbG9zZSBpdCBmb3Igbm93LgoKVGVzdCB3aGV0aGVyIHRoZSBgbXNxcm9iMmd1aWAgcGFja2FnZSBoYXMgYmVlbiBjb3JyZWN0bHkgaW5zdGFsbGVkCnVzaW5nIHRoZSBmb2xsb3dpbmcgY29tbWFuZDoKCmBgYHtyLCBldmFsPUZBTFNFfQptc3Fyb2IyZ3VpOjpsYXVuY2hNc3Fyb2IyQXBwKCkKYGBgCgpBZ2FpbiwgdGhpcyBzaG91bGQgb3BlbiBhIG5ldyB3aW5kb3csIGJ1dCB5b3UgY2FuIGNsb3NlIGl0IGZvciBub3cuCg==</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
 
 
-
+</div>
+</div>
 
 </div>
 
@@ -386,7 +626,42 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("software.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
