@@ -67,14 +67,14 @@ library(msqrob2gui)
 options(shiny.maxRequestSize = 500 * 1024^2)
 ```
 
-![Figure 2. Rstudio with the package loading commands](./figures/rstudio2.png)
-
 - The first line will load the `QFeaturesGUI` package and its 
   dependencies (including `QFeatures`)
 - The second line will load the `msqrob2gui` package and its
   dependencies (including `msqrob2`)
 - The last line will increase the available the maximal RAM usage by 
   the application to 500 MB.
+
+![Figure 2. Rstudio with the package loading commands](./figures/rstudio2.png)
 
 ## Data preprocessing
 
