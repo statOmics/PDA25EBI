@@ -1,5 +1,6 @@
 ---
-title: "Introduction to proteomics data analysis: impact summarization"
+title: "Introduction to proteomics data analysis"
+subtitle: "Impact of summarisation"
 author: "Lieven Clement"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
@@ -10,283 +11,503 @@ output:
       toc_float: false
       number_sections: false
 bibliography: msqrob2.bib
-
 ---
 
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/F5d0E-U4rOM"
-frameborder="0"
-style="display: block; margin: auto;"
-allow="autoplay; encrypted-media" allowfullscreen></iframe>      
+## The CPTAC A vs B dataset
 
-### 2.2 The CPTAC A vs B dataset
+Our first case-study is a subset of the data of the 6th study of the
+Clinical Proteomic Technology Assessment for Cancer (CPTAC). In this
+experiment, the authors spiked the Sigma Universal Protein Standard
+mixture 1 (UPS1) containing 48 different human proteins in a protein
+background of 60 ng/μL Saccharomyces cerevisiae strain BY4741 (MATa,
+leu2Δ0, met15Δ0, ura3Δ0, his3Δ1). Two different spike-in
+concentrations were used: 6A (0.25 fmol UPS1 proteins/μL) and 6B (0.74
+fmol UPS1 proteins/μL) [5]. We limited ourselves to the data of
+LTQ-Orbitrap W at site 56. The data were searched with MaxQuant
+version 1.5.2.8, and detailed search settings were described in
+[@goeminne2016]. Three replicates are available for each
+concentration.
 
-Our first case-study is a subset of the data of the 6th study of the Clinical Proteomic Technology Assessment for Cancer (CPTAC). In this experiment, the authors spiked the Sigma Universal Protein Standard mixture 1 (UPS1) containing 48 different human proteins in a protein background of 60 ng/μL Saccharomyces cerevisiae strain BY4741 (MATa, leu2Δ0, met15Δ0, ura3Δ0, his3Δ1). Two different spike-in concentrations were used: 6A (0.25 fmol UPS1 proteins/μL) and 6B (0.74 fmol UPS1 proteins/μL) [5]. 
+- The raw data files can be downloaded from 
+  https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I
+  (Study 6)
 
-We limited ourselves to the data of LTQ-Orbitrap W at site 56. The data were searched with MaxQuant version 1.5.2.8, and detailed search settings were described in [@goeminne2016]. Three replicates are available for each concentration.
+- The MaxQuant data can be downloaded [zip file with 
+  data](https://github.com/statOmics/hupo21/archive/refs/heads/data.zip).
+  The peptides.txt file can be found in 
+  `data/quantification/cptacAvsB_lab3`.
 
-- The raw data files can be downloaded from https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I (Study 6) 
+## Installation instructions and setup
 
--  The MaxQuant data can be downloaded [zip file with data](https://github.com/statOmics/hupo21/archive/refs/heads/data.zip). The peptides.txt file can be found in data/quantification/cptacAvsB_lab3. 
+You can find the installation instructions for all required software
+to run this exercise in [software](./software.html). This will 
+install:
 
-### Additional resources
-
-- [Install msqrob2 software](./software.html)
-
-### Starting MSqRob
-
-You can find the installation instructions for the installation of msqrob2 and the msqrob2gui graphical user interface (GUI)/shinyApp in [software](./software.html)
+- R and RStudio
+- `QFeatures` to read and process mass spectrometry (MS) quantitative 
+  data
+- `QFeaturesGUI` the graphical user interface (GUI) to QFeatures
+- `msqrob2` to perform robust statistical inference for quantitative MS 
+  proteomics
+- `msqrob2gui` the GUI to msqrob2
 
 Upon installation 
 
-1. Open Rstudio, you will see the following login window
+1. Open Rstudio, you will see the following window
 
 ![Figure 1. RStudio](./figures/rstudio.png)
 
-
 2. Copy and paste following commands in the console window and type enter
 
-```
+```{r, message=FALSE, warning=FALSE}
+library(QFeaturesGUI)
 library(msqrob2gui)
-launchMsqrob2App()
+options(shiny.maxRequestSize = 500 * 1024^2)
 ```
 
-![Figure 2. Rstudio with launchcommand](./figures/rstudio2.png)
+![Figure 2. Rstudio with the package loading commands](./figures/rstudio2.png)
 
+- The first line will load the `QFeaturesGUI` package and its 
+  dependencies (including `QFeatures`)
+- The second line will load the `msqrob2gui` package and its
+  dependencies (including `msqrob2`)
+- The last line will increase the available the maximal RAM usage by 
+  the application to 500 MB.
 
-- The first line will load the msqrob2gui package and its dependencies
-- The second line will launch the GUI/shinyApp
+## Data preprocessing
 
-3. A new window will open with the shinyApp
+Before analysing the data, we must perform data preprocessing. The
+will ensure the data meet our model assumptions. Data import and
+preprocessing is performed by the `QFeaturesGUI` application.
 
-![Figure 3. msqrob2 ShinyApp](./figures/shinyApp.png)
+### Open `QFeaturesGUI` 
 
-4. It is advicable to open the shiny app in a webbrowser. You can do that by clicking on the button `Open in Browser`, which you can find above the blue navigation bar and the shinyApp will pop up in a new browser tab/window. 
+Run the following command (like above):
 
-![Figure 4. msqrob2gui in browser tab](./figures/msqrob2gui.png)
+```{r, eval=FALSE}
+QFeaturesGUI::importQFeatures()
+```
 
-### 2.2.1. The Input tab
+A new window will open with the shinyApp
 
-Our first step is to choose an appropriate name for the project. This name, appended with a timestamp, will be used when downloading results from the analysis. Here, we use the name “project_CPTAC_AvsB”.
+![Figure 3. QFeaturesGUI ShinyApp](./figures/qfeaturesgui_fresh.png)
 
-Next, upload your peptides.txt file. This is the file that contains your peptide-level intensities. 
-For a MaxQuant search [6], this peptides.txt file can be found by default in the “path_to_raw_files/combined/txt/” folder from the MaxQuant output, with “path_to_raw_files” the folder where raw files were saved. In this tutorial, we will use a MaxQuant peptides file from MaxQuant that can be found on the pdaData repository.
+It is advicable to open the shiny app in a webbrowser. You can do
+that by clicking on the button `Open in Browser`, which you can find
+above the blue navigation bar and the shinyApp will pop up in a new
+browser tab/window.
 
-Similarly, upload the experimental annotation file which is called “experimental_annotation.xlsx”. This file should always be a tab-delimited file or an Office Open XML spreadsheet file (“.xlsx” file). Figure 2. shows how this file looks like for our experiment. One column (the “run” column in Fig. 3) of the experimental annotation file should always contain the names of the MS runs. For MaxQuant, these are the names given in the “Experiment” column when the data was searched. The names should be unique. Other columns indicate other variables related to the design that can affect protein expression; here this is only the treatment/spike-in condition.
+![Figure 4. QFeaturesGUI in browser tab](./figures/QFeaturesGUI.png)
 
-You can generate an empty annotation file after uploading the peptide.txt file by clicking on the button generate annotation file. Then a download button will appear. The annotation file will contain one column named run with the names of the different runs in the peptide.txt file. 
+### Import the data
 
-![Figure 4. Lab 3 Annotation](./figures/lab3Annotation.png)
+Our MS-based proteomics data analysis workflows always start with 2 
+pieces of data: 
 
-Experimental annotation file have a typical structure. For the CPTAC dataset analyzed with MaxQuant, the first column equals the names given in MaxQuant’s “Experiment” column. Other columns indicate other variables related to the study design. Here it is only the treatment (“spike-in condition”).
+1. The search engine output. In this tutorial, we will use the
+   identified and quantified peptide data by MaxQuant, called
+   `peptides.txt`.
+2. An annotation file describing the experimental design. Each line
+   corresponds to a sample and each column provides a sample 
+   annotation.
 
-*Hint: If the file location was already specified and the peptides file was uploaded, you can generate the “run” column of this file automatically in the output folder by clicking the “Create annotation file” button. The other columns need to be filled in manually based on the experimental design.*
+The first step is to upload the `peptides.txt` file. This is the file
+that contains your peptide-level intensities. For a MaxQuant search,
+this peptides.txt file can be found by default in the
+`path_to_raw_files/combined/txt/` folder from the MaxQuant output,
+with `path_to_raw_files` the folder where raw files were saved. In
+this tutorial, we will use a MaxQuant peptides file from MaxQuant that
+can be found on the pdaData repository. To upload the `peptide.txt`
+file, click on the "Browse..." button under the "assayData" tile
+title. You don't need to adapt the default parameters, you can click
+the "Import" button right away. A preview of the table will appear and
+will let you quickly check the data.
 
-After setting your output location and uploading your files, your input screen should look as follows:
+![Figure 5. The peptide data have been succesfully uploaded](./figures/peptides_imported.png)
 
-![Figure 5. MSqRob Input tab](./figures/guiInput.png)
+You can see that MaxQuant generated a table with 11,466 lines,
+corresponding to 11,466 peptides. For each peptide, MaxQuant generated
+71 columns containing various pieces of information, like the peptide
+sequence, the protein groups the peptide matches to, the charge states
+found,... Among these columns, there is also a set of columns
+containing the quantified MS intensities for each sample (i.e. columns
+named `Intensity XXX`). These will later be flagged as quantitative 
+information.
 
-At this stage, everything is set for preprocessing and data exploration, which are implemented in the preprocessing tab.
+Similarly, we need to upload the experimental annotation file which is
+called `experimental_annotation.txt`. We here provide the table as a
+`.txt`, but you can store your table in many common formats, such as
+`.csv` or `.tsv`. Note Excel allows you to store spreadsheets in such
+formats. To upload the `experimental_annotation.txt` file, click on
+the "Browse..." button under the "colData" tile title. You don't need
+to adapt the default parameters, you can click the "Import" button
+right away. A preview of the table will appear and will let you
+quickly check the data. Note that uploading the annotation file is
+optional for data preprocessing, but you won't be able to perform data
+modelling in the next section.
 
-### 2.3.2. The Preprocessing tab
+![Figure 6. The sample annotations have been succesfully uploaded](./figures/annotations_imported.png)
 
-The preprocessing tab features different preprocessing options, many of which can be safely left at their default state. When you click the preprocessing tab, it should now look as follows:
+For the CPTAC dataset analyzed with MaxQuant, the first column equals
+the names given in MaxQuant’s "Experiment" column. The second column
+contains the names of the quantitative columns in the table above; it
+should always be named `quantCols`. This will allow to correctly link
+the two tables. The last column is related to the study design; here
+the treatment provides the spike-in condition.
 
-![Figure 6. msqrob2 Preprocessing tab](./figures/guiPreprocessing.png)
+You are now ready to link the two tables into a `QFeatures` object,
+which is the internal representation of the data we will use for the
+rest of the workflow. Scroll up to the "QFeatures Converter" tile. You
+can leave all the default setting and click on the green button
+"Convert to a QFeatures object".  
 
-The other normalization steps are performed upon hitting the “Start Normalization” button on the bottom of the Normalization tab. This is required to generate the normalized peptide object that is needed in the other panels of the app. Now, two additional plots are generated: the second plot shows the distributions of the peptides intensities In each runs after normalization and the third plot is an MDS plot. An MDS plot is a scatter plot that shows the runs in such a way that the distances on the plot are equal to the Euclidian distances of the top 500 most differing peptides between each pair of runs. If we log transform the data these distances are related to log fold changes.  Thus, runs that are plotted close to each other are more similar than samples that are far away from each other. Options are provided to show only dots, only labels or both. It is also possible to zoom in on a particular part of the plot by dragging the mouse to select a particular area on the plot and then double-click to zoom in.
+After setting your output location and uploading your files, a preview
+of the data appears (feel free to click on the table row). The window
+should look as follows:
 
-![Figure 7. msqrob2 Preprocessing tab upon normalization](./figures/guiPreprocessing2.png) 
+![Figure 7. The QFeatures object is successfully converted](./figures/qfeatures_imported.png)
 
-The first preprocessing step is log-transformation.
-Why is log-transformation needed? (Hint: untick the checkbox before “Log-transform data” and see what happens to the data distribution.) [2.3.2.a]
+### Configuring the preprocessing worflow
 
-Why do we choose base 2? (Hint: think of the interpretation later on!) [2.3.2.b]
-The next step is normalization. It is difficult to propose a one-size-fits-all normalization because the nature and extent of bias in the data are generally unknown. Thus, relative performance of different normalization methods might be different in different datasets [8].
+Move to the next table by clicking on "Pre-Processing Configuration"
+in the menu to the left. Click on the green button "+" to add a step.
+In this tutorial, you will need to add 7 steps in total. You should
+parameterise them as follows:
 
-What can you derive from the MDS plot after normalization? [2.3.2c]
+1. Log Transformation
+2. Add Annotations
+3. Features filtering
+4. Normalisation
+5. Aggregation
+6. Add Annotations
+7. Features filtering
 
-Razor peptides are peptides that cannot be uniquely attributed to a single protein or protein group. As we are uncertain from which protein group these peptides originate and their intensities might even be a combined value from multiple protein groups, we opt to remove these peptides by default. The option “Remove comprising protein groups” deals with peptides that are shared between protein groups.  This option removes all peptides in protein groups for which any of its peptides map to a protein that is also present in another smaller protein group.
+Once done, your screen should look as follows:
 
-“Minimal number of peptides” indicates a threshold T for how many times a certain peptide sequence should be present in the data before being retained in the final analysis. Peptides that are identified at least T times are retained; other peptides are removed from the data. This value defaults to 2 and there is a very practical reason for this. Indeed, we need to correct for the peptide effect. However, when a peptide occurs only once, the peptide effect cannot be estimated. Note that this is not the same as applying the so-called “two-peptide rule” [9]. A protein identified by only one peptide can contribute to the estimation provided that the peptide is identified in multiple samples.
+![Figure 8. The preprocessing workflow upon configuration](./figures/preprocessing_configuration.png)
 
-You can further filter out reverse sequences (left over from the MaxQuant search) and potential contaminants proteins (such as keratin from the operator's skin and hair, or leftover trypsin from digestion) [10], by providing the column names of the peptides file that indicate these sequences in the “Filter columns” field.
+You can now click the "Confirm Current Workflow" button. On the left
+menu, you will see that the 3rd entry now mentions "3 Pre-processing
+(7 Steps)". We will now configure and run each of these steps.
 
-### 2.3.3. The Summarization tab
-The preprocessing tab features different summarization options. When you click the preprocessing tab, the following screen is obtained:
+### Step 1: Log transformation
 
-![Figure 9. msqrob2 Summarization tab](./figures/guiSummarization.png)
+For every step, you always need to load the data from the previous
+step (in this case the data importation). Click on the "Load assays
+from previous step" button. Once loaded, the data is automatically
+log2-transformed by default. You should not change the defaults. You
+will see that the intensity distribution within each sample is
+automatically pictured, and you can play with the plot setting (bottom
+right) as you wish. Your screen should be similar to this: 
 
-When robust summarization is applied, the novel and much faster two-stage approach is used to fit the MSqRob model. Mean and median summarization are also implemented, but mainly for didactical reasons and to show the problems related to naive summarization methods. You always have to invoke the “Start Summarization!” button in order to create an object needed for downstream quantification. Depending on the method, summarization might take a while.
+![Figure 9. Step1: Log transformation](./figures/step1.png)
 
-1. We first select the naive median summarization method and hit the “Start Summarization!” button. When the summarization is finished an MDS plot is generated based on the summarized intensities. 
+Once you are done, click the "Save the processed data" button. This
+will store the changes and make the data available for the next step.
+If you forget to click this button, loading the next step will lead to
+an error.
 
-2. We then select the robust method, which we will use in the downstream data analysis method so as to implement the two-stage MSqRob procedure.
+### Step 2: add annotations
 
-What do you see upon summarization with the robust method and why would that be the case? [2.3.3.a]
+In Step 3, we will filter out features based on then number of missing
+values. This information is not yet available in our data for
+filtering, so we will add this information as a feature annotation.
 
+1. Move to Step 2 in the left menu.
+2. Click the button to load the previous step. 
+3. Scroll at the bottom an tick the "Add missing values numbers" box
+4. Click "perform annotation". You should see a preview of the feature
+   annotations. You can check that the last column is "nNA" which 
+   provides the number of missing values.
+5. Click the button to save the processed data.
 
-### 2.3.4. The Model tab
+### Step 3: peptide filtering
 
-When you click the Model tab, the following screen is obtained:
+In this step, we will actually remove undesirable peptides. We will
+use the following criteria:
 
-![Figure 10. msqrob2 Model tab](./figures/guiModel.png)
+- Remove peptides that could not be mapped to a protein
+- Remove reverse sequences (decoys) 
+- Remove contaminants
+- Remove peptides that were identified in less than three sample
 
-The Model tab shows information on the experimental design (annotation) in the right panel. 
-In the left panel we have to propose the model to model the intensities of the preprocessed and summarized data. 
+To perform this filtering and carry out the sep, you can:
 
-msqrob2 makes use of linear models for assessing differential expression. 
-The models for are specified symbolically. 
-The formula is build using the names of the design variables. 
-A typical model has the form ‘ ~ terms’ where ‘terms’ is a series of terms which specifies a linear model. 
+1. Move to Step 3 in the left menu.
+2. Click the button to load the previous step. 
+3. Click 4x the blue "Add Box" button to add 4 filtering boxes.
+4. Fill in the boxes as shown in the figure below.
+5. In the "Filtering Summary" tile, click the "Apply Filters" button.
+6. Click the button to save the processed data.
 
-- A terms specification of the form ‘variable1’ will model the preprocessed intensities in function of the design variable ‘variable1’. If ‘variable1’ is a continuous variable this will result in a linear model with an intercept and a slope for the variable treatment. 
-If ‘variable1’ is a factor variable it will result in a linear model with an intercept for the reference class and slope parameters with the interpretation of the average difference between the preprocessed intensity of the current class and the reference class. 
+![Figure 10. Step3: Feature filtering. Note the PCA plots are collapsed for better overview of the boxes.](./figures/step3.png)
 
-- A terms specification of the form ‘variable1 + variable2’ indicates the inclusion of the main effects (terms for all slope terms) for ‘variable1’ and ‘variable2’. 
+### Step 4: Normalisation
 
-- A specification of the form ‘variable1:variable2’ indicates the set of terms obtained by taking the interactions of all terms in ‘variable1’ with all terms in ‘variable2’, i.e. the effect of ‘variable1’ can be altered according to the value of ‘variable2’. 
+We normalise the data by substracting the sample median from every
+intensity for peptide $p$  in a sample $i$:
 
-- The specification ‘variable1\*variable’ indicates the *cross* of ‘variable1’ and ‘variable2’. This is the same as ‘variable1 + variable2 + variable1:variable2’.
+$$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$
 
-Here, we only have one factor 'treatment' in the experimental design with two levels: spikein treatment A and B. 
+with $\hat\mu_i$ the median intensity over all observed peptides in
+sample $i$.
 
-1. So we will define the formula as 
+1. Move to Step 4 in the left menu.
+2. Click the button to load the previous step.
+3. Median normalisation is configured by default, so you can simply
+   click the button to save the processed data.
 
-`~ treatment`
+### Step 5: Summarisation
+
+In this step, the peptide intensities will be summarised (aka
+aggregated) into protein intensities using robust summarisation. You
+can perform this as follows:
+
+1. Move to Step 5 in the left menu.
+2. Click the button to load the previous step.
+3. In the settings, select "robustSummary" in the first field and
+   select "Protein" as the rowData variable defining the features of
+   the assay to aggregate.
+4. Click the button to save the processed data.
+
+### Step 6: add annotations
+
+Repeat step 2, this will allow to perform a filtering on missing, but
+at the protein-level instead of peptide-level.
+
+### Step 7: protein filtering
+
+In this step, we will remove proteins that were identified in less
+than 4 samples. You may have guessed it by now, but you can proceed 
+with:
+
+1. Move to Step 7 in the left menu.
+2. Click the button to load the previous step. 
+3. Click 1x the blue "Add Box" button to add a filtering box.
+4. Fill in the boxes so that the filter becomes: `nNA <= 2`.
+5. In the "Filtering Summary" tile, click the "Apply Filters" button.
+6. Click the button to save the processed data.
+
+### Save your progress
+
+You now have completed the data processing. You can move to the
+Summary tab (in the left menu). There you will find an overview of the
+data and the data processing steps.
+
+![Figure 11. Summary of the data processing.](./figures/processing_summary.png)
+
+Go to the bottom of the page and click on the "Download QFeatures"
+button. A pop up windown will ask you to select a directory to store
+the resulting file. By default the file is called
+`qfeatures_object.rds`, but feel free to rename as you wish but you
+cannot change the file extension (`.rds`).
+
+You can now close the application.
+
+## Statistical analysis
+
+### Open `msqrob2gui` 
+
+Return to your Rstudio application and run the following command:
+
+```{r, eval=FALSE}
+msqrob2gui::launchMsqrob2App()
+```
+
+A new window will open with the shinyApp for data modelling
+
+![Figure 12. msqrob2gui ShinyApp](./figures/msqrob2gui_fresh.png)
+
+### Import the processed data
+
+We start the data modelling workflow with importing the data processed
+in the previous section:
+
+1. Click on "Browser..." and fetch the file you saved with the
+   `QFeaturesGUI` app.
+2. In the "Select Assay", select the last item,
+   "quants_features_filtering_7".
+
+The application let's you explore the data tables and provides a plot
+with the intensity distributions for each sample.
+
+![Figure 13. msqrob2gui application upon data import.](./figures/msqrob2_imported.png)
+
+### Data modelling
+
+You can now move to the data modelling tab by clicking "Model" in the
+menu on the left. 
+
+We will model the data with a different group mean for the variable
+`treatment` with two levels: spikein treatment A and B. We can specify
+this model by inserting `~1+treatment` in the "Design formula"
+textbox. Note, that a formula always starts with a symbol '~' (see the
+descriptive paragraph in the application).
 
 Note that as soon as we do that, the design is visualised. 
 
-![Figure 11. msqrob2 Model tab with design](./figures/guiModel2.png)
+![Figure 14. msqrob2 Model tab with design](./figures/msqrob2_model.png)
 
 This visualisation shows the different group means that are modelled. 
 
-- Here we see that the group mean for the treatment A is modelled using the parameter 
-```(Intercept)``` 
-
-- The group mean for the treatment B is modelled using a linear combination of the two model parameters 
-```(Intercept) + treatmentB```
-
-Hence the average difference in preprocessed protein expression value between both conditions equals 
-```treatmentB```
+- The group mean for the treatment A is modelled using the parameter 
+  `(Intercept)`. 
+- The group mean for the treatment B is modelled using a linear 
+  combination of the two model parameters `(Intercept) + treatmentB`.
+- The average difference in preprocessed protein expression value 
+  between both conditions equals `treatmentB`.
 
 Remember that we log-transformed the intensities:
 
 $$ 
-\log_2FC_\text{B-}=\log_2 B - \log_2 A = \log_2\frac{B}{A} = \text{treatmentB}
+\log_2FC_\text{B}=\log_2 B - \log_2 A = \log_2\frac{B}{A} = \text{treatmentB}
 $$
 
-Note that a linear combination of model parameters is als referred to as a contrast in statistics. 
-This contrast has the interpretation of a log2 fold change between condition 6B and condition 6A. Positive estimates denote that the abundance of the protein is on average higher in condition B, negative estimates denote that the abundance is on average higher in condition A. An estimate equal to 0 indicates that the estimated abundances are equal. 
+Note that a linear combination of model parameters is also referred to
+as a contrast in statistics. This contrast has the interpretation of a
+log2 fold change between condition B and condition A. Positive
+estimates denote that the abundance of the protein is on average
+higher in condition B, negative estimates denote that the abundance is
+on average higher in condition A. An estimate equal to 0 indicates
+that the estimated abundances are equal.
 
-A log2 FC = 1 indicates that the average abundance in condition B is 2 x higher than the average abundance in condition A, i.e. an 2 fold upregulation in condition B as compared to condition A.
+A log2 FC = 1 indicates that the average abundance in condition B is 2
+x higher than the average abundance in condition A, i.e. an 2 fold
+upregulation in condition B as compared to condition A.
 
-2. We now have to click the `Fit Model!` button to fit the models for each protein.
+We now have to click the `Fit Model!` button to fit the models for
+each protein. We are now ready for assessing differential abundance of
+each protein using formal hypothesis testing.
 
-We are now ready for assessing differential abundance of each protein using formal hypothesis testing. 
+### Inference
 
-### 2.3.4. The Inference tab
+Click on the "Inference" tab in the left menu.
 
-When you click the Model tab, the following screen is obtained:
-
-![Figure 12. msqrob2 Inference tab](./figures/guiInference.png)
-
-In the statistical analysis we will want to test the null hypothesis that
+In the statistical analysis we will want to test the null hypothesis
+that
 
 $$ H_0: \log_2 B-\log_2 6A = 0 $$
 
 Against the alternative that
+
 $$ H_1: \log_2 B - \log_2 A \neq 0 $$
 
-1. We can specify the nulhypothesis as a linear combination of the model parameters, i.e. 
+We can specify the null hypothesis as a linear combination of the
+model parameters, i.e. `treatmentB = 0`. We will falsify this null
+hypothesis for each protein separately based on the linear model. So,
+under the null hypothesis we reason that there is no effect of the
+spike-in treatment on the abundance of a specific protein. The p-value
+of the statistical test than indicates the probability to observe an
+effect (fold change), that is as extreme or more extreme (equally or
+more up or down regulated) than what is observed in the sample, by
+random change (when the null hypothesis is true and when there is in
+reality no effect of the treatment).
 
-```treatmentB = 0```
+To proceed, fill in the field "Null hypothesis" with `treatmentB = 0`.
+After 1-2 second, the window is updated 
 
-This is what we have to fill in the field null hypothesis. 
+![Figure 15. msqrob2 Inference tab with contrast](./figures/msqrob2_inference.png)
 
-We will falsify this null hypothesis for each protein separately based on the linear model. So, under the null hypothesis we reason that there is no effect of the spike-in treatment on the abundance of a specific protein. The p-value of the statistical test than indicates the probability to observe an effect (fold change), that is as extreme or more extreme (equally or more up or down regulated) than what is observed in the sample, by random change (when the null hypothesis is true and when there is in reality no effect of the treatment).
+#### Volcano plot
 
+The application now also provides a volcano plot appears giving you a
+view on statistical significance in the y-axis, i.e. the $-\log_{10}$
+transformed p-value: a value of 1 equals to a p-value of 0.1, a value
+of 2 equals a p-value of 0.01, etc against biological relevance/the
+effect size in the x-axis, which is the $\log_2FC$.
 
-2. As soon as you specified the Null Hypothesis the window is updated 
+#### Result table
 
-![Figure 13 msqrob2 Inference tab with contrast](./figures/guiInference2.png)
+You also get a table with selected feature. By default these are all
+proteins that are significant with the specified "Significance level"
+field. You also obtain a boxplot of the log2-fold changes for all
+proteins that are selected in the table.
 
-and a volcano plot appears that gives you a view on statistical significance in the y-axis, i.e. the $-\log_{10}$ transformed p-value: a value of 1 equals to a p-value of 0.1, a value of 2 equals a p-value of 0.01, etc against biological relevance/the effect size in the x-axis, which is the $\log_2FC$. 
+Note that 19 proteins are recovered as significant. As expected all
+these proteins are UPS proteins which are known to be spiked in the
+samples. If you untick the option `only significant features in
+table`, all proteins are shown in the table.
 
-You also get a table with selected feature. By default this are all proteins that are significant with the specified significance level in the `Significance field`. 
-You also obtain a boxplot of the log2-fold changes for all proteins that are selected in the table. 
+You can highlight proteins on the volcano plot by selecting lines of
+interest in the result table. You can also search for specific
+proteins in the list by using the search field above the table. E.g.
+type `ups`.
 
-Note that 20 proteins are displayed. The majority of them are UPS proteins that were spiked-in. Only one yeast protein is recovered in the top 20.
+#### Detail plots
 
-3. If you untick the option `only significant features in table` all proteins are shown in the table. 
+If you select one protein in the table, you can also explore the
+underlying normalised peptide intensities and protein intensities of
+the underlying data in the "DetailPlots":
 
-4. You can also select proteins by selecting an area on the volcano plot. 
-  
-  - Click on the left mouse button and keep the button pressed and drag the mouse: a blue area appears
+![Figure 16. msqrob2 detail plots.](./figures/msqrob2_detailplots.png)
 
-  - Double click to zoom in now the proteins are selected in the results table.   - Double click on an unselected area to reset the plot window.
+You can further modify the plot by coloring the data according to a
+design variable or by splitting the data horizontally or vertically
+according to design variables.
 
-5.  Selecting a protein(s) in the “Results table” results in selecting it on the Volcano plot.
+## Report Tab
 
-6. You can search for specific proteins in the list by using the search field above the table. E.g. type `ups`.
+A reproducible Rmarkdown script and html report with the analysis you
+performed with the GUI can be downloaded in the "Report" tab.
 
-7. If you select one protein in the table or by clicking on a point in the volcano-plot you can also explore the underlying normalised peptide intensities and protein intensities of the underlying data in the tab DetailPlots. 
+![Figure 17. msqrob2 report tab](./figures/msqrob2_report.png)
 
-### 2.3.4 The DetailPlots Tab
+1. Provide a name to your project
+2. You can specify the number of detail plots you want to generate in
+   the report. The default is 10, which indicates that detail plots
+   will be constructed for the 10 most significant protein in your top
+   list. Note, that the number of detail plots can be smaller if there
+   are less than 10 proteins significant at the specified FDR-level.
+3. Click the "Generate report" button and a report will be compiled.
 
-1. Select one protein in the table or by clicking on a point in the volcano-plot 
+This will create a zip file that contains:
 
-2. Clicking on the DetailPlot tab is visualising the data for your selected protein. 
-
-![Figure 14. msqrob2 DetailPlot tab](./figures/guiDetailPlot.png)
-
-3. You can further modify the plot by coloring the data according to a design variable or by splitting the data horizontally or vertically according to design variables. 
-
-### 2.3.5. The Report Tab
-
-A reproducible Rmarkdown script and html report with the analysis you performed with the GUI can be downloaded in the novel report tab. 
-
-![Figure 14. msqrob2 DetailPlot tab](./figures/guiReport.png)
-
-1. You can select the number of detail plots you want to generate in the report. The default is 10, which indicates that detail plots will be constructed for the 10 most significant protein in your top list. 
-Note, that the number of detail plots can be smaller if there are less than 10 proteins significant at the specified FDR-level.
-
-2. Hit the `Generate report` button and a report will be compiled. Note, that this will take a while because all analysis steps from each of the tabs have to be conducted again. You will see a progress bar and when it is finished a zip file will be downloaded that contains: 
-
-  - features.txt: A tab delimited file with the raw intensity data
-  - annotation.xlsx: An excel file with the annotation of the design
-  - report.Rmd: R/markdown file with the code for the report. If you open the file in Rstudio and if you hit the knit button the report will be compiled to html. 
-  - report.html: The compiled report. 
+- `qfeaturesFile.rds`: A tab delimited file with the raw intensity 
+  data.
+- `report.Rmd` : R/markdown file with the code for the report. If you
+  open the file in Rstudio and if you hit the knit button the report
+  will be compiled to html.
 
 So, your analysis is stored in a fully reproducible way. 
 
-### 2.3.6. Evaluate Summarization
+## Wrap up exercise: evaluate summarisation
 
-We further explore the difference between summarization methods.
-We first assess the quality of the fold change estimates for the robust summarization.
-We will make use of the boxplot at the bottom of the quantification tab.
+We further explore the difference between summarisation methods. We
+first assess the quality of the fold change estimates for the robust
+summarisation. 
 
-1. If you untick the option `only significant features in table` all proteins are shown in the table. The boxplot below the table visualizes the log2 fold change (FC) estimates for all proteins in the table.
+Go back to the "Inference" tab. We will make use of the boxplot at the
+bottom of the quantification tab.
 
-2. We can now filter the ups proteins by typing "ups" in the search field above the table. Now all yeast proteins are removed from the results table and a boxplot of the ups protein log2 FCs will be made.
+1. Untick the option `only significant features in table` to show all
+   proteins in the table. The boxplot below the table visualises the
+   log2 fold change (FC) estimates for all proteins in the table.
+2. We can now filter the ups proteins by typing "ups" in the search
+   field above the table. Now all yeast proteins are removed from the
+   results table and a boxplot of the ups protein log2 FCs will be
+   made.
 
-![Figure 15. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins](./figures/guiRobustUps.png)
+![Figure 18. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins](./figures/msqrob2_ups.png)
 
-[2.3.6.a] We know the real FC for the spike in proteins (see description of the data 2.2). Note, that the boxplot is showing the log2 FC. What do you observe?
+Try answering the following questions:
 
-[2.3.6.b] Now select all yeast proteins. What is the real fold change and what do you observe?  
+- We know the real FC for the spike in proteins (see
+  description of the data 2.2). Note, that the boxplot is showing the
+  log2 FC. What do you observe?
+- Now select all yeast proteins. What is the real fold change
+  and what do you observe?
+- Repeat the complete analysis, but this time apply the median 
+  summarisation method in Step 5 in the data preprocessing. What do
+  you observe, how does that compare to the robust summarisation and
+  try to explain this?
 
-[2.3.6.c] Repeat this for the median summarization method. What do you observe, how does that compare to the robust summarisation and try to explain this?
+## Final remark
 
-### Final remark
+Note, that the shiny apps are interfaces to the statistical
+programming software R.
 
-- Note, that the shiny app is an interface to the statistical programming software R. 
-
-- The analysis can also be conducted using scripts, which gives you much more functionality and the ability to streamline, automate and document your analyses in a reproducible way. 
-
-
-
-
-
+The analysis can also be conducted using scripts, which gives you much
+more functionality and the ability to streamline, automate and
+document your analyses in a reproducible way.
