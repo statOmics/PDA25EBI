@@ -90,39 +90,46 @@ library(QFeatures)
 library(msqrob2)
 library(plotly)
 library(ggplot2)
+library(data.table)
 ```
 
 2. We use a peptides.txt file from MS-data quantified with maxquant that 
 contains MS1 intensities summarized at the peptide level. 
 ```{r}
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/francisella/peptides.txt"
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/PDA/data/quantification/francisella/peptides.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]])                      
 ```
 
 3. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
 
 ```{r}
-ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+quantCols <- grep("Intensity ", names(peptidesTable))
 ```
 
 4. Read the data and store it in  QFeatures object 
 
 ```{r}
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 ```
 
 5. Update data with information on design
 
 ```{r}
-colData(pe)$genotype <- pe[[1]] %>% 
-  colnames %>% 
-  substr(12,13) %>%
-  as.factor %>% 
+colData(pe)$genotype <- pe[[1]] |> 
+  colnames() |> 
+  substr(12,13) |>
+  as.factor() |> 
   relevel("WT")
-pe %>% colData
+
+pe |> colData()
 ```
 
 </p></details>
@@ -132,11 +139,6 @@ pe %>% colData
 <details><summary> Click to see code to log-transfrom the data </summary><p>
 
 1. Log transform
-
-  - Calculate number of non zero intensities for each peptide
-```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-```
 
   - Peptides with zero intensities are missing peptides and should be represent
 with a `NA` value rather than `0`.
@@ -153,10 +155,12 @@ pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 
 2. Filtering
 
-  - Handling overlapping protein groups
+  - We remove peptides that could not be mapped to a protein or that map to multiple proteins (the protein identifier contains multiple identifiers separated by a `;`).
 
 ```{r}
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 ```
 
   - Remove reverse sequences (decoys) and contaminants. Note that this is indicated by the column names Reverse and depending on the version of maxQuant with Potential.contaminants or Contaminants.
@@ -167,10 +171,13 @@ pe <- filterFeatures(pe,~Reverse != "+")
 pe <- filterFeatures(pe,~ Contaminant != "+")
 ```
 
-  - Drop peptides that were only identified in one sample
+  - Drop peptides that were identified in less than three sample. We tolerate the following proportion of NAs: pNA = (n-3)/n. 
 
 ```{r}
-pe <- filterFeatures(pe,~ nNonZero >=2)
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 ```
 
@@ -197,24 +204,36 @@ pe <- aggregateFeatures(pe,
     name = "protein")
 ```
 
+5. Filter proteins that contain many missing values 
+
+We want to have at least 4 observed proteins so that most proteins have at least 2 observations in each group.  
+So we tolerate a proportion of (n-4)/n NAs. 
+
+
+```{r}
+nObs <- 4
+n <- ncol(pe[["protein"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "protein")
+```
 
 Plot of preprocessed data 
 
 ```{r}
-pe[["peptideNorm"]] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(genotype = colData(pe)[sample,"genotype"]) %>%
+pe[["peptideNorm"]] |> 
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(genotype = colData(pe)[sample,"genotype"]) |>
   ggplot(aes(x = intensity,group = sample,color = genotype)) + 
     geom_density() +
     ggtitle("Peptide-level")
 
-pe[["protein"]] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(genotype = colData(pe)[sample,"genotype"]) %>%
+pe[["protein"]] |> 
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(genotype = colData(pe)[sample,"genotype"]) |>
   ggplot(aes(x = intensity,group = sample,color = genotype)) + 
     geom_density() +
     ggtitle("Protein-level")
@@ -226,8 +245,8 @@ pe[["protein"]] %>%
 ### Design
 
 ```{r}
-pe %>% 
-  colData %>% 
+pe |> 
+  colData() |> 
   knitr::kable()
 ```
 
@@ -237,7 +256,10 @@ pe %>%
 ### Summarized intensity matrix
 
 ```{r}
-pe[["protein"]] %>% assay() %>% head() %>% knitr::kable()
+pe[["protein"]] |> 
+  assay() |> 
+  head() |> 
+  knitr::kable()
 ```
 
 - `r nrow(pe[["protein"]])` proteins 
@@ -327,10 +349,11 @@ $$
 
 ```{r}
 WP_003023392 <- data.frame(
-    intensity = assay(pe[["protein"]]["WP_003023392",]) %>% c(), 
+    intensity = assay(pe[["protein"]]["WP_003023392",]) |> 
+      c(), 
     genotype = colData(pe)[,1]) 
 
-WP_003023392 %>% 
+WP_003023392 |> 
   ggplot(aes(x=genotype,y=intensity)) + 
   geom_point() +
   ggtitle("Protein WP_003023392")
@@ -517,23 +540,35 @@ ttestMx <- function(y,group) {
     assay(pe[["protein"]]), 
     1, 
     ttestMx,
-    group = colData(pe)$genotype=="D8") %>% 
-  t 
+    group = colData(pe)$genotype=="D8") |> 
+  t() 
+ 
  colnames(res) <- c("logFC","se","tstat","pval")
- res <- res %>% as.data.frame %>% na.exclude %>% arrange(pval)
+ 
+ res <- res |> 
+   as.data.frame() |> 
+   na.exclude() |> 
+   arrange(pval)
+ 
  res$adjPval <- p.adjust(res$pval, "fdr")
+ 
  alpha <- 0.05
-res$adjAlphaForm <- paste0(1:nrow(res)," x ",alpha,"/",nrow(res))
-res$adjAlpha <- alpha * (1:nrow(res))/nrow(res) 
-res$"pval < adjAlpha" <- res$pval < res$adjAlpha 
-res$"adjPval < alpha" <- res$adjPval < alpha 
+
+ res$adjAlphaForm <- paste0(1:nrow(res)," x ",alpha,"/",nrow(res))
+
+ res$adjAlpha <- alpha * (1:nrow(res))/nrow(res) 
+
+ res$"pval < adjAlpha" <- res$pval < res$adjAlpha 
+
+ res$"adjPval < alpha" <- res$adjPval < alpha 
 ```
 </p></details>
 
 FWER: Bonferroni method:$\alpha_\text{adj} = \alpha/m = 0.05 / `r nrow(res)`= `r round(alpha/nrow(res),5)`$
 
 ```{r echo=FALSE} 
-head(res[,-c(2:3)],sum(res$adjPval < alpha)+2) %>% knitr::kable()
+head(res[,-c(2:3)],sum(res$adjPval < alpha)+2) |> 
+  knitr::kable()
 ```
 | ... | ... | ... | ... | ... | ... | ... | ... |
 |WP_003040562 | 0.0039480| 0.9976429| 0.9985797|1065 x 0.05/1066 | 0.0499531|FALSE           |FALSE    
@@ -545,7 +580,7 @@ head(res[,-c(2:3)],sum(res$adjPval < alpha)+2) %>% knitr::kable()
 #### Results
 <details><summary> Click to see code </summary><p>
 ```{r}
-volcanoT <- res %>% 
+volcanoT <- res |> 
   ggplot(aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
     geom_point(cex = 2.5) +
     scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
@@ -571,7 +606,7 @@ Problems with ordinary t-test
 <details><summary> Click to see code </summary><p>
 ```{r}
 problemPlots <- list() 
-problemPlots[[1]] <- res %>% 
+problemPlots[[1]] <- res |> 
   ggplot(aes(x = logFC, y = se, color = adjPval < 0.05)) +
     geom_point(cex = 2.5) +
     scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
@@ -579,11 +614,12 @@ problemPlots[[1]] <- res %>%
 
 for (i in 2:3)
 {
-problemPlots[[i]] <- colData(pe) %>% 
-    as.data.frame %>% 
-    mutate(intensity = pe[["protein"]][rownames(res)[i],] %>% 
-             assay %>% 
-             c) %>% 
+problemPlots[[i]] <- colData(pe) |> 
+    as.data.frame() |> 
+    mutate(intensity = pe[["protein"]][rownames(res)[i],] |> 
+             assay() |> 
+             c()
+           ) |> 
     ggplot(aes(x=genotype,y=intensity)) +
     geom_point() + 
     ylim(-3,0) +
@@ -608,16 +644,18 @@ A general class of moderated test statistics is given by
 
 <details><summary> Click to see code </summary><p>
 ```{r}
-simI<-sapply(res$se/sqrt(1/3+1/3),function(n,mean,sd) rnorm(n,mean,sd),n=6,mean=0) %>% t
+simI<-sapply(res$se/sqrt(1/3+1/3),function(n,mean,sd) rnorm(n,mean,sd),n=6,mean=0) |> 
+  t()
+
 resSim <- apply(
     simI, 
     1, 
     ttestMx,
-    group = colData(pe)$genotype=="D8") %>% 
-  t 
+    group = colData(pe)$genotype=="D8") |> 
+  t() 
  colnames(resSim) <- c("logFC","se","tstat","pval")
  resSim <- as.data.frame(resSim)
- tstatSimPlot <- resSim %>% 
+ tstatSimPlot <- resSim |> 
    ggplot(aes(x=tstat)) +
      geom_histogram(aes(y=..density.., fill=..count..),bins=30) +
      stat_function(fun=dt,
@@ -629,7 +667,7 @@ resSim <- apply(
  
  resSim$C <- sqrt(1/3+1/3) 
  resSim$sd <- resSim$se/resSim$C 
- tstatSimPerseus <- resSim %>% 
+ tstatSimPerseus <- resSim |> 
    ggplot(aes(x=logFC/((sd+.1)*C))) +
      geom_histogram(aes(y=..density.., fill=..count..),bins=30) +
      stat_function(fun=dt,
@@ -695,7 +733,7 @@ We first explore the design of the model that we specified using the the package
 
 ```{r}
 library(ExploreModelMatrix)
-VisualizeDesign(colData(pe),~genotype)$plotlist[[1]]
+VisualizeDesign(colData(pe),~genotype)$plotlist
 ```
 
 We have two model parameters, the (Intercept) and genotypeD8. 
@@ -725,8 +763,8 @@ pe <- hypothesisTest(object = pe, i = "protein", contrast = L)
 
 We can show the list with all significant DE proteins at the 5% FDR using 
 ```{r}
-rowData(pe[["protein"]])$genotypeD8 %>% 
-  arrange(pval) %>%
+rowData(pe[["protein"]])$genotypeD8 |> 
+  arrange(pval) |>
   filter(adjPval<0.05)
 ```
 
@@ -778,9 +816,9 @@ qplot(
 ## Plots 
 
 ```{r}
-sigNames <- rowData(pe[["protein"]])$genotypeD8 %>%
-    rownames_to_column("protein") %>%
-    filter(adjPval < 0.05) %>%
+sigNames <- rowData(pe[["protein"]])$genotypeD8 |>
+    rownames_to_column("protein") |>
+    filter(adjPval < 0.05) |>
     pull(protein)
 heatmap(assay(pe[["protein"]])[sigNames, ])
 ```
@@ -790,7 +828,7 @@ heatmap(assay(pe[["protein"]])[sigNames, ])
 for (protName in sigNames)
     {
         pePlot <- pe[protName, , c("peptideNorm", "protein")]
-        pePlotDf <- data.frame(longFormat(pePlot))
+        pePlotDf <- data.frame(longForm(pePlot))
         pePlotDf$assay <- factor(pePlotDf$assay,
             levels = c("peptideNorm", "protein")
         )
@@ -869,7 +907,7 @@ allow="autoplay; encrypted-media" allowfullscreen></iframe>
 - Biological: fluctuations in protein level between mice, fluctations in protein level between cells, ...
 - Technical: cage effect, lab effect, week effect, plasma extraction, MS-run, ...
 
-## Nature methods: Points of significance - Blocking 
+### Nature methods: Points of significance - Blocking 
 
 [https://www.nature.com/articles/nmeth.3005.pdf](https://www.nature.com/articles/nmeth.3005.pdf)
 
@@ -903,77 +941,88 @@ To illustrate the power of blocking we have subsetted the data of Duguet et al. 
 ### Data 
 <details><summary> Click to see code  </summary><p>
 ```{r, warning=FALSE, message=FALSE}
-library(tidyverse)
-library(limma)
-library(QFeatures)
-library(msqrob2)
-library(plotly)
-library(gridExtra)
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptidesRCB.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]]) 
 
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptidesRCB.txt"
-peptidesFile2 <- "https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptidesCRD.txt"
-peptidesFile3 <- "https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptides.txt"
+peptidesTable2 <- fread("https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptidesCRD.txt")
+int64 <- which(sapply(peptidesTable2,class) == "integer64")
+for (j in int64) peptidesTable2[[j]] <- as.numeric(peptidesTable2[[j]]) 
 
-ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+peptidesTable3 <- fread("https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptides.txt")
+int64 <- which(sapply(peptidesTable3,class) == "integer64")
+for (j in int64) peptidesTable3[[j]] <- as.numeric(peptidesTable3[[j]]) 
+
+quantCols <- grep("Intensity ", names(peptidesTable))
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 
-ecols2 <- grep("Intensity\\.", names(read.delim(peptidesFile2)))
+
+quantCols2 <- grep("Intensity ", names(peptidesTable2))
 pe2 <- readQFeatures(
-  table = peptidesFile2,
+  assayData = peptidesTable2,
   fnames = 1,
-  ecol = ecols2,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols2,
+  name = "peptideRaw")
+rm(peptidesTable2)
+gc()
+gc()
 
-ecols3 <- grep("Intensity\\.", names(read.delim(peptidesFile3)))
+quantCols3 <- grep("Intensity ", names(peptidesTable3))
 pe3 <- readQFeatures(
-  table = peptidesFile3,
+  assayData = peptidesTable3,
   fnames = 1,
-  ecol = ecols3,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols3,
+  name = "peptideRaw")
+rm(peptidesTable3)
+gc()
+gc()
 
 ### Design
 colData(pe)$celltype <- substr(
   colnames(pe[["peptideRaw"]]),
   11,
-  14) %>%
-  unlist %>%  
-  as.factor
+  14) |>
+  unlist() |>  
+  as.factor()
 
-colData(pe)$mouse <- pe[[1]] %>%
-  colnames %>%
-  strsplit(split="[.]")  %>%
-  sapply(function(x) x[3]) %>%
-  as.factor
+colData(pe)$mouse <- pe[[1]] |>
+  colnames() |>
+  strsplit(split="[ ]")  |>
+  sapply(function(x) x[3]) |>
+  as.factor()
 
 colData(pe2)$celltype <- substr(
   colnames(pe2[["peptideRaw"]]),
   11,
-  14) %>%
-  unlist %>%  
-  as.factor
+  14) |>
+  unlist() |>  
+  as.factor()
 
-colData(pe2)$mouse <- pe2[[1]] %>%
-  colnames %>%
-  strsplit(split="[.]")  %>%
-  sapply(function(x) x[3]) %>%
-  as.factor
+colData(pe2)$mouse <- pe2[[1]] |>
+  colnames() |>
+  strsplit(split="[ ]")  |>
+  sapply(function(x) x[3]) |>
+  as.factor()
 
 colData(pe3)$celltype <- substr(
   colnames(pe3[["peptideRaw"]]),
   11,
-  14) %>%
-  unlist %>%  
-  as.factor
+  14) |>
+  unlist() |>  
+  as.factor()
 
-colData(pe3)$mouse <- pe3[[1]] %>%
-  colnames %>%
-  strsplit(split="[.]")  %>%
-  sapply(function(x) x[3]) %>%
-  as.factor
+colData(pe3)$mouse <- pe3[[1]] |>
+  colnames() |>
+  strsplit(split="[ ]")  |>
+  sapply(function(x) x[3]) |>
+  as.factor()
 ```
 </p></design>
 
@@ -983,15 +1032,6 @@ colData(pe3)$mouse <- pe3[[1]] %>%
 #### Log-transform
 
 <details><summary> Click to see code to log-transfrom the data </summary><p>
-- We calculate how many non zero intensities we have for each peptide and this can be useful for filtering.
-
-```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-
-rowData(pe2[["peptideRaw"]])$nNonZero <- rowSums(assay(pe2[["peptideRaw"]]) > 0)
-
-rowData(pe3[["peptideRaw"]])$nNonZero <- rowSums(assay(pe3[["peptideRaw"]]) > 0)
-```
 
 - Peptides with zero intensities are missing peptides and should be represent
 with a `NA` value rather than `0`.
@@ -1019,17 +1059,24 @@ pe3 <- logTransform(pe3, base = 2, i = "peptideRaw", name = "peptideLog")
 #### Filtering
 <details><summary> Click to see details on filtering </summary><p>
 
-1. Handling overlapping protein groups
+1. Remove peptides that map to multiple proteins
 
-In our approach a peptide can map to multiple proteins, as long as there is
-none of these proteins present in a smaller subgroup.
+We remove PSMs that could not be mapped to a protein or that map
+to multiple proteins (the protein identifier contains multiple
+identifiers separated by a `;`).
 
 ```{r}
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 
-pe2 <- filterFeatures(pe2, ~ Proteins %in% smallestUniqueGroups(rowData(pe2[["peptideLog"]])$Proteins))
+pe2 <- filterFeatures(
+    pe2, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 
-pe3 <- filterFeatures(pe3, ~ Proteins %in% smallestUniqueGroups(rowData(pe3[["peptideLog"]])$Proteins))
+pe3 <- filterFeatures(
+    pe3, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 ```
 2. Remove reverse sequences (decoys) and contaminants
 
@@ -1048,18 +1095,25 @@ pe3 <- filterFeatures(pe3,~ Potential.contaminant != "+")
 ```
 
 
-3. Drop peptides that were only identified in one sample
+3. Drop peptides that were identified in less than three sample
 
-We keep peptides that were observed at last twice.
+We keep peptides that were observed at least three times.
 
 ```{r}
-pe <- filterFeatures(pe,~ nNonZero >=2)
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 
-pe2 <- filterFeatures(pe2,~ nNonZero >=2)
+n <- ncol(pe2[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe2 <- filterNA(pe2, pNA = pNA, i = "peptideLog")
 nrow(pe2[["peptideLog"]])
 
-pe3 <- filterFeatures(pe3,~ nNonZero >=2)
+n <- ncol(pe3[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe3 <- filterNA(pe3, pNA = pNA, i = "peptideLog")
 nrow(pe3[["peptideLog"]])
 ```
 
@@ -1113,6 +1167,29 @@ pe3 <- aggregateFeatures(pe3,
  name = "protein")
 ```
 
+#### Filtering proteins with too many missing values 
+
+We want to have at least two observed protein intensities for each group so we set the minimum number of observed values at 4. 
+We still have to check for the observed proteins if that is the case. 
+
+For block design more clever filtering can be used. E.g. we could imply that we have both cell types in at least two animals... 
+
+
+```{r}
+nObs <- 4
+n <- ncol(pe[["protein"]])
+pNA <- (n-nObs)/n
+pe<- filterNA(pe, pNA = pNA, i = "protein")
+
+n <- ncol(pe2[["protein"]])
+pNA <- (n-nObs)/n
+pe2 <- filterNA(pe2, pNA = pNA, i = "protein")
+
+n <- ncol(pe3[["protein"]])
+pNA <- (n-nObs)/n
+pe3 <- filterNA(pe3, pNA = pNA, i = "protein")
+```
+
 </p></details>
 
 ### Data Exploration: what is impact of blocking? 
@@ -1121,11 +1198,11 @@ pe3 <- aggregateFeatures(pe3,
 ```{r}
 levels(colData(pe3)$mouse) <- paste0("m",1:7)
 mdsObj3 <- plotMDS(assay(pe3[["protein"]]), plot = FALSE)
-mdsOrig <- colData(pe3) %>%
-  as.data.frame %>%
+mdsOrig <- colData(pe3) |>
+  as.data.frame() |>
   mutate(mds1 = mdsObj3$x,
          mds2 = mdsObj3$y,
-         lab = paste(mouse,celltype,sep="_")) %>%
+         lab = paste(mouse,celltype,sep="_")) |>
   ggplot(aes(x = mds1, y = mds2, label = lab, color = celltype, group = mouse)) +
   geom_text(show.legend = FALSE) +
   geom_point(shape = 21) +
@@ -1160,11 +1237,11 @@ mdsOrig <- colData(pe3) %>%
 
 levels(colData(pe)$mouse) <- paste0("m",1:4)
 mdsObj <- plotMDS(assay(pe[["protein"]]), plot = FALSE)
-mdsRCB <- colData(pe) %>%
-  as.data.frame %>%
+mdsRCB <- colData(pe) |>
+  as.data.frame() |>
   mutate(mds1 = mdsObj$x,
          mds2 = mdsObj$y,
-         lab = paste(mouse,celltype,sep="_")) %>%
+         lab = paste(mouse,celltype,sep="_")) |>
   ggplot(aes(x = mds1, y = mds2, label = lab, color = celltype, group = mouse)) +
   geom_text(show.legend = FALSE) +
   geom_point(shape = 21) +
@@ -1200,11 +1277,11 @@ mdsRCB <- colData(pe) %>%
 
 levels(colData(pe2)$mouse) <- paste0("m",1:8)
 mdsObj2 <- plotMDS(assay(pe2[["protein"]]), plot = FALSE)
-mdsCRD <- colData(pe2) %>%
-  as.data.frame %>%
+mdsCRD <- colData(pe2) |>
+  as.data.frame() |>
   mutate(mds1 = mdsObj2$x,
          mds2 = mdsObj2$y,
-         lab = paste(mouse,celltype,sep="_")) %>%
+         lab = paste(mouse,celltype,sep="_")) |>
   ggplot(aes(x = mds1, y = mds2, label = lab, color = celltype, group = mouse)) +
   geom_text(show.legend = FALSE) +
   geom_point(shape = 21) +
@@ -1287,9 +1364,9 @@ with
 
 
 
-## Modeling and inference
+### Modeling and inference
 
-### RCB analysis
+#### RCB analysis
 ```{r warning=FALSE}
 pe <- msqrob(
   object = pe,
@@ -1298,7 +1375,7 @@ pe <- msqrob(
 ```
 
 
-### CRD analysis 
+#### CRD analysis 
 ```{r warning = FALSE}
 pe2 <- msqrob(
   object = pe2,
@@ -1306,7 +1383,7 @@ pe2 <- msqrob(
   formula = ~ celltype)
 ```
 
-### Estimation, effect size and inference
+#### Estimation, effect size and inference
 
 Effect size in RCB
 ```{r}
@@ -1354,9 +1431,15 @@ volcanoCRD <- ggplot(
                 sum(rowData(pe2[["protein"]])$celltypeTreg$adjPval<0.05,na.rm=TRUE),
             " significant"))
 
-xlims <- (range(rowData(pe[["protein"]])$celltypeTreg$logFC, 
-              rowData(pe2[["protein"]])$celltypeTreg$logFC,
-              na.rm=TRUE) %>% abs %>% max) * c(-1,1)
+xlims <- (
+  range(
+    rowData(pe[["protein"]])$celltypeTreg$logFC,
+    rowData(pe2[["protein"]])$celltypeTreg$logFC,
+              na.rm=TRUE) |> 
+    abs() |> 
+    max()
+  ) * c(-1,1)
+
 ylims <- range(-log10(rowData(pe[["protein"]])$celltypeTreg$pval), 
               -log10(rowData(pe2[["protein"]])$celltypeTreg$logFC), 
               na.rm=TRUE)
@@ -1394,24 +1477,237 @@ plotRBCvsCRD <- ggplot(data = dat, aes(sigmaRBC, sigmaCRD)) +
   plotRBCvsCRD
 ```
 
-- We clearly observe that the standard deviation of the protein expression in the RCB is smaller for the majority of the proteins than that obtained with the CRD
 
-- Why are some of the standard deviations for the RCB with the correct analysis larger than than of the RCB with the incorrect analysis that ignored the mouse blocking factor?
+- We clearly observe that the standard deviation of the protein expression in the RCB is smaller for the majority of the proteins than that obtained with the CRD
 
 - Can you think of a reason why it would not be useful to block on a particular factor? 
 
+## Pseudo-replication
+
+- The Francisella tularensis that we used before was a subset of the data of Ramond et al. 
+- The authors have run the sample for each bio-rep in technical triplicate on the mass-spectrometer.
+
+### Data
+
+<details><summary> Click to see code to import data </summary><p>
+
+1. We use a peptides.txt file from MS-data quantified with maxquant that 
+contains MS1 intensities summarized at the peptide level. 
+```{r}
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/MSqRobSumPaper/refs/heads/master/Francisella/data/maxquant/peptides.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]])                      
+```
+
+2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
+
+```{r}
+quantCols <- grep("Intensity ", names(peptidesTable))
+```
+
+4. Read the data and store it in  QFeatures object 
+
+```{r}
+pe <- readQFeatures(
+  assayData = peptidesTable,
+  fnames = 1,
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
+```
+
+5. Update data with information on design
+
+```{r}
+colData(pe)$genotype <- pe[[1]] |> 
+  colnames() |> 
+  substr(12,13) |>
+  as.factor() |> 
+  relevel("WT")
+
+colData(pe)$biorep <- pe[[1]] |> 
+  colnames() |> 
+  substr(22,22)
+
+colData(pe)$biorep <- paste(colData(pe)$genotype,colData(pe)$biorep,sep="_")
+  
+pe |> colData()
+```
+
+</p></details>
+
+### Preprocessing
+
+<details><summary> Click to see code to log-transfrom the data </summary><p>
+
+1. Log transform
+
+  - Peptides with zero intensities are missing peptides and should be represent
+with a `NA` value rather than `0`.
+
+```{r}
+pe <- zeroIsNA(pe, "peptideRaw") # convert 0 to NA
+```
+
+  - Logtransform data with base 2
+
+```{r}
+pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
+```
+
+2. Filtering
+
+  - We remove PSMs that could not be mapped to a protein or that map to multiple proteins (the protein identifier contains multiple identifiers separated by a `;`).
+
+```{r}
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
+```
+
+  - Remove reverse sequences (decoys) and contaminants. Note that this is indicated by the column names Reverse and depending on the version of maxQuant with Potential.contaminants or Contaminants.
+
+
+```{r}
+pe <- filterFeatures(pe,~Reverse != "+")
+pe <- filterFeatures(pe,~ Contaminant != "+")
+```
+
+  - Drop peptides that were identified in less than three sample. We tolerate the following proportion of NAs: pNA = (n-3)/n. 
+
+```{r}
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
+nrow(pe[["peptideLog"]])
+```
+
+We keep `r nrow(pe[["peptideLog"]])` peptides upon filtering.
+
+3. Normalization by median centering
+
+```{r}
+pe <- normalize(pe, 
+                i = "peptideLog", 
+                name = "peptideNorm", 
+                method = "center.median")
+```
+
+
+4. Summarization. We use the standard sumarisation in aggregateFeatures, which is a
+robust summarisation method.
+
+```{r,warning=FALSE}
+pe <- aggregateFeatures(pe,
+    i = "peptideNorm", 
+    fcol = "Proteins", 
+    na.rm = TRUE,
+    name = "protein")
+```
+
+</p></details>
+
+```{r}
+msqrob2gui:::plotPCA(pe, "protein", "biorep")
+```
+
+
+- Response?
+- Experimental unit?
+- Observational unit?
+- Factors?
+
+```{r}
+VisualizeDesign(colData(pe),~ genotype + biorep)$plotlist
+```
+
+$\rightarrow$ Pseudo-replication, randomisation to bio-repeat and each bio-repeat measured in technical triplicate.
+$\rightarrow$ If we would analyse the data using a linear model based on each measured intensity, we would act as if we had sampled 18 bio-repeats.
+$\rightarrow$ Effect of interest has to be assessed between bio-repeats. So block analysis is not possible (if we condition on bio-repeat, we condition on the genotype)!
+
+
+### Wrong analysis
+
+
+```{r warning=FALSE}
+pe <- msqrob(object = pe, i = "protein", formula = ~genotype, modelColumnName = "wrong", overwrite = TRUE)
+L <- makeContrast("genotypeD8 = 0", parameterNames = c("genotypeD8"))
+pe <- hypothesisTest(object = pe, i = "protein", contrast = L, modelColumn = "wrong",   resultsColumnNamePrefix = "wrong_", overwrite = TRUE)
+
+volcanoWrong <- ggplot(
+    rowData(pe[["protein"]])$wrong_genotypeD8,
+    aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)
+) +
+    geom_point(cex = 2.5) +
+    scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
+    theme_minimal() +
+    ggtitle(paste0("wrong analysis: ",sum(rowData(pe[["protein"]])$wrong_genotypeD8$adjPval <0.05, na.rm=TRUE)," DA"))
+
+volcanoWrong
+```
+
+
+Note, that the analysis where we ignore that we have multiple technical repeats for each bio-repeat returns many significant DA proteins because we act as if we have much more independent observations.
+
+### Correct analysis
+
+- Mixed Models can model the correlation structure in the data
+
+- They can acknowledge that protein expression values from runs from the same biological repeat are more alike than protein expression values from runs of different biological repeats. 
+
+- Mixed models can also be used when inference between and within blocks is needed. 
+
+- For the francisella example the formula in msqrob2 becomes: (formula: ~ genotype + (1|biorep)). 
+
+$$ \left\{\begin{array}{rcl}
+y_{ir} &=& \beta_0 + \beta_{wt}X_{wt,i} + b_i + \epsilon_{ir}\\
+b_i & \sim & N(0,\sigma_b^2)\\
+\epsilon_{ir} &\sim& N(0,\sigma_\epsilon^2)
+\end{array}\right.$$
+
+
+
+```{r}
+pe <- msqrob(object = pe, i = "protein", formula = ~genotype + (1|biorep), overwrite = TRUE)
+L <- makeContrast("genotypeD8 = 0", parameterNames = c("genotypeD8"))
+pe <- hypothesisTest(object = pe, i = "protein", contrast = L, overwrite = TRUE)
+
+volcanoMixed <- ggplot(
+    rowData(pe[["protein"]])$genotypeD8,
+    aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)
+) +
+    geom_point(cex = 2.5) +
+    scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
+    theme_minimal() +
+    ggtitle(paste0("correct analysis: ",sum(rowData(pe[["protein"]])$genotypeD8$adjPval <0.05, na.rm=TRUE)," DA"))
+volcanoMixed
+```
+
+- Note, that the statistical inference with mixed models is still a bit too liberal because it: 
+    - hypothesis tests are only valid asymptotically (large number of biorepeats).
+    - in small samples the between biorepeat variance is sometimes estimated to be zero due to estimation uncertainty and for these proteins the model still acts as if all 18 protein expression values are independent. 
+    
+- Mixed models are also very useful to analyse data from large labeled experiments [@vandenbulcke2025]. 
+
+- But, they are beyond the scope of the lecture series. 
+
+CONSULT BIOSTATISTICIAN IN CASE OF EXPERIMENTS WITH PSEUDO-REPLICATES, TECHNICAL REPEATS, COMPLEX DESIGNS, ...
 
 # Software & code
 
-- Our R/Bioconductor package [msqrob2](https://www.bioconductor.org/packages/release/bioc/html/msqrob2.html) can be used in R markdown scripts or with a GUI/shinyApp in the [msqrob2gui](https://github.com/statOmics/msqrob2gui) package.
+- Our R/Bioconductor package [msqrob2](https://www.bioconductor.org/packages/release/bioc/html/msqrob2.html) can be used in R markdown scripts or with GUI/shinyApps [QFeaturesGUI](https://github.com/statOmics/QFeaturesGUI) (+) and [msqrob2gui](https://github.com/statOmics/msqrob2gui) (+: forked from the UCLouvain-CBIO lab).
 
-- The GUI is intended as a introduction to the key concepts of proteomics data analysis for users who have no experience in R. 
+- GUIs are intended as a introduction to the key concepts of proteomics data analysis for users who have no experience in R. 
 
 - However, learning how to code data analyses in R markdown scripts is key for open en reproducible science and for reporting your proteomics data analyses and interpretation in a reproducible way. 
 
 
-- More information on our tools can be found in our papers [@goeminne2016], [@goeminne2020] and [@sticker2020]. Please refer to our work when using our tools. 
+- More information on our tools can be found in our papers [@goeminne2016], [@goeminne2020], [@sticker2020] and [@vandenbulcke2025]. Please refer to our work when using our tools. 
 
+<!--
 - Clips on the code on importing the data and preprocessing can be found in [Part I Preprocessing](./pda_quantification_preprocessing.html)
 
 - A clip on the code for modelling and statistical inference with msqrob2 is included below
@@ -1421,5 +1717,6 @@ src="https://www.youtube.com/embed/eXxIdzGOPgY"
 frameborder="0"
 style="display: block; margin: auto;"
 allow="autoplay; encrypted-media" allowfullscreen></iframe>
+--> 
 
 # References

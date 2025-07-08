@@ -28,97 +28,113 @@ This is part of the online course [Proteomics Data Analysis (PDA)](https://stato
 # Import Data and Preprocessing 
 
 ## Data 
+
 <details><summary> Click to see code  </summary><p>
+
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(limma)
 library(QFeatures)
 library(msqrob2)
 library(plotly)
+library(ggplot2)
+library(data.table)
 library(gridExtra)
+```
 
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/mouseTcell/peptidesRCB.txt"
-peptidesFile2 <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/mouseTcell/peptidesCRD.txt"
-peptidesFile3 <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/mouseTcell/peptides.txt"
+```{r, warning=FALSE, message=FALSE}
 
-ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptidesRCB.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]]) 
+
+peptidesTable2 <- fread("https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptidesCRD.txt")
+int64 <- which(sapply(peptidesTable2,class) == "integer64")
+for (j in int64) peptidesTable2[[j]] <- as.numeric(peptidesTable2[[j]]) 
+
+peptidesTable3 <- fread("https://raw.githubusercontent.com/statOmics/PDA21/data/quantification/mouseTcell/peptides.txt")
+int64 <- which(sapply(peptidesTable3,class) == "integer64")
+for (j in int64) peptidesTable3[[j]] <- as.numeric(peptidesTable3[[j]]) 
+
+quantCols <- grep("Intensity ", names(peptidesTable))
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 
-ecols2 <- grep("Intensity\\.", names(read.delim(peptidesFile2)))
+
+quantCols2 <- grep("Intensity ", names(peptidesTable2))
 pe2 <- readQFeatures(
-  table = peptidesFile2,
+  assayData = peptidesTable2,
   fnames = 1,
-  ecol = ecols2,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols2,
+  name = "peptideRaw")
+rm(peptidesTable2)
+gc()
+gc()
 
-ecols3 <- grep("Intensity\\.", names(read.delim(peptidesFile3)))
+quantCols3 <- grep("Intensity ", names(peptidesTable3))
 pe3 <- readQFeatures(
-  table = peptidesFile3,
+  assayData = peptidesTable3,
   fnames = 1,
-  ecol = ecols3,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols3,
+  name = "peptideRaw")
+rm(peptidesTable3)
+gc()
+gc()
 
 ### Design
 colData(pe)$celltype <- substr(
   colnames(pe[["peptideRaw"]]),
   11,
-  14) %>%
-  unlist %>%  
-  as.factor
+  14) |>
+  unlist() |>  
+  as.factor()
 
-colData(pe)$mouse <- pe[[1]] %>%
-  colnames %>%
-  strsplit(split="[.]")  %>%
-  sapply(function(x) x[3]) %>%
-  as.factor
+colData(pe)$mouse <- pe[[1]] |>
+  colnames() |>
+  strsplit(split="[ ]")  |>
+  sapply(function(x) x[3]) |>
+  as.factor()
 
 colData(pe2)$celltype <- substr(
   colnames(pe2[["peptideRaw"]]),
   11,
-  14) %>%
-  unlist %>%  
-  as.factor
+  14) |>
+  unlist() |>  
+  as.factor()
 
-colData(pe2)$mouse <- pe2[[1]] %>%
-  colnames %>%
-  strsplit(split="[.]")  %>%
-  sapply(function(x) x[3]) %>%
-  as.factor
+colData(pe2)$mouse <- pe2[[1]] |>
+  colnames() |>
+  strsplit(split="[ ]")  |>
+  sapply(function(x) x[3]) |>
+  as.factor()
 
 colData(pe3)$celltype <- substr(
   colnames(pe3[["peptideRaw"]]),
   11,
-  14) %>%
-  unlist %>%  
-  as.factor
+  14) |>
+  unlist() |>  
+  as.factor()
 
-colData(pe3)$mouse <- pe3[[1]] %>%
-  colnames %>%
-  strsplit(split="[.]")  %>%
-  sapply(function(x) x[3]) %>%
-  as.factor
+colData(pe3)$mouse <- pe3[[1]] |>
+  colnames() |>
+  strsplit(split="[ ]")  |>
+  sapply(function(x) x[3]) |>
+  as.factor()
 ```
 </p></design>
 
 ## Preprocessing 
 
 
-### Log-transform
+#### Log-transform
 
 <details><summary> Click to see code to log-transfrom the data </summary><p>
-- We calculate how many non zero intensities we have for each peptide and this can be useful for filtering.
-
-```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-
-rowData(pe2[["peptideRaw"]])$nNonZero <- rowSums(assay(pe2[["peptideRaw"]]) > 0)
-
-rowData(pe3[["peptideRaw"]])$nNonZero <- rowSums(assay(pe3[["peptideRaw"]]) > 0)
-```
 
 - Peptides with zero intensities are missing peptides and should be represent
 with a `NA` value rather than `0`.
@@ -146,17 +162,24 @@ pe3 <- logTransform(pe3, base = 2, i = "peptideRaw", name = "peptideLog")
 ### Filtering
 <details><summary> Click to see details on filtering </summary><p>
 
-1. Handling overlapping protein groups
+1. Remove peptides that map to multiple proteins
 
-In our approach a peptide can map to multiple proteins, as long as there is
-none of these proteins present in a smaller subgroup.
+We remove PSMs that could not be mapped to a protein or that map
+to multiple proteins (the protein identifier contains multiple
+identifiers separated by a `;`).
 
 ```{r}
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 
-pe2 <- filterFeatures(pe2, ~ Proteins %in% smallestUniqueGroups(rowData(pe2[["peptideLog"]])$Proteins))
+pe2 <- filterFeatures(
+    pe2, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 
-pe3 <- filterFeatures(pe3, ~ Proteins %in% smallestUniqueGroups(rowData(pe3[["peptideLog"]])$Proteins))
+pe3 <- filterFeatures(
+    pe3, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 ```
 2. Remove reverse sequences (decoys) and contaminants
 
@@ -173,24 +196,33 @@ pe2 <- filterFeatures(pe2,~ Potential.contaminant != "+")
 pe3 <- filterFeatures(pe3,~Reverse != "+")
 pe3 <- filterFeatures(pe3,~ Potential.contaminant != "+")
 ```
-3. Drop peptides that were only identified in one sample
 
-We keep peptides that were observed at last twice.
+
+3. Drop peptides that were identified in less than three sample
+
+We keep peptides that were observed at least three times.
 
 ```{r}
-pe[["peptideLog"]] <- pe[["peptideLog"]][rowData(pe[["peptideLog"]])$nNonZero >= 2, ]
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 
-pe2[["peptideLog"]] <- pe2[["peptideLog"]][rowData(pe2[["peptideLog"]])$nNonZero >= 2, ]
-nrow(pe[["peptideLog"]])
+n <- ncol(pe2[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe2 <- filterNA(pe2, pNA = pNA, i = "peptideLog")
+nrow(pe2[["peptideLog"]])
 
-pe3[["peptideLog"]] <- pe3[["peptideLog"]][rowData(pe3[["peptideLog"]])$nNonZero >= 2, ]
+n <- ncol(pe3[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe3 <- filterNA(pe3, pNA = pNA, i = "peptideLog")
 nrow(pe3[["peptideLog"]])
 ```
 
 </p></details>
 
-## Normalization 
+### Normalization 
 
 <details><summary> Click to see code to normalize the data </summary><p>
 ```{r}
@@ -213,7 +245,7 @@ pe3 <- normalize(pe3,
 
 </p></details>
 
-## Summarization
+### Summarization
 
 <details><summary> Click to see code to summarize the data </summary><p>
 
@@ -236,6 +268,29 @@ pe3 <- aggregateFeatures(pe3,
  fcol = "Proteins",
  na.rm = TRUE,
  name = "protein")
+```
+
+### Filtering proteins with too many missing values 
+
+We want to have at least two observed protein intensities for each group so we set the minimum number of observed values at 4. 
+We still have to check for the observed proteins if that is the case. 
+
+For block design more clever filtering can be used. E.g. we could imply that we have both cell types in at least two animals... 
+
+
+```{r}
+nObs <- 4
+n <- ncol(pe[["protein"]])
+pNA <- (n-nObs)/n
+pe<- filterNA(pe, pNA = pNA, i = "protein")
+
+n <- ncol(pe2[["protein"]])
+pNA <- (n-nObs)/n
+pe2 <- filterNA(pe2, pNA = pNA, i = "protein")
+
+n <- ncol(pe3[["protein"]])
+pNA <- (n-nObs)/n
+pe3 <- filterNA(pe3, pNA = pNA, i = "protein")
 ```
 
 </p></details>

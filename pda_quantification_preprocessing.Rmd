@@ -221,6 +221,7 @@ library(QFeatures)
 library(msqrob2)
 library(plotly)
 library(ggplot2)
+library(data.table)
 ```
 </p></details>
 
@@ -230,23 +231,28 @@ library(ggplot2)
 1. We use a peptides.txt file from MS-data quantified with maxquant that 
 contains MS1 intensities summarized at the peptide level. 
 ```{r}
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt"
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]])
 ```
 
 2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
 
 ```{r}
-ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+quantCols <- grep("Intensity ", names(peptidesTable))
 ```
 
 3. Read the data and store it in  QFeatures object 
 
 ```{r}
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 ```
 </p></details>
 
@@ -269,7 +275,7 @@ colData(pe)
 
 
 ```{r} 
-pe %>% colnames
+pe |> colnames()
 ```
 
 - Note, that the sample names include the spike-in condition. 
@@ -282,9 +288,20 @@ pe %>% colnames
 - We update the colData with information on the design
 
 ```{r}
-colData(pe)$lab <- rep(rep(paste0("lab",1:3),each=3),5) %>% as.factor
-colData(pe)$condition <- pe[["peptideRaw"]] %>% colnames %>% substr(12,12) %>% as.factor
-colData(pe)$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),each = 9)
+colData(pe)$lab <- rep(
+  rep(
+    paste0("lab",1:3), 
+    each=3),5) |> 
+  as.factor()
+
+colData(pe)$condition <- pe[["peptideRaw"]] |> 
+  colnames() |> 
+  substr(12,12) |> 
+  as.factor()
+
+colData(pe)$spikeConcentration <- rep(
+  c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),
+  each = 9)
 ```
 
 - We explore the colData again
@@ -316,8 +333,8 @@ We only show data from lab1.
 ```{r}
 subset <- pe["AALEELVK",colData(pe)$lab=="lab1"]
 plotWhyLog <- data.frame(concentration = colData(subset)$spikeConcentration,
-           y = assay(subset[["peptideRaw"]]) %>% c
-           ) %>% 
+           y = assay(subset[["peptideRaw"]]) |> c()
+           ) |> 
   ggplot(aes(concentration, y)) +
   geom_point() +
   xlab("concentration (fmol/l)") +
@@ -335,8 +352,8 @@ $\rightarrow$ Multiplicative error structure
 <details><summary> Click to see code to make plot </summary><p>
 ```{r}
 plotLog <- data.frame(concentration = colData(subset)$spikeConcentration,
-           y = assay(subset[["peptideRaw"]]) %>% c
-           ) %>% 
+           y = assay(subset[["peptideRaw"]]) |> c()
+           ) |> 
   ggplot(aes(concentration, y)) +
   geom_point() + 
   scale_x_continuous(trans='log2') + 
@@ -369,12 +386,6 @@ $$
 ### log-transformation of the data 
 
 <details><summary> Click to see code to log-transfrom the data </summary><p>
-- We calculate how many non zero intensities we have for each peptide and this can be useful for filtering.
-
-```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-```
-
 
 - Peptides with zero intensities are missing peptides and should be represent
 with a `NA` value rather than `0`.
@@ -406,18 +417,23 @@ allow="autoplay; encrypted-media" allowfullscreen></iframe>
 - Contaminants
 - Peptides few identifications
 - Proteins that are only identified with one or a few peptides
+- FDR of identification
+- ...
 
 Filtering does not induce bias if the criterion is independent from the downstream data analysis!
 
 <details><summary> Click to see code to filter the data </summary><p>
 
-1. Handling overlapping protein groups
+1. Remove peptides that map to multiple proteins
 
-In our approach a peptide can map to multiple proteins, as long as there is
-none of these proteins present in a smaller subgroup.
+We remove PSMs that could not be mapped to a protein or that map
+to multiple proteins (the protein identifier contains multiple
+identifiers separated by a `;`).
 
 ```{r}
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 ```
 
 2. Remove reverse sequences (decoys) and contaminants
@@ -432,10 +448,13 @@ pe <- filterFeatures(pe,~ Potential.contaminant != "+")
 
 3. Drop peptides that were only identified in one sample
 
-We keep peptides that were observed at last twice.
+We keep peptides that were observed at last three times. We tolerate the following proportion of NAs: pNA = (n-3)/n. 
 
 ```{r}
-pe <- filterFeatures(pe,~ nNonZero >=2)
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 ```
 
@@ -455,20 +474,20 @@ allow="autoplay; encrypted-media" allowfullscreen></iframe>
 <details><summary> Click to see code to make plot </summary><p>
 
 ```{r}
-densityConditionD <- pe[["peptideLog"]][,colData(pe)$condition=="D"] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(lab = colData(pe)[sample,"lab"]) %>%
+densityConditionD <- pe[["peptideLog"]][,colData(pe)$condition=="D"] |> 
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(lab = colData(pe)[sample,"lab"]) |>
   ggplot(aes(x=intensity,group=sample,color=lab)) + 
     geom_density() +
     ggtitle("condition D")
 
-densityLab2 <- pe[["peptideLog"]][,colData(pe)$lab=="lab2"] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
+densityLab2 <- pe[["peptideLog"]][,colData(pe)$lab=="lab2"] |> 
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(condition = colData(pe)[sample,"condition"]) |>
   ggplot(aes(x=intensity,group=sample,color=condition)) + 
     geom_density() +
     ggtitle("lab2")
@@ -534,20 +553,20 @@ pe <- normalize(pe,
 
 <details><summary> Click to see code to make plot </summary><p>
 ```{r}
-densityConditionDNorm <- pe[["peptideNorm"]][,colData(pe)$condition=="D"] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(lab = colData(pe)[sample,"lab"]) %>%
+densityConditionDNorm <- pe[["peptideNorm"]][,colData(pe)$condition=="D"] |> 
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(lab = colData(pe)[sample,"lab"]) |>
   ggplot(aes(x=intensity,group=sample,color=lab)) + 
     geom_density() +
     ggtitle("condition D")
 
-densityLab2Norm <- pe[["peptideNorm"]][,colData(pe)$lab=="lab2"] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
+densityLab2Norm <- pe[["peptideNorm"]][,colData(pe)$lab=="lab2"] |> 
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(condition = colData(pe)[sample,"condition"]) |>
   ggplot(aes(x=intensity,group=sample,color=condition)) + 
     geom_density() +
     ggtitle("lab2")
@@ -587,12 +606,12 @@ allow="autoplay; encrypted-media" allowfullscreen></iframe>
 ```{r plot = FALSE}
 summaryPlot <- pe[["peptideNorm"]][
     rowData(pe[["peptideNorm"]])$Proteins == "P12081ups|SYHC_HUMAN_UPS",
-    colData(pe)$lab=="lab2"&colData(pe)$condition %in% c("A","E")] %>%
-  assay %>%
-  as.data.frame %>%
-  rownames_to_column(var = "peptide") %>%
-  gather(sample, intensity, -peptide) %>% 
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
+    colData(pe)$lab=="lab2"&colData(pe)$condition %in% c("A","E")] |>
+  assay() |>
+  as.data.frame() |>
+  rownames_to_column(var = "peptide") |>
+  gather(sample, intensity, -peptide) |> 
+  mutate(condition = colData(pe)[sample,"condition"]) |>
   ggplot(aes(x = peptide, y = intensity, color = sample, group = sample, label = condition), show.legend = FALSE) +
   geom_line(show.legend = FALSE) +
   geom_text(show.legend = FALSE) +
@@ -658,6 +677,19 @@ Other summarization methods can be implemented by using the `fun` argument in th
 
 </p></details>
 
+## Filtering at protein level 
+
+We want to have at least 4 observed proteins so that most proteins have at least 2 observations in each group.  
+So we tolerate a proportion of (n-4)/n NAs. 
+
+
+```{r}
+nObs <- 4
+n <- ncol(pe[["protein"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "protein")
+```
+
 ---
 
 # Exercise
@@ -669,16 +701,17 @@ Other summarization methods can be implemented by using the `fun` argument in th
 
 # Software & code
 
-- Our R/Bioconductor package [msqrob2](https://www.bioconductor.org/packages/release/bioc/html/msqrob2.html) can be used in R markdown scripts or with a GUI/shinyApp in the [msqrob2gui](https://github.com/statOmics/msqrob2gui) package.
+- Our R/Bioconductor package [msqrob2](https://www.bioconductor.org/packages/release/bioc/html/msqrob2.html) can be used in R markdown scripts or with GUI/shinyApps [QFeaturesGUI](https://github.com/statOmics/QFeaturesGUI) and [msqrob2gui](https://github.com/statOmics/msqrob2gui).
 
-- The GUI is intended as a introduction to the key concepts of proteomics data analysis for users who have no experience in R. 
+- The GUIs are intended as a introduction to the key concepts of proteomics data analysis for users who have no experience in R. 
 
 - However, learning how to code data analyses in R markdown scripts is key for open en reproducible science and for reporting your proteomics data analyses and interpretation in a reproducible way. 
 
 
-- More information on our tools can be found in our papers [@goeminne2016], [@goeminne2020] and [@sticker2020]. Please refer to our work when using our tools. 
+- More information on our tools can be found in our papers [@goeminne2016], [@goeminne2020], [@sticker2020] and [@vandenbulcke2025]. Please refer to our work when using our tools. 
 
 
+<!--
 
 ## Code 
 
@@ -733,5 +766,6 @@ src="https://www.youtube.com/embed/F5d0E-U4rOM"
 frameborder="0"
 style="display: block; margin: auto;"
 allow="autoplay; encrypted-media" allowfullscreen></iframe>   
+--> 
 
 # References

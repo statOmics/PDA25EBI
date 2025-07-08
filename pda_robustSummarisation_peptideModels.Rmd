@@ -41,6 +41,7 @@ library(QFeatures)
 library(msqrob2)
 library(plotly)
 library(gridExtra)
+library(data.table)
 ```
 
 # Subset of CPTAC study: A vs B comparison in lab 3 
@@ -50,28 +51,34 @@ library(gridExtra)
 <details><summary> Click to see background and code </summary><p>
 1. Import data
 ```{r}
-proteinsFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/cptacAvsB_lab3/proteinGroups.txt"
+proteinsTable <- fread("https://raw.githubusercontent.com/statOmics/PDA/data/quantification/cptacAvsB_lab3/proteinGroups.txt")
+int64 <- which(sapply(proteinsTable,class) == "integer64")
+for (j in int64) proteinsTable[[j]] <- as.numeric(proteinsTable[[j]])
 
-ecols <- grep("LFQ\\.intensity\\.", names(read.delim(proteinsFile)))
+quantCols <- grep("LFQ intensity ", names(proteinsTable))
 
 peLFQ <- readQFeatures(
-  table = proteinsFile, fnames = 1, ecol = ecols,
-  name = "proteinRaw", sep = "\t"
+  assayData = proteinsTable, 
+  fnames = 1, 
+  quantCols = quantCols,
+  name = "proteinRaw"
 )
+
+rm(proteinsTable)
+gc()
+gc()
 
 cond <- which(
   strsplit(colnames(peLFQ)[[1]][1], split = "")[[1]] == "A") # find where condition is stored
 
-colData(peLFQ)$condition <- substr(colnames(peLFQ), cond, cond) %>%
-  unlist %>%  
-  as.factor
+colData(peLFQ)$condition <- substr(colnames(peLFQ), cond, cond) |>
+  unlist() |>  
+  as.factor()
 ```
 
 2. Preprocessing
 
 ```{r}
-rowData(peLFQ[["proteinRaw"]])$nNonZero <- rowSums(assay(peLFQ[["proteinRaw"]]) > 0)
-
 peLFQ <- zeroIsNA(peLFQ, "proteinRaw") # convert 0 to NA
 
 peLFQ <- logTransform(peLFQ, base = 2, i = "proteinRaw", name = "proteinLog")
@@ -83,6 +90,12 @@ peLFQ <- normalize(peLFQ,
                 i = "proteinLog", 
                 name = "protein", 
                 method = "center.median")
+
+# We want to have at least two observed protein intensities for each group so we set the minimum number of observed values at 4. 
+nObs <- 4
+n <- ncol(peLFQ[["protein"]])
+pNA <- (n-nObs)/n
+peLFQ <- filterNA(peLFQ, pNA = pNA, i = "protein")
 ```
 
 3. Modeling and Inference
@@ -111,42 +124,49 @@ volcanoLFQ <- ggplot(rowData(peLFQ[["protein"]])$conditionB,
 1. Import Data 
 
 ```{r}
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/SGA2020/data/quantification/cptacAvsB_lab3/peptides.txt"
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/SGA2020/data/quantification/cptacAvsB_lab3/peptides.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]])
 
-ecols <- grep(
-  "Intensity\\.", 
-  names(read.delim(peptidesFile))
-  )
+quantCols <- grep("Intensity ", names(peptidesTable))
+
 
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 
 cond <- which(
   strsplit(colnames(pe)[[1]][1], split = "")[[1]] == "A") # find where condition is stored
 
-colData(pe)$condition <- substr(colnames(pe), cond, cond) %>%
-  unlist %>%  
-  as.factor
+colData(pe)$condition <- substr(colnames(pe), cond, cond) |>
+  unlist() |>  
+  as.factor()
 ```
 
 2. Preprocessing
 
 ```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-
 pe <- zeroIsNA(pe, "peptideRaw") # convert 0 to NA
 
 pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 
 pe <- filterFeatures(pe,~Reverse != "+")
 pe <- filterFeatures(pe,~ Potential.contaminant != "+")
 
-pe <- filterFeatures(pe,~ nNonZero >=2)
+# We filter out all peptides that have been seen in less than three samples
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 
 pe <- normalize(pe, 
@@ -166,6 +186,18 @@ pe <- aggregateFeatures(pe,
   fcol = "Proteins",
   na.rm = TRUE,
   name = "proteinRobust")
+
+# Comparisons are only valid for proteins for which we observed a protein intensity twice in each group. So we only tolerate a proportion of (n-4)/n NAs. 
+
+nObs <- 4
+n <- ncol(pe[["proteinMedian"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "proteinMedian")
+
+n <- ncol(pe[["proteinRobust"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "proteinRobust")
+
 ```
 
 3. Modeling and inference
@@ -208,10 +240,10 @@ xlims <- max(abs(c(rowData(peLFQ[["protein"]])$conditionB$logFC,
 ```
 
 ```{r}
-compBoxPlot <- rbind(rowData(peLFQ[["protein"]])$conditionB %>% mutate(method="maxLFQ") %>% rownames_to_column(var="protein"),
-      rowData(pe[["proteinMedian"]])$conditionB %>% mutate(method="median")%>% rownames_to_column(var="protein"),
-      rowData(pe[["proteinRobust"]])$conditionB%>% mutate(method="robust")%>% rownames_to_column(var="protein")) %>%
-      mutate(ups= grepl(protein,pattern="UPS")) %>%
+compBoxPlot <- rbind(rowData(peLFQ[["protein"]])$conditionB |> mutate(method="maxLFQ") |> rownames_to_column(var="protein"),
+      rowData(pe[["proteinMedian"]])$conditionB |> mutate(method="median")|> rownames_to_column(var="protein"),
+      rowData(pe[["proteinRobust"]])$conditionB|> mutate(method="robust")|> rownames_to_column(var="protein")) |>
+      mutate(ups= grepl(protein,pattern="UPS")) |>
     ggplot(aes(x = method, y = logFC, fill = ups)) +
     geom_boxplot() +
     geom_hline(yintercept = log2(0.74 / .25), color = "#00BFC4") +
@@ -230,7 +262,7 @@ grid.arrange(volcanoLFQ + xlim(xlims) + ylim(ylims),
              ncol=1)
 ```
 
-- Robust summarization: highest power and still good FDR control: $FDP = \frac{1}{20} = 0.05$.
+- Robust summarization: highest power and still good FDR control: $FDP = \frac{0}{20} = 0$.
 
 
 ```{r}
@@ -249,23 +281,28 @@ compBoxPlot
 1. We use a peptides.txt file from MS-data quantified with maxquant that 
 contains MS1 intensities summarized at the peptide level. 
 ```{r}
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt"
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]])
 ```
 
 2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
 
 ```{r}
-ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+quantCols <- grep("Intensity ", names(peptidesTable))
 ```
 
 3. Read the data and store it in  QFeatures object 
 
 ```{r}
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 ```
 </p></details>
 
@@ -274,7 +311,7 @@ pe <- readQFeatures(
 <details><summary> Click to see background and code </summary><p>
 
 ```{r} 
-pe %>% colnames
+pe |> colnames()
 ```
 
 - Note, that the sample names include the spike-in condition. 
@@ -287,9 +324,20 @@ pe %>% colnames
 - We update the colData with information on the design
 
 ```{r}
-colData(pe)$lab <- rep(rep(paste0("lab",1:3),each=3),5) %>% as.factor
-colData(pe)$condition <- pe[["peptideRaw"]] %>% colnames %>% substr(12,12) %>% as.factor
-colData(pe)$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),each = 9)
+colData(pe)$lab <- rep(
+  rep(
+    paste0("lab",1:3), 
+    each=3),5) |> 
+  as.factor()
+
+colData(pe)$condition <- pe[["peptideRaw"]] |> 
+  colnames() |> 
+  substr(12,12) |> 
+  as.factor()
+
+colData(pe)$spikeConcentration <- rep(
+  c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),
+  each = 9)
 ```
 
 - We explore the colData
@@ -305,11 +353,6 @@ colData(pe)
 ### Log-transform
 
 <details><summary> Click to see code to log-transfrom the data </summary><p>
-- We calculate how many non zero intensities we have for each peptide and this can be useful for filtering.
-
-```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-```
 
 
 - Peptides with zero intensities are missing peptides and should be represent
@@ -331,13 +374,16 @@ pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 
 <details><summary> Click to see code to filter the data </summary><p>
 
-1. Handling overlapping protein groups
+1. Remove peptides that map to multiple proteins
 
-In our approach a peptide can map to multiple proteins, as long as there is
-none of these proteins present in a smaller subgroup.
+We remove PSMs that could not be mapped to a protein or that map
+to multiple proteins (the protein identifier contains multiple
+identifiers separated by a `;`).
 
 ```{r}
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 ```
 
 2. Remove reverse sequences (decoys) and contaminants
@@ -350,12 +396,15 @@ pe <- filterFeatures(pe,~Reverse != "+")
 pe <- filterFeatures(pe,~ Potential.contaminant != "+")
 ```
 
-3. Drop peptides that were only identified in one sample
+3. Drop peptides that were identified less than three samples
 
-We keep peptides that were observed at last twice.
+We keep peptides that were observed at least three times. We tolerate the following proportion of NAs: pNA = (n-3)/n. 
 
 ```{r}
-pe <- filterFeatures(pe,~ nNonZero >=2)
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 ```
 
@@ -386,14 +435,14 @@ pe <- normalize(pe,
 prot <- "P01031ups|CO5_HUMAN_UPS"
 data <- pe[["peptideNorm"]][
   rowData(pe[["peptideNorm"]])$Proteins == prot,
-  colData(pe)$lab=="lab3"] %>%
-  assay %>%
-  as.data.frame %>%
-  rownames_to_column(var = "peptide") %>%
-  gather(sample, intensity, -peptide) %>% 
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
-  na.exclude
-sumPlot <- data %>%
+  colData(pe)$lab=="lab3"] |>
+  assay() |>
+  as.data.frame() |>
+  rownames_to_column(var = "peptide") |>
+  gather(sample, intensity, -peptide) |> 
+  mutate(condition = colData(pe)[sample,"condition"]) |>
+  na.exclude()
+sumPlot <- data |>
   ggplot(aes(x = peptide, y = intensity, color = condition, group = sample, label = condition), show.legend = FALSE) +
   geom_text(show.legend = FALSE) +
   theme_minimal() +
@@ -420,13 +469,18 @@ We first evaluate median summarization for protein `r prot`.
 ```{r}
 dataHlp <- pe[["peptideNorm"]][
     rowData(pe[["peptideNorm"]])$Proteins == prot,
-    colData(pe)$lab=="lab3"] %>% assay 
+    colData(pe)$lab=="lab3"] |> 
+  assay() 
 
 sumMedian <- data.frame(
   intensity= dataHlp
-    %>% colMedians(na.rm=TRUE)
+    |> 
+    colMedians(na.rm=TRUE)
   ,
-  condition= colnames(dataHlp) %>% substr(12,12) %>% as.factor )
+  condition= colnames(dataHlp) |> 
+    substr(12,12) |> 
+    as.factor()
+  )
 
 sumMedianPlot <- sumPlot + 
   geom_hline(
@@ -458,7 +512,9 @@ sumMeanMod <- lm(intensity ~ -1 + sample,data)
 
 sumMean <- data.frame(
   intensity=sumMeanMod$coef[grep("sample",names(sumMeanMod$coef))],
-  condition= names(sumMeanMod$coef)[grep("sample",names(sumMeanMod$coef))] %>% substr(18,18) %>% as.factor )
+  condition= names(sumMeanMod$coef)[grep("sample",names(sumMeanMod$coef))] |> 
+    substr(18,18) |> 
+    as.factor() )
 
 
 
@@ -488,12 +544,17 @@ $$
 sumMeanPepMod <- lm(intensity ~ -1 + sample + peptide,data)
 
 sumMeanPep <- data.frame(
-  intensity=sumMeanPepMod$coef[grep("sample",names(sumMeanPepMod$coef))] + mean(data$intensity) - mean(sumMeanPepMod$coef[grep("sample",names(sumMeanPepMod$coef))]),
-  condition= names(sumMeanPepMod$coef)[grep("sample",names(sumMeanPepMod$coef))] %>% substr(18,18) %>% as.factor )
+  intensity = sumMeanPepMod$coef[grep("sample",names(sumMeanPepMod$coef))] + 
+    mean(data$intensity) - 
+    mean(sumMeanPepMod$coef[grep("sample",names(sumMeanPepMod$coef))]),
+  condition = names(sumMeanPepMod$coef)[grep("sample",names(sumMeanPepMod$coef))] 
+  |> substr(18,18) |> 
+    as.factor() )
 
 
 fitLmPlot <-  sumPlot + geom_line(
-    data = data %>% mutate(fit=sumMeanPepMod$fitted.values),
+    data = data |> 
+      mutate(fit=sumMeanPepMod$fitted.values),
     mapping = aes(x=peptide, y=fit,color=condition, group=sample)) +
     ggtitle("fit: ~ sample + peptide")
 sumLmPlot <- sumPlot + geom_hline(
@@ -517,8 +578,8 @@ A residual analysis clearly indicates potential issues:
 
 <details><summary> Click to see code to make plot </summary><p>
 ```{r}
-resPlot <- data %>% 
-  mutate(res=sumMeanPepMod$residuals) %>%
+resPlot <- data |> 
+  mutate(res=sumMeanPepMod$residuals) |>
   ggplot(aes(x = peptide, y = res, color = condition, label = condition), show.legend = FALSE) +
   geom_point(shape=21) +
   theme_minimal() +
@@ -561,9 +622,9 @@ $$
 <details><summary> Click to see code to make plot </summary><p>
 ```{r}
 sumMeanPepRobMod <- MASS::rlm(intensity ~ -1 + sample + peptide,data)
-resRobPlot <- data %>%
+resRobPlot <- data |>
   mutate(res = sumMeanPepRobMod$residuals,
-         w = sumMeanPepRobMod$w) %>%
+         w = sumMeanPepRobMod$w) |>
   ggplot(aes(x = peptide, y = res, color = condition, label = condition,size=w), show.legend = FALSE) +
   geom_point(shape=21,size=.2) +
   geom_point(shape=21) +
@@ -572,10 +633,12 @@ resRobPlot <- data %>%
   xlab("Peptide") + 
   ylab("residual") + 
   ylim(c(-1,1)*max(abs(sumMeanPepRobMod$residuals)))
-weightPlot <- qplot(
-  seq(-5,5,.01), 
-  MASS::psi.huber(seq(-5,5,.01)),
-  geom="path") +
+weightPlot <- data.frame(
+  resid=seq(-5,5,.01), 
+  weight=MASS::psi.huber(seq(-5,5,.01))
+  ) |> 
+  ggplot(aes(resid,weight)) +
+  geom_line() +
   xlab("standardized residual") +
   ylab("weight")
 ```
@@ -590,10 +653,15 @@ grid.arrange(weightPlot,resRobPlot,nrow=1)
 <details><summary> Click to see code to make plot </summary><p>
 ```{r}
 sumMeanPepRob <- data.frame(
-  intensity=sumMeanPepRobMod$coef[grep("sample",names(sumMeanPepRobMod$coef))] + mean(data$intensity) - mean(sumMeanPepRobMod$coef[grep("sample",names(sumMeanPepRobMod$coef))]),
-  condition= names(sumMeanPepRobMod$coef)[grep("sample",names(sumMeanPepRobMod$coef))] %>% substr(18,18) %>% as.factor )
+  intensity=sumMeanPepRobMod$coef[grep("sample",names(sumMeanPepRobMod$coef))] + 
+    mean(data$intensity) - 
+    mean(sumMeanPepRobMod$coef[grep("sample",names(sumMeanPepRobMod$coef))]),
+  condition= names(sumMeanPepRobMod$coef)[grep("sample",names(sumMeanPepRobMod$coef))] |> 
+    substr(18,18) |> as.factor()
+  )
 
-sumRlmPlot <- sumPlot + geom_hline(
+sumRlmPlot <- sumPlot + 
+  geom_hline(
     data=sumMeanPepRob,
     mapping=aes(yintercept=intensity,color=condition)) + 
     ggtitle("Robust")

@@ -15,13 +15,12 @@ bibliography: msqrob2.bib
 
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
-### 2.1 The CPTAC A vs B dataset
 
 The result of a quantitative analysis is a list of peptide and/or protein abundances for every protein in different samples, or abundance ratios between the samples. In this chapter we will describe a generic workflow for differential analysis of quantitative datasets with simple experimental designs.
 
-In order to extract relevant information from these massive datasets, we will use our [msqrob2](https://www.bioconductor.org/packages/release/bioc/html/msqrob2.html) software tool [@goeminne2016], [@goeminne2020] and [@sticker2020]. 
+In order to extract relevant information from these massive datasets, we will use our [msqrob2](https://www.bioconductor.org/packages/release/bioc/html/msqrob2.html) software tool [@goeminne2016], [@goeminne2020], [@sticker2020] and [@vandenbulcke2025]. 
 
-The tutorial can be done using R/Rmarkdown scripts or using the graphical user interface that is provided by the `msqrob2gui` Shiny App. 
+The tutorial can be done using R/Rmarkdown scripts or using the graphical user interface that is provided by the `QFeaturesGUI` and `msqrob2gui` Shiny Apps. 
 
 
 ### 2.2 The CPTAC A vs B dataset

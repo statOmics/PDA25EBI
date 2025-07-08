@@ -54,6 +54,7 @@ We generate the object peptideRawFile with the path to the peptideRaws.txt file.
 Using the `grepEcols` function, we find the columns that contain the expression
 data of the peptideRaws in the peptideRaws.txt file.
 
+1. Load libraries 
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -61,19 +62,36 @@ library(limma)
 library(QFeatures)
 library(msqrob2)
 library(plotly)
+library(data.table)
+library(pcaMethods)
+```
 
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/SGA2020/data/quantification/cptacAvsB_lab3/peptides.txt"
+2. We use a peptides.txt file from MS-data quantified with maxquant that 
+contains MS1 intensities summarized at the peptide level. 
 
-ecols <- grep(
-  "Intensity\\.", 
-  names(read.delim(peptidesFile))
-  )
+```{r}
+peptidesTable <- fread("https://raw.githubusercontent.com/statOmics/SGA2020/data/quantification/cptacAvsB_lab3/peptides.txt")
+int64 <- which(sapply(peptidesTable,class) == "integer64")
+for (j in int64) peptidesTable[[j]] <- as.numeric(peptidesTable[[j]])      
+```
 
+3. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
+
+```{r}
+quantCols <- grep("Intensity ", names(peptidesTable))
+```
+
+4. Read the data and store it in  QFeatures object, the first column of the peptides file contains the peptide sequence, which is a unique identifier for the peptide. We will use this column as the rownames of the assay data `fnames = 1`. 
+
+```{r}
 pe <- readQFeatures(
-  table = peptidesFile,
+  assayData = peptidesTable,
   fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+  quantCols =  quantCols,
+  name = "peptideRaw")
+rm(peptidesTable)
+gc()
+gc()
 
 colnames(pe)
 ```
@@ -84,18 +102,11 @@ In the following code chunk, we can extract the spikein condition from the raw f
 cond <- which(
   strsplit(colnames(pe)[[1]][1], split = "")[[1]] == "A") # find where condition is stored
 
-colData(pe)$condition <- substr(colnames(pe), cond, cond) %>%
-  unlist %>%  
-  as.factor
+colData(pe)$condition <- substr(colnames(pe), cond, cond) |>
+  unlist() |>  
+  as.factor()
 ```
 
-
-We calculate how many non zero intensities we have per peptide and this
-will be useful for filtering.
-
-```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
-```
 
 
 Peptides with zero intensities are missing peptides and should be represent
@@ -131,11 +142,12 @@ pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 
 1. Handling overlapping protein groups
 
-In our approach a peptide can map to multiple proteins, as long as there is
-none of these proteins present in a smaller subgroup.
+We remove peptides that could not be mapped to a protein or that map to multiple proteins (the protein identifier contains multiple identifiers separated by a `;`).
 
 ```{r}
-pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
+pe <- filterFeatures(
+    pe, ~ Proteins != "" & ## Remove failed protein inference
+        !grepl(";", Proteins)) ## Remove protein groups
 ```
 
 2. Remove reverse sequences (decoys) and contaminants
@@ -147,12 +159,15 @@ pe <- filterFeatures(pe,~Reverse != "+")
 pe <- filterFeatures(pe,~ Potential.contaminant != "+")
 ```
 
-3. Drop peptides that were only identified in one sample
+3. Drop peptides that were identified in less than three sample. 
 
-We keep peptides that were observed at last twice.
+We tolerate the following proportion of NAs: pNA = (n-3)/n. 
 
 ```{r}
-pe <- filterFeatures(pe,~ nNonZero >=2)
+nObs <- 3
+n <- ncol(pe[["peptideLog"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "peptideLog")
 nrow(pe[["peptideLog"]])
 ```
 
@@ -180,28 +195,54 @@ pe <- normalize(pe,
 Upon the normalisation the density curves are nicely registered
 
 ```{r}
-pe[["peptideNorm"]] %>% 
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>% 
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
+pe[["peptideNorm"]] |>
+  assay() |>
+  as.data.frame() |>
+  gather(sample, intensity) |> 
+  mutate(condition = colData(pe)[sample,"condition"]) |>
   ggplot(aes(x = intensity,group = sample,color = condition)) + 
-    geom_density()
+  geom_density() +
+  theme_minimal()
 ```
 
-We can visualize our data using a Multi Dimensional Scaling plot,
-eg. as provided by the `limma` package.
+We can visualize our data using a PCA plot
+eg. as provided by Nipals from the  `pcaMethods` package, that can handle missing data.
 
 ```{r}
-pe[["peptideNorm"]] %>% 
-  assay %>%
-  limma::plotMDS(col = as.numeric(colData(pe)$condition))
+plotPCA <- function (pe, assayName, varName=NULL) 
+{
+    require(pcaMethods)
+    if (!is.null(varName)) varName <- as.character(varName)
+    #extract assayData and transpose 
+    dat <- pe[[assayName]] |> 
+      assay() |> 
+      t()
+    # Replace NaN values to NA (often occur upon median summarisation)
+    dat[is.nan(dat)] <- NA
+    # Run Nipals
+    pc <- pca(dat, method = "nipals")
+    # Make data frame for plotting
+    df <- merge(scores(pc), colData(pe), by = 0)
+    if (!is.null(varName)) return(
+      ggplot(df, aes(PC1, PC2, col = !!sym(varName))) +
+      geom_point() + 
+      xlab(paste0("PC1 (", round(pc@R2[1] * 100, 1), "%)")) + 
+      ylab(paste0("PC2 (", round(pc@R2[2] * 100, 1), "%)")) +
+      theme_minimal()
+    ) else return(
+      ggplot(df, aes(PC1, PC2)) +
+      geom_point() + 
+      xlab(paste0("PC1 (", round(pc@R2[1] * 100, 1), "%)")) + 
+      ylab(paste0("PC2 (", round(pc@R2[2] * 100, 1), "%)")) +
+      theme_minimal()
+    )
+}
+plotPCA(pe, "peptideNorm", "condition")
 ```
 
-The first axis in the plot is showing the leading log fold changes
-(differences on the log scale) between the samples.
+The first axis in the plot is showing the leading variability (log fold changes, differences on a log scale) between the samples.
 
-We notice that the leading differences (log FC)
+We notice that the leading differences 
 in the peptide data seems to be driven by technical variability.
 Indeed, the samples do not seem to be clearly separated according
 to the spike-in condition.
@@ -219,12 +260,23 @@ pe <- aggregateFeatures(pe,
   name = "protein")
 ```
 
+## Filter proteins that contain many missing values 
+
+We want to have at least 4 observed proteins so that most proteins have at least 2 observations in each group.  
+So we tolerate a proportion of (n-4)/n NAs. 
 
 
 ```{r}
-plotMDS(assay(pe[["protein"]]), col = as.numeric(colData(pe)$condition))
+nObs <- 4
+n <- ncol(pe[["protein"]])
+pNA <- (n-nObs)/n
+pe <- filterNA(pe, pNA = pNA, i = "protein")
 ```
 
+
+```{r}
+plotPCA(pe, "protein", "condition")
+```
 Note that the samples upon robust summarisation show a clear separation according to the spike-in condition in the second dimension of the MDS plot.
 
 # Data Analysis
@@ -349,7 +401,7 @@ We first extract the normalized peptideRaw expression values for a particular pr
 for (protName in sigNames)
 {
 pePlot <- pe[protName, , c("peptideNorm","protein")]
-pePlotDf <- data.frame(longFormat(pePlot))
+pePlotDf <- data.frame(longForm(pePlot))
 pePlotDf$assay <- factor(pePlotDf$assay,
                         levels = c("peptideNorm", "protein"))
 pePlotDf$condition <- as.factor(colData(pePlot)[pePlotDf$colname, "condition"])

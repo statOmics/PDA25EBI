@@ -1,7 +1,7 @@
-name : "PDA24EBI"
-title : "Proteomics Data Analysis 24 for EBI (PDA24EBI)"
+name : "PDA25EBI"
+title : "Proteomics Data Analysis 25 for EBI (PDA25EBI)"
 navbar:
-  title: "PDA24EBI"
+  title: "PDA25EBI"
   left:
     - icon: fa-home
       href: index.html
@@ -18,16 +18,20 @@ navbar:
       icon: fa-laptop
       menu:
       - text: Quantification - Preprocessing
-        href: cptac_robust_gui.html
+        href: pda_tutorialPreprocessing.html
       - text: Quantification - Design
-        href: msqrob2guiTutorial.html
+        href: pda_tutorialDesign.html
   right:
-    - icon: fab fa-github      
-      href: https://github.com/statOmics/PDA24EBI
+    - icon: fab fa-github
+      href: https://github.com/statOmics/PDA25EBI
     - text: "statOmics"
       href: http://statomics.github.io/
+
+output_dir: "docs"
+
 output:
-  html_document:
+  bookdown::html_document2:
+
       code_download: true
       df_print: paged
       theme: flatly
@@ -40,4 +44,4 @@ output:
         after_body: footer.html
       css: style.css
 new_session: true
-exclude: ["renv.lock", "update_install_R.R", "install.R"]
+exclude: ["rmdToQmd.sh"]
