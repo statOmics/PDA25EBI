@@ -35,7 +35,7 @@ concentration.
   (Study 6)
 
 - The MaxQuant data can be downloaded [zip file with 
-  data](https://github.com/statOmics/hupo21/archive/refs/heads/data.zip).
+  data](https://github.com/statOmics/PDA25EBI/archive/refs/heads/data.zip).
   The peptides.txt file can be found in 
   `data/quantification/cptacAvsB_lab3`.
 

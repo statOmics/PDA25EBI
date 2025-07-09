@@ -622,12 +622,12 @@ with the intensity data with the code below:</li>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">rm</span>(peptidesTable)</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8795485 469.8   15504024 828.1         NA 15504024 828.1
-## Vcells 34574466 263.8   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8795476 469.8   15504024 828.1         NA 15504024 828.1
+## Vcells 34574455 263.8   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8795334 469.8   15504024 828.1         NA 15504024 828.1
-## Vcells 34567828 263.8   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8795328 469.8   15504024 828.1         NA 15504024 828.1
+## Vcells 34567822 263.8   81347764 620.7      16384 81347764 620.7</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Update data with information on design</li>
 </ol>
@@ -1755,12 +1755,12 @@ Click to see code
 <span id="cb65-19"><a href="#cb65-19" tabindex="-1"></a><span class="fu">rm</span>(peptidesTable)</span>
 <span id="cb65-20"><a href="#cb65-20" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8800234 470.0   15504024 828.1         NA 15504024 828.1
-## Vcells 45274003 345.5   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8800228 470.0   15504024 828.1         NA 15504024 828.1
+## Vcells 45273997 345.5   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8800228 470.0   15504024 828.1         NA 15504024 828.1
-## Vcells 45271872 345.4   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8800222 470.0   15504024 828.1         NA 15504024 828.1
+## Vcells 45271866 345.4   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a>quantCols2 <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Intensity &quot;</span>, <span class="fu">names</span>(peptidesTable2))</span>
 <span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a>pe2 <span class="ot">&lt;-</span> <span class="fu">readQFeatures</span>(</span>
 <span id="cb69-3"><a href="#cb69-3" tabindex="-1"></a>  <span class="at">assayData =</span> peptidesTable2,</span>
@@ -1770,12 +1770,12 @@ Click to see code
 <span id="cb69-7"><a href="#cb69-7" tabindex="-1"></a><span class="fu">rm</span>(peptidesTable2)</span>
 <span id="cb69-8"><a href="#cb69-8" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8712110 465.3   15504024 828.1         NA 15504024 828.1
-## Vcells 38667053 295.1   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8712104 465.3   15504024 828.1         NA 15504024 828.1
+## Vcells 38667047 295.1   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8712109 465.3   15504024 828.1         NA 15504024 828.1
-## Vcells 38662770 295.0   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8712103 465.3   15504024 828.1         NA 15504024 828.1
+## Vcells 38662764 295.0   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a>quantCols3 <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Intensity &quot;</span>, <span class="fu">names</span>(peptidesTable3))</span>
 <span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a>pe3 <span class="ot">&lt;-</span> <span class="fu">readQFeatures</span>(</span>
 <span id="cb73-3"><a href="#cb73-3" tabindex="-1"></a>  <span class="at">assayData =</span> peptidesTable3,</span>
@@ -1785,12 +1785,12 @@ Click to see code
 <span id="cb73-7"><a href="#cb73-7" tabindex="-1"></a><span class="fu">rm</span>(peptidesTable3)</span>
 <span id="cb73-8"><a href="#cb73-8" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8711698 465.3   15504024 828.1         NA 15504024 828.1
-## Vcells 29978673 228.8   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8711692 465.3   15504024 828.1         NA 15504024 828.1
+## Vcells 29978667 228.8   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8711623 465.3   15504024 828.1         NA 15504024 828.1
-## Vcells 29974115 228.7   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8711617 465.3   15504024 828.1         NA 15504024 828.1
+## Vcells 29974109 228.7   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="do">### Design</span></span>
 <span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a><span class="fu">colData</span>(pe)<span class="sc">$</span>celltype <span class="ot">&lt;-</span> <span class="fu">substr</span>(</span>
 <span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a>  <span class="fu">colnames</span>(pe[[<span class="st">&quot;peptideRaw&quot;</span>]]),</span>
@@ -2347,13 +2347,13 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="#cb1
 class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" tabindex="-1"></a><span class="fu">rm</span>(peptidesTable)</span>
 <span id="cb135-2"><a href="#cb135-2" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8796284 469.8   15504024 828.1         NA 15504024 828.1
-## Vcells 34766774 265.3   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8796278 469.8   15504024 828.1         NA 15504024 828.1
+## Vcells 34766768 265.3   81347764 620.7      16384 81347764 620.7</code></pre>
 <div class="sourceCode" id="cb137"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 <pre><code>##            used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-## Ncells  8796277 469.8   15504024 828.1         NA 15504024 828.1
-## Vcells 34766799 265.3   81347764 620.7      16384 81347764 620.7</code></pre>
+## Ncells  8796271 469.8   15504024 828.1         NA 15504024 828.1
+## Vcells 34766793 265.3   81347764 620.7      16384 81347764 620.7</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Update data with information on design</li>
 </ol>
