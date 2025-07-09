@@ -1,0 +1,7 @@
+run	quantCols	treatment
+A7	Intensity 6A_7	A
+A8	Intensity 6A_8	A
+A9	Intensity 6A_9	A
+B7	Intensity 6B_7	B
+B8	Intensity 6B_8	B
+B9	Intensity 6B_9	B

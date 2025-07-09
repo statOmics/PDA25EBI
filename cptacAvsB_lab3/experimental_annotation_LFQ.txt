@@ -1,0 +1,7 @@
+run	quantCols	treatment
+A7	LFQ intensity 6A_7	A
+A8	LFQ intensity 6A_8	A
+A9	LFQ intensity 6A_9	A
+B7	LFQ intensity 6B_7	B
+B8	LFQ intensity 6B_8	B
+B9	LFQ intensity 6B_9	B

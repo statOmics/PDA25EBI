@@ -1,0 +1,13 @@
+﻿quantCols;location;tissue;patient
+Intensity LA3;L;A;p3
+Intensity LA4;L;A;p4
+Intensity LA8;L;A;p8
+Intensity LV3;L;V;p3
+Intensity LV4;L;V;p4
+Intensity LV8;L;V;p8
+Intensity RA3;R;A;p3
+Intensity RA4;R;A;p4
+Intensity RA8;R;A;p8
+Intensity RV3;R;V;p3
+Intensity RV4;R;V;p4
+Intensity RV8;R;V;p8

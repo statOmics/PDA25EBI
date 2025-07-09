@@ -1,0 +1,9 @@
+﻿quantCols;celltype;mouse
+Intensity Tconv M12_2;Tconv;m1
+Intensity Tconv M12_3;Tconv;m2
+Intensity Tconv M5_inj1;Tconv;m3
+Intensity Tconv M6_inj1;Tconv;m4
+Intensity Treg M12_2;Treg;m1
+Intensity Treg M12_3;Treg;m2
+Intensity Treg M5_inj1;Treg;m3
+Intensity Treg M6_inj1;Treg;m4
