@@ -34,6 +34,8 @@ frameborder="0"
 style="display: block; margin: auto;"
 allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
+(Disclaimer: Note, that the results in the video were based on a less stringent filtering, which resulted in even fewer proteins to be returned as significant for median summarisation. We changed the filtering criteria from 2025 onwards a peptide has to be seen at least 3 times and we now also perform filtering upon summarisation: by filtering out proteins with more than 2 out of 6 protein expression values that went missing) 
+
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(limma)
