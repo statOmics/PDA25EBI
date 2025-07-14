@@ -14,6 +14,7 @@
 
 <title>Introduction to proteomics data analysis</title>
 
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,16 +30,11 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -49,125 +45,20 @@
   ul.task-list{list-style: none;}
     </style>
 
-
-
-<style type="text/css">
-  code {
-    white-space: pre;
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
   }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  background-color: #f8f8f8; }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #204a87; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #8f5902; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.dt { color: #204a87; } /* DataType */
-code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #204a87; font-weight: bold; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-
-.sourceCode .row {
-  width: 100%;
-}
-.sourceCode {
-  overflow-x: auto;
-}
-.code-folding-btn {
-  margin-right: -30px;
-}
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
 </script>
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
+
+
 
 <style type="text/css">
 /* for pandoc --citeproc since 2.11 */
@@ -193,7 +84,6 @@ div.csl-indent {
 }
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
 
 
 
@@ -352,73 +242,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -428,16 +252,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -515,63 +329,58 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-<li role="separator" class="divider"></li>
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Introduction to proteomics data analysis</h1>
+<h1 class="title toc-ignore">Introduction to proteomics data
+analysis</h1>
 <h3 class="subtitle">Impact of summarisation</h3>
 <h4 class="author">Lieven Clement</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div id="the-cptac-a-vs-b-dataset" class="section level2" number="1">
-<h2><span class="header-section-number">1</span> The CPTAC A vs B dataset</h2>
+<div id="the-cptac-a-vs-b-dataset" class="section level2">
+<h2>The CPTAC A vs B dataset</h2>
 <p>Our first case-study is a subset of the data of the 6th study of the
 Clinical Proteomic Technology Assessment for Cancer (CPTAC). In this
 experiment, the authors spiked the Sigma Universal Protein Standard
 mixture 1 (UPS1) containing 48 different human proteins in a protein
 background of 60 ng/μL Saccharomyces cerevisiae strain BY4741 (MATa,
-leu2Δ0, met15Δ0, ura3Δ0, his3Δ1). Two different spike-in
-concentrations were used: 6A (0.25 fmol UPS1 proteins/μL) and 6B (0.74
-fmol UPS1 proteins/μL) [5]. We limited ourselves to the data of
-LTQ-Orbitrap W at site 56. The data were searched with MaxQuant
-version 1.5.2.8, and detailed search settings were described in
-<span class="citation">(Goeminne, Gevaert, and Clement 2016)</span>. Three replicates are available for each
-concentration.</p>
+leu2Δ0, met15Δ0, ura3Δ0, his3Δ1). Two different spike-in concentrations
+were used: 6A (0.25 fmol UPS1 proteins/μL) and 6B (0.74 fmol UPS1
+proteins/μL) [5]. We limited ourselves to the data of LTQ-Orbitrap W at
+site 56. The data were searched with MaxQuant version 1.5.2.8, and
+detailed search settings were described in <span
+class="citation">(Goeminne, Gevaert, and Clement 2016)</span>. Three
+replicates are available for each concentration.</p>
 <ul>
-<li><p>The raw data files can be downloaded from
-<a href="https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I" class="uri">https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I</a>
+<li><p>The raw data files can be downloaded from <a
+href="https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I"
+class="uri">https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I</a>
 (Study 6)</p></li>
-<li><p>The MaxQuant data can be downloaded <a href="https://github.com/statOmics/PDA25EBI/archive/refs/heads/data.zip">zip file with
-data</a>.
-The peptides.txt file can be found in
+<li><p>The MaxQuant data can be downloaded <a
+href="https://github.com/statOmics/PDA25EBI/archive/refs/heads/data.zip">zip
+file with data</a>. The peptides.txt file can be found in
 <code>data/quantification/cptacAvsB_lab3</code>.</p></li>
 </ul>
 </div>
-<div id="installation-instructions-and-setup" class="section level2" number="2">
-<h2><span class="header-section-number">2</span> Installation instructions and setup</h2>
+<div id="installation-instructions-and-setup" class="section level2">
+<h2>Installation instructions and setup</h2>
 <p>You can find the installation instructions for all required software
-to run this exercise in <a href="./software.html">software</a>. This will
-install:</p>
+to run this exercise in <a href="./software.html">software</a>. This
+will install:</p>
 <ul>
 <li>R and RStudio</li>
-<li><code>QFeatures</code> to read and process mass spectrometry (MS) quantitative
-data</li>
-<li><code>QFeaturesGUI</code> the graphical user interface (GUI) to QFeatures</li>
-<li><code>msqrob2</code> to perform robust statistical inference for quantitative MS
-proteomics</li>
+<li><code>QFeatures</code> to read and process mass spectrometry (MS)
+quantitative data</li>
+<li><code>QFeaturesGUI</code> the graphical user interface (GUI) to
+QFeatures</li>
+<li><code>msqrob2</code> to perform robust statistical inference for
+quantitative MS proteomics</li>
 <li><code>msqrob2gui</code> the GUI to msqrob2</li>
 </ul>
 <p>Upon installation</p>
@@ -583,49 +392,55 @@ proteomics</li>
 <div class="figcaption">Figure 1. RStudio</div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>Copy and paste following commands in the console window and type enter</li>
+<li>Copy and paste following commands in the console window and type
+enter</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(QFeaturesGUI)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(msqrob2gui)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">options</span>(<span class="at">shiny.maxRequestSize =</span> <span class="dv">500</span> <span class="sc">*</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<pre class="r"><code>library(QFeaturesGUI)
+library(msqrob2gui)
+options(shiny.maxRequestSize = 500 * 1024^2)</code></pre>
 <ul>
-<li>The first line will load the <code>QFeaturesGUI</code> package and its
-dependencies (including <code>QFeatures</code>)</li>
-<li>The second line will load the <code>msqrob2gui</code> package and its
-dependencies (including <code>msqrob2</code>)</li>
+<li>The first line will load the <code>QFeaturesGUI</code> package and
+its dependencies (including <code>QFeatures</code>)</li>
+<li>The second line will load the <code>msqrob2gui</code> package and
+its dependencies (including <code>msqrob2</code>)</li>
 <li>The last line will increase the available the maximal RAM usage by
 the application to 500 MB.</li>
 </ul>
 <div class="float">
-<img src="figures/rstudio2.png" alt="Figure 2. Rstudio with the package loading commands" />
-<div class="figcaption">Figure 2. Rstudio with the package loading commands</div>
+<img src="figures/rstudio2.png"
+alt="Figure 2. Rstudio with the package loading commands" />
+<div class="figcaption">Figure 2. Rstudio with the package loading
+commands</div>
 </div>
 </div>
-<div id="data-preprocessing" class="section level2" number="3">
-<h2><span class="header-section-number">3</span> Data preprocessing</h2>
+<div id="data-preprocessing" class="section level2">
+<h2>Data preprocessing</h2>
 <p>Before analysing the data, we must perform data preprocessing. The
 will ensure the data meet our model assumptions. Data import and
-preprocessing is performed by the <code>QFeaturesGUI</code> application.</p>
-<div id="open-qfeaturesgui" class="section level3" number="3.1">
-<h3><span class="header-section-number">3.1</span> Open <code>QFeaturesGUI</code></h3>
+preprocessing is performed by the <code>QFeaturesGUI</code>
+application.</p>
+<div id="open-qfeaturesgui" class="section level3">
+<h3>Open <code>QFeaturesGUI</code></h3>
 <p>Run the following command (like above):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>QFeaturesGUI<span class="sc">::</span><span class="fu">importQFeatures</span>()</span></code></pre></div>
+<pre class="r"><code>QFeaturesGUI::importQFeatures()</code></pre>
 <p>A new window will open with the shinyApp</p>
 <div class="float">
-<img src="figures/qfeaturesgui_fresh.png" alt="Figure 3. QFeaturesGUI ShinyApp" />
+<img src="figures/qfeaturesgui_fresh.png"
+alt="Figure 3. QFeaturesGUI ShinyApp" />
 <div class="figcaption">Figure 3. QFeaturesGUI ShinyApp</div>
 </div>
 <p>It is advicable to open the shiny app in a webbrowser. You can do
-that by clicking on the button <code>Open in Browser</code>, which you can find
-above the blue navigation bar and the shinyApp will pop up in a new
-browser tab/window.</p>
+that by clicking on the button <code>Open in Browser</code>, which you
+can find above the blue navigation bar and the shinyApp will pop up in a
+new browser tab/window.</p>
 <div class="float">
-<img src="figures/QFeaturesGUI.png" alt="Figure 4. QFeaturesGUI in browser tab" />
+<img src="figures/QFeaturesGUI.png"
+alt="Figure 4. QFeaturesGUI in browser tab" />
 <div class="figcaption">Figure 4. QFeaturesGUI in browser tab</div>
 </div>
 </div>
-<div id="import-the-data" class="section level3" number="3.2">
-<h3><span class="header-section-number">3.2</span> Import the data</h3>
+<div id="import-the-data" class="section level3">
+<h3>Import the data</h3>
 <p>Our MS-based proteomics data analysis workflows always start with 2
 pieces of data:</p>
 <ol style="list-style-type: decimal">
@@ -636,72 +451,81 @@ identified and quantified peptide data by MaxQuant, called
 corresponds to a sample and each column provides a sample
 annotation.</li>
 </ol>
-<p>The first step is to upload the <code>peptides.txt</code> file. This is the file
-that contains your peptide-level intensities. Note that the
-intensities measured in each sample are stored in a separate column
-and each row represents a peptide. This means that MaxQuant already
+<p>The first step is to upload the <code>peptides.txt</code> file. This
+is the file that contains your peptide-level intensities. Note that the
+intensities measured in each sample are stored in a separate column and
+each row represents a peptide. This means that MaxQuant already
 performed aggregation of PSM-level data into peptide-level data. For
-more control on PSM-level quality control and data aggregation, our
-data analysis workflows can also start from the <code>evidence.txt</code> files
-which contain PSM-level information, but will not be covered in this
-tutorial. For a MaxQuant search, the <code>peptides.txt</code> file can be found
-by default in the <code>path_to_raw_files/combined/txt/</code> folder from the
-MaxQuant output, with <code>path_to_raw_files</code> the folder where raw files
-were saved. To upload the <code>peptide.txt</code> file, click on the “Browse…”
-button under the “assayData” tile title. You don’t need to adapt the
-default parameters, you can click the “Import” button right away. A
-preview of the table will appear and will let you quickly check the
-data.</p>
+more control on PSM-level quality control and data aggregation, our data
+analysis workflows can also start from the <code>evidence.txt</code>
+files which contain PSM-level information, but will not be covered in
+this tutorial. For a MaxQuant search, the <code>peptides.txt</code> file
+can be found by default in the
+<code>path_to_raw_files/combined/txt/</code> folder from the MaxQuant
+output, with <code>path_to_raw_files</code> the folder where raw files
+were saved. To upload the <code>peptide.txt</code> file, click on the
+“Browse…” button under the “assayData” tile title. You don’t need to
+adapt the default parameters, you can click the “Import” button right
+away. A preview of the table will appear and will let you quickly check
+the data.</p>
 <div class="float">
-<img src="figures/peptides_imported.png" alt="Figure 5. The peptide data have been succesfully uploaded" />
-<div class="figcaption">Figure 5. The peptide data have been succesfully uploaded</div>
+<img src="figures/peptides_imported.png"
+alt="Figure 5. The peptide data have been succesfully uploaded" />
+<div class="figcaption">Figure 5. The peptide data have been succesfully
+uploaded</div>
 </div>
 <p>You can see that MaxQuant generated a table with 11,466 lines,
 corresponding to 11,466 peptides. For each peptide, MaxQuant generated
 71 columns containing various pieces of information, like the peptide
 sequence, the protein groups the peptide matches to, the charge states
-found,… Among these columns, there is also a set of columns
-containing the quantified MS intensities for each sample (i.e. columns
-named <code>Intensity XXX</code>). These will later be flagged as quantitative
+found,… Among these columns, there is also a set of columns containing
+the quantified MS intensities for each sample (i.e. columns named
+<code>Intensity XXX</code>). These will later be flagged as quantitative
 information.</p>
-<p>Similarly, we need to upload the experimental annotation file which is
-called <code>experimental_annotation.txt</code>. We here provide the table as a
-<code>.txt</code>, but you can store your table in many common formats, such as
-<code>.csv</code> or <code>.tsv</code>. Note Excel allows you to store spreadsheets in such
-formats. To upload the <code>experimental_annotation.txt</code> file, click on
-the “Browse…” button under the “colData” tile title. You don’t need
-to adapt the default parameters, you can click the “Import” button
-right away. A preview of the table will appear and will let you
-quickly check the data. Note that uploading the annotation file is
-optional for data preprocessing, but you won’t be able to perform data
-modelling in the next section.</p>
+<p>Similarly, we need to upload the experimental annotation file which
+is called <code>experimental_annotation.txt</code>. We here provide the
+table as a <code>.txt</code>, but you can store your table in many
+common formats, such as <code>.csv</code> or <code>.tsv</code>. Note
+Excel allows you to store spreadsheets in such formats. To upload the
+<code>experimental_annotation.txt</code> file, click on the “Browse…”
+button under the “colData” tile title. You don’t need to adapt the
+default parameters, you can click the “Import” button right away. A
+preview of the table will appear and will let you quickly check the
+data. Note that uploading the annotation file is optional for data
+preprocessing, but you won’t be able to perform data modelling in the
+next section.</p>
 <div class="float">
-<img src="figures/annotations_imported.png" alt="Figure 6. The sample annotations have been succesfully uploaded" />
-<div class="figcaption">Figure 6. The sample annotations have been succesfully uploaded</div>
+<img src="figures/annotations_imported.png"
+alt="Figure 6. The sample annotations have been succesfully uploaded" />
+<div class="figcaption">Figure 6. The sample annotations have been
+succesfully uploaded</div>
 </div>
 <p>For the CPTAC dataset analysed with MaxQuant, the first column equals
 the names given in MaxQuant’s “Experiment” column. The second column
 contains the names of the quantitative columns in the table above; it
-should always be named <code>quantCols</code> as it will allow the software to
-correctly link the two tables. The last column is related to the study
-design; here the treatment provides the spike-in condition.</p>
-<p>You are now ready to link the two tables into a <code>QFeatures</code> object,
-which is the internal representation of the data we will use for the
-rest of the workflow. Scroll up to the “QFeatures Converter” tile. You
-can leave all the default setting and click on the green button
-“Convert to a QFeatures object”.</p>
+should always be named <code>quantCols</code> as it will allow the
+software to correctly link the two tables. The last column is related to
+the study design; here the treatment provides the spike-in
+condition.</p>
+<p>You are now ready to link the two tables into a
+<code>QFeatures</code> object, which is the internal representation of
+the data we will use for the rest of the workflow. Scroll up to the
+“QFeatures Converter” tile. You can leave all the default setting and
+click on the green button “Convert to a QFeatures object”.</p>
 <p>After uploading your files, a preview of the data appears (feel free
 to click on the table row). The window should look as follows:</p>
 <div class="float">
-<img src="figures/qfeatures_imported.png" alt="Figure 7. The QFeatures object is successfully converted" />
-<div class="figcaption">Figure 7. The QFeatures object is successfully converted</div>
+<img src="figures/qfeatures_imported.png"
+alt="Figure 7. The QFeatures object is successfully converted" />
+<div class="figcaption">Figure 7. The QFeatures object is successfully
+converted</div>
 </div>
 </div>
-<div id="configuring-the-preprocessing-worflow" class="section level3" number="3.3">
-<h3><span class="header-section-number">3.3</span> Configuring the preprocessing worflow</h3>
+<div id="configuring-the-preprocessing-worflow" class="section level3">
+<h3>Configuring the preprocessing worflow</h3>
 <p>Move to the next table by clicking on “Pre-Processing Configuration”
-in the menu to the left. Click on the green button “+” to add a step.
-In this tutorial, you will need to add 7 steps in total. You should
+in the menu to the left. Click on the green button “+” to add a step. In
+this tutorial, you will need to add 7 steps in total. You should
 parameterise them as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Log Transformation</li>
@@ -714,48 +538,52 @@ parameterise them as follows:</p>
 </ol>
 <p>Once done, your screen should look as follows:</p>
 <div class="float">
-<img src="figures/preprocessing_configuration.png" alt="Figure 8. The preprocessing workflow upon configuration" />
-<div class="figcaption">Figure 8. The preprocessing workflow upon configuration</div>
+<img src="figures/preprocessing_configuration.png"
+alt="Figure 8. The preprocessing workflow upon configuration" />
+<div class="figcaption">Figure 8. The preprocessing workflow upon
+configuration</div>
 </div>
 <p>You can now click the “Confirm Current Workflow” button. On the left
-menu, you will see that the 3rd entry now mentions “3 Pre-processing
-(7 Steps)”. We will now configure and run each of these steps.</p>
+menu, you will see that the 3rd entry now mentions “3 Pre-processing (7
+Steps)”. We will now configure and run each of these steps.</p>
 </div>
-<div id="step-1-log-transformation" class="section level3" number="3.4">
-<h3><span class="header-section-number">3.4</span> Step 1: Log transformation</h3>
+<div id="step-1-log-transformation" class="section level3">
+<h3>Step 1: Log transformation</h3>
 <p>For every step, you always need to load the data from the previous
-step (in this case the data importation). Click on the “Load assays
-from previous step” button. Once loaded, the data is automatically
+step (in this case the data importation). Click on the “Load assays from
+previous step” button. Once loaded, the data is automatically
 log2-transformed by default. You should not change the defaults. You
 will see that the intensity distribution within each sample is
 automatically pictured, and you can play with the plot setting (bottom
 right) as you wish. Your screen should be similar to this:</p>
 <div class="float">
-<img src="figures/step1.png" alt="Figure 9. Step1: Log transformation" />
+<img src="figures/step1.png"
+alt="Figure 9. Step1: Log transformation" />
 <div class="figcaption">Figure 9. Step1: Log transformation</div>
 </div>
 <p>Once you are done, click the “Save the processed data” button. This
-will store the changes and make the data available for the next step.
-If you forget to click this button, loading the next step will lead to
-an error.</p>
+will store the changes and make the data available for the next step. If
+you forget to click this button, loading the next step will lead to an
+error.</p>
 </div>
-<div id="step-2-add-annotations" class="section level3" number="3.5">
-<h3><span class="header-section-number">3.5</span> Step 2: add annotations</h3>
-<p>In Step 3, we will filter out features based on then number of missing
-values. This information is not yet available in our data for
+<div id="step-2-add-annotations" class="section level3">
+<h3>Step 2: add annotations</h3>
+<p>In Step 3, we will filter out features based on then number of
+missing values. This information is not yet available in our data for
 filtering, so we will add this information as a feature annotation.</p>
 <ol style="list-style-type: decimal">
 <li>Move to Step 2 in the left menu.</li>
 <li>Click the button to load the previous step.</li>
-<li>Scroll at the bottom an tick the “Add missing values numbers” box</li>
+<li>Scroll at the bottom an tick the “Add missing values numbers”
+box</li>
 <li>Click “perform annotation”. You should see a preview of the feature
-annotations. You can check that the last column is “nNA” which
-provides the number of missing values.</li>
+annotations. You can check that the last column is “nNA” which provides
+the number of missing values.</li>
 <li>Click the button to save the processed data.</li>
 </ol>
 </div>
-<div id="step-3-peptide-filtering" class="section level3" number="3.6">
-<h3><span class="header-section-number">3.6</span> Step 3: peptide filtering</h3>
+<div id="step-3-peptide-filtering" class="section level3">
+<h3>Step 3: peptide filtering</h3>
 <p>In this step, we will actually remove undesirable peptides. We will
 use the following criteria:</p>
 <ul>
@@ -770,21 +598,27 @@ use the following criteria:</p>
 <li>Click the button to load the previous step.</li>
 <li>Click 4x the blue “Add Box” button to add 4 filtering boxes.</li>
 <li>Fill in the boxes as shown in the figure below.</li>
-<li>In the “Filtering Summary” tile, click the “Apply Filters” button.</li>
+<li>In the “Filtering Summary” tile, click the “Apply Filters”
+button.</li>
 <li>Click the button to save the processed data.</li>
 </ol>
 <div class="float">
-<img src="figures/step3.png" alt="Figure 10. Step3: Feature filtering. Note the PCA plots are collapsed for better overview of the boxes." />
-<div class="figcaption">Figure 10. Step3: Feature filtering. Note the PCA plots are collapsed for better overview of the boxes.</div>
+<img src="figures/step3.png"
+alt="Figure 10. Step3: Feature filtering. Note the PCA plots are collapsed for better overview of the boxes." />
+<div class="figcaption">Figure 10. Step3: Feature filtering. Note the
+PCA plots are collapsed for better overview of the boxes.</div>
 </div>
 </div>
-<div id="step-4-normalisation" class="section level3" number="3.7">
-<h3><span class="header-section-number">3.7</span> Step 4: Normalisation</h3>
+<div id="step-4-normalisation" class="section level3">
+<h3>Step 4: Normalisation</h3>
 <p>We normalise the data by substracting the sample median from every
-intensity for peptide <span class="math inline">\(p\)</span> in a sample <span class="math inline">\(i\)</span>:</p>
-<p><span class="math display">\[y_{ip}^\text{norm} = y_{ip} - \hat{\mu_i}\]</span></p>
-<p>with <span class="math inline">\(\hat\mu_i\)</span> the median intensity over all observed peptides in
-sample <span class="math inline">\(i\)</span>.</p>
+intensity for peptide <span class="math inline">\(p\)</span> in a sample
+<span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[y_{ip}^\text{norm} = y_{ip} -
+\hat{\mu_i}\]</span></p>
+<p>with <span class="math inline">\(\hat\mu_i\)</span> the median
+intensity over all observed peptides in sample <span
+class="math inline">\(i\)</span>.</p>
 <ol style="list-style-type: decimal">
 <li>Move to Step 4 in the left menu.</li>
 <li>Click the button to load the previous step.</li>
@@ -792,27 +626,27 @@ sample <span class="math inline">\(i\)</span>.</p>
 click the button to save the processed data.</li>
 </ol>
 </div>
-<div id="step-5-summarisation" class="section level3" number="3.8">
-<h3><span class="header-section-number">3.8</span> Step 5: Summarisation</h3>
+<div id="step-5-summarisation" class="section level3">
+<h3>Step 5: Summarisation</h3>
 <p>In this step, the peptide intensities will be summarised (aka
-aggregated) into protein intensities using robust summarisation. You
-can perform this as follows:</p>
+aggregated) into protein intensities using robust summarisation. You can
+perform this as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Move to Step 5 in the left menu.</li>
 <li>Click the button to load the previous step.</li>
 <li>In the settings, select “robustSummary” in the first field and
-select “Protein” as the rowData variable defining the features of
-the assay to aggregate.</li>
+select “Protein” as the rowData variable defining the features of the
+assay to aggregate.</li>
 <li>Click the button to save the processed data.</li>
 </ol>
 </div>
-<div id="step-6-add-annotations" class="section level3" number="3.9">
-<h3><span class="header-section-number">3.9</span> Step 6: add annotations</h3>
+<div id="step-6-add-annotations" class="section level3">
+<h3>Step 6: add annotations</h3>
 <p>Repeat step 2, this will allow to perform a filtering on missing, but
 at the protein-level instead of peptide-level.</p>
 </div>
-<div id="step-7-protein-filtering" class="section level3" number="3.10">
-<h3><span class="header-section-number">3.10</span> Step 7: protein filtering</h3>
+<div id="step-7-protein-filtering" class="section level3">
+<h3>Step 7: protein filtering</h3>
 <p>In this step, we will remove proteins that were identified in less
 than 4 samples. You may have guessed it by now, but you can proceed
 with:</p>
@@ -820,44 +654,48 @@ with:</p>
 <li>Move to Step 7 in the left menu.</li>
 <li>Click the button to load the previous step.</li>
 <li>Click 1x the blue “Add Box” button to add a filtering box.</li>
-<li>Fill in the boxes so that the filter becomes: <code>nNA &lt;= 2</code>.</li>
-<li>In the “Filtering Summary” tile, click the “Apply Filters” button.</li>
+<li>Fill in the boxes so that the filter becomes:
+<code>nNA &lt;= 2</code>.</li>
+<li>In the “Filtering Summary” tile, click the “Apply Filters”
+button.</li>
 <li>Click the button to save the processed data.</li>
 </ol>
 </div>
-<div id="save-your-progress" class="section level3" number="3.11">
-<h3><span class="header-section-number">3.11</span> Save your progress</h3>
+<div id="save-your-progress" class="section level3">
+<h3>Save your progress</h3>
 <p>You now have completed the data processing. You can move to the
 Summary tab (in the left menu). There you will find an overview of the
 data and the data processing steps.</p>
 <div class="float">
-<img src="figures/processing_summary.png" alt="Figure 11. Summary of the data processing." />
+<img src="figures/processing_summary.png"
+alt="Figure 11. Summary of the data processing." />
 <div class="figcaption">Figure 11. Summary of the data processing.</div>
 </div>
 <p>Go to the bottom of the page and click on the “Download QFeatures”
-button. A pop up windown will ask you to select a directory to store
-the resulting file. By default the file is called
-<code>qfeatures_object.rds</code>, but feel free to rename as you wish but you
-cannot change the file extension (<code>.rds</code>).</p>
+button. A pop up windown will ask you to select a directory to store the
+resulting file. By default the file is called
+<code>qfeatures_object.rds</code>, but feel free to rename as you wish
+but you cannot change the file extension (<code>.rds</code>).</p>
 <p>You can now close the application.</p>
 </div>
 </div>
-<div id="statistical-analysis" class="section level2" number="4">
-<h2><span class="header-section-number">4</span> Statistical analysis</h2>
-<div id="open-msqrob2gui" class="section level3" number="4.1">
-<h3><span class="header-section-number">4.1</span> Open <code>msqrob2gui</code></h3>
+<div id="statistical-analysis" class="section level2">
+<h2>Statistical analysis</h2>
+<div id="open-msqrob2gui" class="section level3">
+<h3>Open <code>msqrob2gui</code></h3>
 <p>Return to your Rstudio application and run the following command:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>msqrob2gui<span class="sc">::</span><span class="fu">launchMsqrob2App</span>()</span></code></pre></div>
+<pre class="r"><code>msqrob2gui::launchMsqrob2App()</code></pre>
 <p>A new window will open with the shinyApp for data modelling</p>
 <div class="float">
-<img src="figures/msqrob2gui_fresh.png" alt="Figure 12. msqrob2gui ShinyApp" />
+<img src="figures/msqrob2gui_fresh.png"
+alt="Figure 12. msqrob2gui ShinyApp" />
 <div class="figcaption">Figure 12. msqrob2gui ShinyApp</div>
 </div>
 </div>
-<div id="import-the-processed-data" class="section level3" number="4.2">
-<h3><span class="header-section-number">4.2</span> Import the processed data</h3>
-<p>We start the data modelling workflow with importing the data processed
-in the previous section:</p>
+<div id="import-the-processed-data" class="section level3">
+<h3>Import the processed data</h3>
+<p>We start the data modelling workflow with importing the data
+processed in the previous section:</p>
 <ol style="list-style-type: decimal">
 <li>Click on “Browser…” and fetch the file you saved with the
 <code>QFeaturesGUI</code> app.</li>
@@ -867,122 +705,137 @@ in the previous section:</p>
 <p>The application let’s you explore the data tables and provides a plot
 with the intensity distributions for each sample.</p>
 <div class="float">
-<img src="figures/msqrob2_imported.png" alt="Figure 13. msqrob2gui application upon data import." />
-<div class="figcaption">Figure 13. msqrob2gui application upon data import.</div>
+<img src="figures/msqrob2_imported.png"
+alt="Figure 13. msqrob2gui application upon data import." />
+<div class="figcaption">Figure 13. msqrob2gui application upon data
+import.</div>
 </div>
-<p>When you scroll down the page, you will find a drop down text selector
-(under the table). Change “run” into “treatment” and look at the
-principal component analysis (PCA) plot. How would you interpret this
-graph?</p>
+<p>When you scroll down the page, you will find a drop down text
+selector (under the table). Change “run” into “treatment” and look at
+the principal component analysis (PCA) plot. How would you interpret
+this graph?</p>
 <div class="float">
-<img src="figures/msqrob2_pca.png" alt="Figure 14. PCA plot of the CPTAC data set." />
+<img src="figures/msqrob2_pca.png"
+alt="Figure 14. PCA plot of the CPTAC data set." />
 <div class="figcaption">Figure 14. PCA plot of the CPTAC data set.</div>
 </div>
 <p>The PCA plot indicates that we can expect a treatment effect in the
-data as the sample belonging to one treatment can be separated from
-the samples belonging to the other treatment. We also see that this
+data as the sample belonging to one treatment can be separated from the
+samples belonging to the other treatment. We also see that this
 separation mostly occurs in the second principal componen. The first
 component, which explains most of the variation, does not seem to bear
-correlation associated with treatment. This is expected as we know
-that only a few protein were spiked in, so we do not expect an effect
-of treatment for most proteins. We will now delve into the data
-modelling and inference that will statistically quantify these effects
-for each protein individually.</p>
+correlation associated with treatment. This is expected as we know that
+only a few protein were spiked in, so we do not expect an effect of
+treatment for most proteins. We will now delve into the data modelling
+and inference that will statistically quantify these effects for each
+protein individually.</p>
 </div>
-<div id="data-modelling" class="section level3" number="4.3">
-<h3><span class="header-section-number">4.3</span> Data modelling</h3>
+<div id="data-modelling" class="section level3">
+<h3>Data modelling</h3>
 <p>You can now move to the data modelling tab by clicking “Model” in the
 menu on the left.</p>
 <p>We will model the data with a different group mean for the variable
-<code>treatment</code> with two levels: spikein treatment A and B. We can specify
-this model by inserting <code>~1+treatment</code> in the “Design formula”
-textbox. Note, that a formula always starts with a symbol ‘~’ (see the
-descriptive paragraph in the application).</p>
+<code>treatment</code> with two levels: spikein treatment A and B. We
+can specify this model by inserting <code>~1+treatment</code> in the
+“Design formula” textbox. Note, that a formula always starts with a
+symbol ‘~’ (see the descriptive paragraph in the application).</p>
 <p>Note that as soon as we do that, the design is visualised.</p>
 <div class="float">
-<img src="figures/msqrob2_model.png" alt="Figure 15. msqrob2 Model tab with design" />
+<img src="figures/msqrob2_model.png"
+alt="Figure 15. msqrob2 Model tab with design" />
 <div class="figcaption">Figure 15. msqrob2 Model tab with design</div>
 </div>
-<p>This visualisation shows the different group means that are modelled.</p>
+<p>This visualisation shows the different group means that are
+modelled.</p>
 <ul>
 <li>The group mean for the treatment A is modelled using the parameter
 <code>(Intercept)</code>.</li>
 <li>The group mean for the treatment B is modelled using a linear
-combination of the two model parameters <code>(Intercept) + treatmentB</code>.</li>
+combination of the two model parameters
+<code>(Intercept) + treatmentB</code>.</li>
 <li>The average difference in preprocessed protein expression value
 between both conditions equals <code>treatmentB</code>.</li>
 </ul>
 <p>Remember that we log-transformed the intensities:</p>
 <p><span class="math display">\[
-\log_2FC_\text{B}=\log_2 B - \log_2 A = \log_2\frac{B}{A} = \text{treatmentB}
+\log_2FC_\text{B}=\log_2 B - \log_2 A = \log_2\frac{B}{A} =
+\text{treatmentB}
 \]</span></p>
-<p>Note that a linear combination of model parameters is also referred to
-as a contrast in statistics. This contrast has the interpretation of a
-log2 fold change between condition B and condition A. Positive
-estimates denote that the abundance of the protein is on average
-higher in condition B, negative estimates denote that the abundance is
-on average higher in condition A. An estimate equal to 0 indicates
-that the estimated abundances are equal.</p>
-<p>A log2 FC = 1 indicates that the average abundance in condition B is 2
-x higher than the average abundance in condition A, i.e. an 2 fold
+<p>Note that a linear combination of model parameters is also referred
+to as a contrast in statistics. This contrast has the interpretation of
+a log2 fold change between condition B and condition A. Positive
+estimates denote that the abundance of the protein is on average higher
+in condition B, negative estimates denote that the abundance is on
+average higher in condition A. An estimate equal to 0 indicates that the
+estimated abundances are equal.</p>
+<p>A log2 FC = 1 indicates that the average abundance in condition B is
+2 x higher than the average abundance in condition A, i.e. an 2 fold
 upregulation in condition B as compared to condition A.</p>
-<p>We now have to click the <code>Fit Model!</code> button to fit the models for
-each protein. We are now ready for assessing differential abundance of
-each protein using formal hypothesis testing.</p>
+<p>We now have to click the <code>Fit Model!</code> button to fit the
+models for each protein. We are now ready for assessing differential
+abundance of each protein using formal hypothesis testing.</p>
 </div>
-<div id="inference" class="section level3" number="4.4">
-<h3><span class="header-section-number">4.4</span> Inference</h3>
+<div id="inference" class="section level3">
+<h3>Inference</h3>
 <p>Click on the “Inference” tab in the left menu.</p>
 <p>In the statistical analysis we will want to test the null hypothesis
 that</p>
-<p><span class="math display">\[ H_0: \log_2 B-\log_2 6A = 0 \]</span></p>
+<p><span class="math display">\[ H_0: \log_2 B-\log_2 6A = 0
+\]</span></p>
 <p>Against the alternative that</p>
-<p><span class="math display">\[ H_1: \log_2 B - \log_2 A \neq 0 \]</span></p>
+<p><span class="math display">\[ H_1: \log_2 B - \log_2 A \neq 0
+\]</span></p>
 <p>We can specify the null hypothesis as a linear combination of the
-model parameters, i.e. <code>treatmentB = 0</code>. We will falsify this null
-hypothesis for each protein separately based on the linear model. So,
-under the null hypothesis we reason that there is no effect of the
+model parameters, i.e. <code>treatmentB = 0</code>. We will falsify this
+null hypothesis for each protein separately based on the linear model.
+So, under the null hypothesis we reason that there is no effect of the
 spike-in treatment on the abundance of a specific protein. The p-value
 of the statistical test than indicates the probability to observe an
 effect (fold change), that is as extreme or more extreme (equally or
 more up or down regulated) than what is observed in the sample, by
 random change (when the null hypothesis is true and when there is in
 reality no effect of the treatment).</p>
-<p>To proceed, fill in the field “Null hypothesis” with <code>treatmentB = 0</code>.
-After 1-2 second, the window is updated</p>
+<p>To proceed, fill in the field “Null hypothesis” with
+<code>treatmentB = 0</code>. After 1-2 second, the window is updated</p>
 <div class="float">
-<img src="figures/msqrob2_inference.png" alt="Figure 16. msqrob2 Inference tab with contrast" />
-<div class="figcaption">Figure 16. msqrob2 Inference tab with contrast</div>
+<img src="figures/msqrob2_inference.png"
+alt="Figure 16. msqrob2 Inference tab with contrast" />
+<div class="figcaption">Figure 16. msqrob2 Inference tab with
+contrast</div>
 </div>
-<div id="volcano-plot" class="section level4" number="4.4.1">
-<h4><span class="header-section-number">4.4.1</span> Volcano plot</h4>
+<div id="volcano-plot" class="section level4">
+<h4>Volcano plot</h4>
 <p>The application now also provides a volcano plot appears giving you a
-view on statistical significance in the y-axis, i.e. the <span class="math inline">\(-\log_{10}\)</span>
-transformed p-value: a value of 1 equals to a p-value of 0.1, a value
-of 2 equals a p-value of 0.01, etc against biological relevance/the
-effect size in the x-axis, which is the <span class="math inline">\(\log_2FC\)</span>.</p>
+view on statistical significance in the y-axis, i.e. the <span
+class="math inline">\(-\log_{10}\)</span> transformed p-value: a value
+of 1 equals to a p-value of 0.1, a value of 2 equals a p-value of 0.01,
+etc against biological relevance/the effect size in the x-axis, which is
+the <span class="math inline">\(\log_2FC\)</span>.</p>
 </div>
-<div id="result-table" class="section level4" number="4.4.2">
-<h4><span class="header-section-number">4.4.2</span> Result table</h4>
+<div id="result-table" class="section level4">
+<h4>Result table</h4>
 <p>You also get a table with selected feature. By default these are all
 proteins that are significant with the specified “Significance level”
 field. You also obtain a boxplot of the log2-fold changes for all
 proteins that are selected in the table.</p>
 <p>Note that 19 proteins are recovered as significant. As expected all
 these proteins are UPS proteins which are known to be spiked in the
-samples. If you untick the option <code>only significant features in table</code>, all proteins are shown in the table.</p>
+samples. If you untick the option
+<code>only significant features in table</code>, all proteins are shown
+in the table.</p>
 <p>You can highlight proteins on the volcano plot by selecting lines of
-interest in the result table. You can also search for specific
-proteins in the list by using the search field above the table. E.g.
-type <code>ups</code>.</p>
+interest in the result table. You can also search for specific proteins
+in the list by using the search field above the table. E.g. type
+<code>ups</code>.</p>
 </div>
-<div id="detail-plots" class="section level4" number="4.4.3">
-<h4><span class="header-section-number">4.4.3</span> Detail plots</h4>
+<div id="detail-plots" class="section level4">
+<h4>Detail plots</h4>
 <p>If you select one protein in the table, you can also explore the
-underlying normalised peptide intensities and protein intensities of
-the underlying data in the “DetailPlots”:</p>
+underlying normalised peptide intensities and protein intensities of the
+underlying data in the “DetailPlots”:</p>
 <div class="float">
-<img src="figures/msqrob2_detailplots.png" alt="Figure 17. msqrob2 detail plots." />
+<img src="figures/msqrob2_detailplots.png"
+alt="Figure 17. msqrob2 detail plots." />
 <div class="figcaption">Figure 17. msqrob2 detail plots.</div>
 </div>
 <p>You can further modify the plot by coloring the data according to a
@@ -991,90 +844,95 @@ according to design variables.</p>
 </div>
 </div>
 </div>
-<div id="report-tab" class="section level2" number="5">
-<h2><span class="header-section-number">5</span> Report Tab</h2>
+<div id="report-tab" class="section level2">
+<h2>Report Tab</h2>
 <p>A reproducible Rmarkdown script and html report with the analysis you
 performed with the GUI can be downloaded in the “Report” tab.</p>
 <div class="float">
-<img src="figures/msqrob2_report.png" alt="Figure 18. msqrob2 report tab" />
+<img src="figures/msqrob2_report.png"
+alt="Figure 18. msqrob2 report tab" />
 <div class="figcaption">Figure 18. msqrob2 report tab</div>
 </div>
 <ol style="list-style-type: decimal">
 <li>Provide a name to your project</li>
 <li>You can specify the number of detail plots you want to generate in
-the report. The default is 10, which indicates that detail plots
-will be constructed for the 10 most significant protein in your top
-list. Note, that the number of detail plots can be smaller if there
-are less than 10 proteins significant at the specified FDR-level.</li>
-<li>Click the “Generate report” button and a report will be compiled.</li>
+the report. The default is 10, which indicates that detail plots will be
+constructed for the 10 most significant protein in your top list. Note,
+that the number of detail plots can be smaller if there are less than 10
+proteins significant at the specified FDR-level.</li>
+<li>Click the “Generate report” button and a report will be
+compiled.</li>
 </ol>
 <p>This will create a zip file that contains:</p>
 <ul>
-<li><code>qfeaturesFile.rds</code>: A tab delimited file with the raw intensity
-data.</li>
-<li><code>report.Rmd</code> : R/markdown file with the code for the report. If you
-open the file in Rstudio and if you hit the knit button the report
-will be compiled to html.</li>
+<li><code>qfeaturesFile.rds</code>: A tab delimited file with the raw
+intensity data.</li>
+<li><code>report.Rmd</code> : R/markdown file with the code for the
+report. If you open the file in Rstudio and if you hit the knit button
+the report will be compiled to html.</li>
 </ul>
 <p>So, your analysis is stored in a fully reproducible way.</p>
 </div>
-<div id="wrap-up-exercise-evaluate-summarisation" class="section level2" number="6">
-<h2><span class="header-section-number">6</span> Wrap up exercise: evaluate summarisation</h2>
+<div id="wrap-up-exercise-evaluate-summarisation"
+class="section level2">
+<h2>Wrap up exercise: evaluate summarisation</h2>
 <p>We further explore the difference between summarisation methods. We
 first assess the quality of the fold change estimates for the robust
 summarisation.</p>
-<p>Go back to the “Inference” tab. We will make use of the boxplot at the
-bottom of the quantification tab.</p>
+<p>Go back to the “Inference” tab. We will make use of the boxplot at
+the bottom of the quantification tab.</p>
 <ol style="list-style-type: decimal">
-<li>Untick the option <code>only significant features in table</code> to show all
-proteins in the table. The boxplot below the table visualises the
-log2 fold change (FC) estimates for all proteins in the table.</li>
+<li>Untick the option <code>only significant features in table</code> to
+show all proteins in the table. The boxplot below the table visualises
+the log2 fold change (FC) estimates for all proteins in the table.</li>
 <li>We can now filter the ups proteins by typing “ups” in the search
 field above the table. Now all yeast proteins are removed from the
 results table and a boxplot of the ups protein log2 FCs will be
 made.</li>
 </ol>
 <div class="float">
-<img src="figures/msqrob2_ups.png" alt="Figure 19. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins" />
-<div class="figcaption">Figure 19. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins</div>
+<img src="figures/msqrob2_ups.png"
+alt="Figure 19. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins" />
+<div class="figcaption">Figure 19. msqrob2 Inference tab with Fold
+Change Boxplot for all UPS proteins</div>
 </div>
 <p>Try answering the following questions:</p>
 <ul>
-<li>We know the real FC for the spike in proteins (see
-description of the data 2.2). Note, that the boxplot is showing the
-log2 FC. What do you observe?</li>
-<li>Now select all yeast proteins. What is the real fold change
-and what do you observe?</li>
+<li>We know the real FC for the spike in proteins (see description of
+the data 2.2). Note, that the boxplot is showing the log2 FC. What do
+you observe?</li>
+<li>Now select all yeast proteins. What is the real fold change and what
+do you observe?</li>
 <li>Repeat the complete analysis, but this time apply the median
-summarisation method in Step 5 in the data preprocessing. What do
-you observe, how does that compare to the robust summarisation and
-try to explain this?</li>
+summarisation method in Step 5 in the data preprocessing. What do you
+observe, how does that compare to the robust summarisation and try to
+explain this?</li>
 </ul>
 </div>
-<div id="final-remark" class="section level2" number="7">
-<h2><span class="header-section-number">7</span> Final remark</h2>
+<div id="final-remark" class="section level2">
+<h2>Final remark</h2>
 <p>Note, that the shiny apps are interfaces to the statistical
 programming software R.</p>
-<p>The analysis can also be conducted using scripts, which gives you much
-more functionality and the ability to streamline, automate and
+<p>The analysis can also be conducted using scripts, which gives you
+much more functionality and the ability to streamline, automate and
 document your analyses in a reproducible way.</p>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 <div id="ref-goeminne2016" class="csl-entry">
-Goeminne, L. J., K. Gevaert, and L. Clement. 2016. <span>“<span class="nocase"><span>P</span>eptide-level <span>R</span>obust <span>R</span>idge <span>R</span>egression <span>I</span>mproves <span>E</span>stimation, <span>S</span>ensitivity, and <span>S</span>pecificity in <span>D</span>ata-dependent <span>Q</span>uantitative <span>L</span>abel-free <span>S</span>hotgun <span>P</span>roteomics</span>.”</span> <em>Mol Cell Proteomics</em> 15 (2): 657–68.
+Goeminne, L. J., K. Gevaert, and L. Clement. 2016. <span>“<span
+class="nocase"><span>P</span>eptide-level <span>R</span>obust
+<span>R</span>idge <span>R</span>egression <span>I</span>mproves
+<span>E</span>stimation, <span>S</span>ensitivity, and
+<span>S</span>pecificity in <span>D</span>ata-dependent
+<span>Q</span>uantitative <span>L</span>abel-free <span>S</span>hotgun
+<span>P</span>roteomics</span>.”</span> <em>Mol Cell Proteomics</em> 15
+(2): 657–68.
 </div>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWN0aW9uIHRvIHByb3Rlb21pY3MgZGF0YSBhbmFseXNpcyIKc3VidGl0bGU6ICJJbXBhY3Qgb2Ygc3VtbWFyaXNhdGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIHRoZW1lOiBmbGF0bHkgICAgICAKICAgICAgY29kZV9kb3dubG9hZDogZmFsc2UKICAgICAgdG9jOiBmYWxzZQogICAgICB0b2NfZmxvYXQ6IGZhbHNlCiAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKYmlibGlvZ3JhcGh5OiBtc3Fyb2IyLmJpYgotLS0KCjxhIHJlbD0ibGljZW5zZSIgaHJlZj0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCI+PGltZyBhbHQ9IkNyZWF0aXZlIENvbW1vbnMgTGljZW5zZSIgc3R5bGU9ImJvcmRlci13aWR0aDowIiBzcmM9Imh0dHBzOi8vaS5jcmVhdGl2ZWNvbW1vbnMub3JnL2wvYnktbmMtc2EvNC4wLzg4eDMxLnBuZyIgLz48L2E+CgojIyBUaGUgQ1BUQUMgQSB2cyBCIGRhdGFzZXQKCk91ciBmaXJzdCBjYXNlLXN0dWR5IGlzIGEgc3Vic2V0IG9mIHRoZSBkYXRhIG9mIHRoZSA2dGggc3R1ZHkgb2YgdGhlCkNsaW5pY2FsIFByb3Rlb21pYyBUZWNobm9sb2d5IEFzc2Vzc21lbnQgZm9yIENhbmNlciAoQ1BUQUMpLiBJbiB0aGlzCmV4cGVyaW1lbnQsIHRoZSBhdXRob3JzIHNwaWtlZCB0aGUgU2lnbWEgVW5pdmVyc2FsIFByb3RlaW4gU3RhbmRhcmQKbWl4dHVyZSAxIChVUFMxKSBjb250YWluaW5nIDQ4IGRpZmZlcmVudCBodW1hbiBwcm90ZWlucyBpbiBhIHByb3RlaW4KYmFja2dyb3VuZCBvZiA2MCBuZy/OvEwgU2FjY2hhcm9teWNlcyBjZXJldmlzaWFlIHN0cmFpbiBCWTQ3NDEgKE1BVGEsCmxldTLOlDAsIG1ldDE1zpQwLCB1cmEzzpQwLCBoaXMzzpQxKS4gVHdvIGRpZmZlcmVudCBzcGlrZS1pbgpjb25jZW50cmF0aW9ucyB3ZXJlIHVzZWQ6IDZBICgwLjI1IGZtb2wgVVBTMSBwcm90ZWlucy/OvEwpIGFuZCA2QiAoMC43NApmbW9sIFVQUzEgcHJvdGVpbnMvzrxMKSBbNV0uIFdlIGxpbWl0ZWQgb3Vyc2VsdmVzIHRvIHRoZSBkYXRhIG9mCkxUUS1PcmJpdHJhcCBXIGF0IHNpdGUgNTYuIFRoZSBkYXRhIHdlcmUgc2VhcmNoZWQgd2l0aCBNYXhRdWFudAp2ZXJzaW9uIDEuNS4yLjgsIGFuZCBkZXRhaWxlZCBzZWFyY2ggc2V0dGluZ3Mgd2VyZSBkZXNjcmliZWQgaW4KW0Bnb2VtaW5uZTIwMTZdLiBUaHJlZSByZXBsaWNhdGVzIGFyZSBhdmFpbGFibGUgZm9yIGVhY2gKY29uY2VudHJhdGlvbi4KCi0gVGhlIHJhdyBkYXRhIGZpbGVzIGNhbiBiZSBkb3dubG9hZGVkIGZyb20gCiAgaHR0cHM6Ly9jcHRhYy1kYXRhLXBvcnRhbC5nZW9yZ2V0b3duLmVkdS9jcHRhYy9wdWJsaWM/c2NvcGU9UGhhc2UrSQogIChTdHVkeSA2KQoKLSBUaGUgTWF4UXVhbnQgZGF0YSBjYW4gYmUgZG93bmxvYWRlZCBbemlwIGZpbGUgd2l0aCAKICBkYXRhXShodHRwczovL2dpdGh1Yi5jb20vc3RhdE9taWNzL1BEQTI1RUJJL2FyY2hpdmUvcmVmcy9oZWFkcy9kYXRhLnppcCkuCiAgVGhlIHBlcHRpZGVzLnR4dCBmaWxlIGNhbiBiZSBmb3VuZCBpbiAKICBgZGF0YS9xdWFudGlmaWNhdGlvbi9jcHRhY0F2c0JfbGFiM2AuCgojIyBJbnN0YWxsYXRpb24gaW5zdHJ1Y3Rpb25zIGFuZCBzZXR1cAoKWW91IGNhbiBmaW5kIHRoZSBpbnN0YWxsYXRpb24gaW5zdHJ1Y3Rpb25zIGZvciBhbGwgcmVxdWlyZWQgc29mdHdhcmUKdG8gcnVuIHRoaXMgZXhlcmNpc2UgaW4gW3NvZnR3YXJlXSguL3NvZnR3YXJlLmh0bWwpLiBUaGlzIHdpbGwgCmluc3RhbGw6CgotIFIgYW5kIFJTdHVkaW8KLSBgUUZlYXR1cmVzYCB0byByZWFkIGFuZCBwcm9jZXNzIG1hc3Mgc3BlY3Ryb21ldHJ5IChNUykgcXVhbnRpdGF0aXZlIAogIGRhdGEKLSBgUUZlYXR1cmVzR1VJYCB0aGUgZ3JhcGhpY2FsIHVzZXIgaW50ZXJmYWNlIChHVUkpIHRvIFFGZWF0dXJlcwotIGBtc3Fyb2IyYCB0byBwZXJmb3JtIHJvYnVzdCBzdGF0aXN0aWNhbCBpbmZlcmVuY2UgZm9yIHF1YW50aXRhdGl2ZSBNUyAKICBwcm90ZW9taWNzCi0gYG1zcXJvYjJndWlgIHRoZSBHVUkgdG8gbXNxcm9iMgoKVXBvbiBpbnN0YWxsYXRpb24gCgoxLiBPcGVuIFJzdHVkaW8sIHlvdSB3aWxsIHNlZSB0aGUgZm9sbG93aW5nIHdpbmRvdwoKIVtGaWd1cmUgMS4gUlN0dWRpb10oLi9maWd1cmVzL3JzdHVkaW8ucG5nKQoKMi4gQ29weSBhbmQgcGFzdGUgZm9sbG93aW5nIGNvbW1hbmRzIGluIHRoZSBjb25zb2xlIHdpbmRvdyBhbmQgdHlwZSBlbnRlcgoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkoUUZlYXR1cmVzR1VJKQpsaWJyYXJ5KG1zcXJvYjJndWkpCm9wdGlvbnMoc2hpbnkubWF4UmVxdWVzdFNpemUgPSA1MDAgKiAxMDI0XjIpCmBgYAoKLSBUaGUgZmlyc3QgbGluZSB3aWxsIGxvYWQgdGhlIGBRRmVhdHVyZXNHVUlgIHBhY2thZ2UgYW5kIGl0cyAKICBkZXBlbmRlbmNpZXMgKGluY2x1ZGluZyBgUUZlYXR1cmVzYCkKLSBUaGUgc2Vjb25kIGxpbmUgd2lsbCBsb2FkIHRoZSBgbXNxcm9iMmd1aWAgcGFja2FnZSBhbmQgaXRzCiAgZGVwZW5kZW5jaWVzIChpbmNsdWRpbmcgYG1zcXJvYjJgKQotIFRoZSBsYXN0IGxpbmUgd2lsbCBpbmNyZWFzZSB0aGUgYXZhaWxhYmxlIHRoZSBtYXhpbWFsIFJBTSB1c2FnZSBieSAKICB0aGUgYXBwbGljYXRpb24gdG8gNTAwIE1CLgoKIVtGaWd1cmUgMi4gUnN0dWRpbyB3aXRoIHRoZSBwYWNrYWdlIGxvYWRpbmcgY29tbWFuZHNdKC4vZmlndXJlcy9yc3R1ZGlvMi5wbmcpCgojIyBEYXRhIHByZXByb2Nlc3NpbmcKCkJlZm9yZSBhbmFseXNpbmcgdGhlIGRhdGEsIHdlIG11c3QgcGVyZm9ybSBkYXRhIHByZXByb2Nlc3NpbmcuIFRoZQp3aWxsIGVuc3VyZSB0aGUgZGF0YSBtZWV0IG91ciBtb2RlbCBhc3N1bXB0aW9ucy4gRGF0YSBpbXBvcnQgYW5kCnByZXByb2Nlc3NpbmcgaXMgcGVyZm9ybWVkIGJ5IHRoZSBgUUZlYXR1cmVzR1VJYCBhcHBsaWNhdGlvbi4KCiMjIyBPcGVuIGBRRmVhdHVyZXNHVUlgIAoKUnVuIHRoZSBmb2xsb3dpbmcgY29tbWFuZCAobGlrZSBhYm92ZSk6CgpgYGB7ciwgZXZhbD1GQUxTRX0KUUZlYXR1cmVzR1VJOjppbXBvcnRRRmVhdHVyZXMoKQpgYGAKCkEgbmV3IHdpbmRvdyB3aWxsIG9wZW4gd2l0aCB0aGUgc2hpbnlBcHAKCiFbRmlndXJlIDMuIFFGZWF0dXJlc0dVSSBTaGlueUFwcF0oLi9maWd1cmVzL3FmZWF0dXJlc2d1aV9mcmVzaC5wbmcpCgpJdCBpcyBhZHZpY2FibGUgdG8gb3BlbiB0aGUgc2hpbnkgYXBwIGluIGEgd2ViYnJvd3Nlci4gWW91IGNhbiBkbwp0aGF0IGJ5IGNsaWNraW5nIG9uIHRoZSBidXR0b24gYE9wZW4gaW4gQnJvd3NlcmAsIHdoaWNoIHlvdSBjYW4gZmluZAphYm92ZSB0aGUgYmx1ZSBuYXZpZ2F0aW9uIGJhciBhbmQgdGhlIHNoaW55QXBwIHdpbGwgcG9wIHVwIGluIGEgbmV3CmJyb3dzZXIgdGFiL3dpbmRvdy4KCiFbRmlndXJlIDQuIFFGZWF0dXJlc0dVSSBpbiBicm93c2VyIHRhYl0oLi9maWd1cmVzL1FGZWF0dXJlc0dVSS5wbmcpCgojIyMgSW1wb3J0IHRoZSBkYXRhCgpPdXIgTVMtYmFzZWQgcHJvdGVvbWljcyBkYXRhIGFuYWx5c2lzIHdvcmtmbG93cyBhbHdheXMgc3RhcnQgd2l0aCAyIApwaWVjZXMgb2YgZGF0YTogCgoxLiBUaGUgc2VhcmNoIGVuZ2luZSBvdXRwdXQuIEluIHRoaXMgdHV0b3JpYWwsIHdlIHdpbGwgdXNlIHRoZQogICBpZGVudGlmaWVkIGFuZCBxdWFudGlmaWVkIHBlcHRpZGUgZGF0YSBieSBNYXhRdWFudCwgY2FsbGVkCiAgIGBwZXB0aWRlcy50eHRgLgoyLiBBbiBhbm5vdGF0aW9uIGZpbGUgZGVzY3JpYmluZyB0aGUgZXhwZXJpbWVudGFsIGRlc2lnbi4gRWFjaCBsaW5lCiAgIGNvcnJlc3BvbmRzIHRvIGEgc2FtcGxlIGFuZCBlYWNoIGNvbHVtbiBwcm92aWRlcyBhIHNhbXBsZSAKICAgYW5ub3RhdGlvbi4KClRoZSBmaXJzdCBzdGVwIGlzIHRvIHVwbG9hZCB0aGUgYHBlcHRpZGVzLnR4dGAgZmlsZS4gVGhpcyBpcyB0aGUgZmlsZQp0aGF0IGNvbnRhaW5zIHlvdXIgcGVwdGlkZS1sZXZlbCBpbnRlbnNpdGllcy4gTm90ZSB0aGF0IHRoZQppbnRlbnNpdGllcyBtZWFzdXJlZCBpbiBlYWNoIHNhbXBsZSBhcmUgc3RvcmVkIGluIGEgc2VwYXJhdGUgY29sdW1uCmFuZCBlYWNoIHJvdyByZXByZXNlbnRzIGEgcGVwdGlkZS4gVGhpcyBtZWFucyB0aGF0IE1heFF1YW50IGFscmVhZHkKcGVyZm9ybWVkIGFnZ3JlZ2F0aW9uIG9mIFBTTS1sZXZlbCBkYXRhIGludG8gcGVwdGlkZS1sZXZlbCBkYXRhLiBGb3IKbW9yZSBjb250cm9sIG9uIFBTTS1sZXZlbCBxdWFsaXR5IGNvbnRyb2wgYW5kIGRhdGEgYWdncmVnYXRpb24sIG91cgpkYXRhIGFuYWx5c2lzIHdvcmtmbG93cyBjYW4gYWxzbyBzdGFydCBmcm9tIHRoZSBgZXZpZGVuY2UudHh0YCBmaWxlcwp3aGljaCBjb250YWluIFBTTS1sZXZlbCBpbmZvcm1hdGlvbiwgYnV0IHdpbGwgbm90IGJlIGNvdmVyZWQgaW4gdGhpcwp0dXRvcmlhbC4gRm9yIGEgTWF4UXVhbnQgc2VhcmNoLCB0aGUgYHBlcHRpZGVzLnR4dGAgZmlsZSBjYW4gYmUgZm91bmQKYnkgZGVmYXVsdCBpbiB0aGUgYHBhdGhfdG9fcmF3X2ZpbGVzL2NvbWJpbmVkL3R4dC9gIGZvbGRlciBmcm9tIHRoZQpNYXhRdWFudCBvdXRwdXQsIHdpdGggYHBhdGhfdG9fcmF3X2ZpbGVzYCB0aGUgZm9sZGVyIHdoZXJlIHJhdyBmaWxlcwp3ZXJlIHNhdmVkLiBUbyB1cGxvYWQgdGhlIGBwZXB0aWRlLnR4dGAgZmlsZSwgY2xpY2sgb24gdGhlICJCcm93c2UuLi4iCmJ1dHRvbiB1bmRlciB0aGUgImFzc2F5RGF0YSIgdGlsZSB0aXRsZS4gWW91IGRvbid0IG5lZWQgdG8gYWRhcHQgdGhlCmRlZmF1bHQgcGFyYW1ldGVycywgeW91IGNhbiBjbGljayB0aGUgIkltcG9ydCIgYnV0dG9uIHJpZ2h0IGF3YXkuIEEKcHJldmlldyBvZiB0aGUgdGFibGUgd2lsbCBhcHBlYXIgYW5kIHdpbGwgbGV0IHlvdSBxdWlja2x5IGNoZWNrIHRoZQpkYXRhLgoKIVtGaWd1cmUgNS4gVGhlIHBlcHRpZGUgZGF0YSBoYXZlIGJlZW4gc3VjY2VzZnVsbHkgdXBsb2FkZWRdKC4vZmlndXJlcy9wZXB0aWRlc19pbXBvcnRlZC5wbmcpCgpZb3UgY2FuIHNlZSB0aGF0IE1heFF1YW50IGdlbmVyYXRlZCBhIHRhYmxlIHdpdGggMTEsNDY2IGxpbmVzLApjb3JyZXNwb25kaW5nIHRvIDExLDQ2NiBwZXB0aWRlcy4gRm9yIGVhY2ggcGVwdGlkZSwgTWF4UXVhbnQgZ2VuZXJhdGVkCjcxIGNvbHVtbnMgY29udGFpbmluZyB2YXJpb3VzIHBpZWNlcyBvZiBpbmZvcm1hdGlvbiwgbGlrZSB0aGUgcGVwdGlkZQpzZXF1ZW5jZSwgdGhlIHByb3RlaW4gZ3JvdXBzIHRoZSBwZXB0aWRlIG1hdGNoZXMgdG8sIHRoZSBjaGFyZ2Ugc3RhdGVzCmZvdW5kLC4uLiBBbW9uZyB0aGVzZSBjb2x1bW5zLCB0aGVyZSBpcyBhbHNvIGEgc2V0IG9mIGNvbHVtbnMKY29udGFpbmluZyB0aGUgcXVhbnRpZmllZCBNUyBpbnRlbnNpdGllcyBmb3IgZWFjaCBzYW1wbGUgKGkuZS4gY29sdW1ucwpuYW1lZCBgSW50ZW5zaXR5IFhYWGApLiBUaGVzZSB3aWxsIGxhdGVyIGJlIGZsYWdnZWQgYXMgcXVhbnRpdGF0aXZlIAppbmZvcm1hdGlvbi4KClNpbWlsYXJseSwgd2UgbmVlZCB0byB1cGxvYWQgdGhlIGV4cGVyaW1lbnRhbCBhbm5vdGF0aW9uIGZpbGUgd2hpY2ggaXMKY2FsbGVkIGBleHBlcmltZW50YWxfYW5ub3RhdGlvbi50eHRgLiBXZSBoZXJlIHByb3ZpZGUgdGhlIHRhYmxlIGFzIGEKYC50eHRgLCBidXQgeW91IGNhbiBzdG9yZSB5b3VyIHRhYmxlIGluIG1hbnkgY29tbW9uIGZvcm1hdHMsIHN1Y2ggYXMKYC5jc3ZgIG9yIGAudHN2YC4gTm90ZSBFeGNlbCBhbGxvd3MgeW91IHRvIHN0b3JlIHNwcmVhZHNoZWV0cyBpbiBzdWNoCmZvcm1hdHMuIFRvIHVwbG9hZCB0aGUgYGV4cGVyaW1lbnRhbF9hbm5vdGF0aW9uLnR4dGAgZmlsZSwgY2xpY2sgb24KdGhlICJCcm93c2UuLi4iIGJ1dHRvbiB1bmRlciB0aGUgImNvbERhdGEiIHRpbGUgdGl0bGUuIFlvdSBkb24ndCBuZWVkCnRvIGFkYXB0IHRoZSBkZWZhdWx0IHBhcmFtZXRlcnMsIHlvdSBjYW4gY2xpY2sgdGhlICJJbXBvcnQiIGJ1dHRvbgpyaWdodCBhd2F5LiBBIHByZXZpZXcgb2YgdGhlIHRhYmxlIHdpbGwgYXBwZWFyIGFuZCB3aWxsIGxldCB5b3UKcXVpY2tseSBjaGVjayB0aGUgZGF0YS4gTm90ZSB0aGF0IHVwbG9hZGluZyB0aGUgYW5ub3RhdGlvbiBmaWxlIGlzCm9wdGlvbmFsIGZvciBkYXRhIHByZXByb2Nlc3NpbmcsIGJ1dCB5b3Ugd29uJ3QgYmUgYWJsZSB0byBwZXJmb3JtIGRhdGEKbW9kZWxsaW5nIGluIHRoZSBuZXh0IHNlY3Rpb24uCgohW0ZpZ3VyZSA2LiBUaGUgc2FtcGxlIGFubm90YXRpb25zIGhhdmUgYmVlbiBzdWNjZXNmdWxseSB1cGxvYWRlZF0oLi9maWd1cmVzL2Fubm90YXRpb25zX2ltcG9ydGVkLnBuZykKCkZvciB0aGUgQ1BUQUMgZGF0YXNldCBhbmFseXNlZCB3aXRoIE1heFF1YW50LCB0aGUgZmlyc3QgY29sdW1uIGVxdWFscwp0aGUgbmFtZXMgZ2l2ZW4gaW4gTWF4UXVhbnTigJlzICJFeHBlcmltZW50IiBjb2x1bW4uIFRoZSBzZWNvbmQgY29sdW1uCmNvbnRhaW5zIHRoZSBuYW1lcyBvZiB0aGUgcXVhbnRpdGF0aXZlIGNvbHVtbnMgaW4gdGhlIHRhYmxlIGFib3ZlOyBpdApzaG91bGQgYWx3YXlzIGJlIG5hbWVkIGBxdWFudENvbHNgIGFzIGl0IHdpbGwgYWxsb3cgdGhlIHNvZnR3YXJlIHRvCmNvcnJlY3RseSBsaW5rIHRoZSB0d28gdGFibGVzLiBUaGUgbGFzdCBjb2x1bW4gaXMgcmVsYXRlZCB0byB0aGUgc3R1ZHkKZGVzaWduOyBoZXJlIHRoZSB0cmVhdG1lbnQgcHJvdmlkZXMgdGhlIHNwaWtlLWluIGNvbmRpdGlvbi4KCllvdSBhcmUgbm93IHJlYWR5IHRvIGxpbmsgdGhlIHR3byB0YWJsZXMgaW50byBhIGBRRmVhdHVyZXNgIG9iamVjdCwKd2hpY2ggaXMgdGhlIGludGVybmFsIHJlcHJlc2VudGF0aW9uIG9mIHRoZSBkYXRhIHdlIHdpbGwgdXNlIGZvciB0aGUKcmVzdCBvZiB0aGUgd29ya2Zsb3cuIFNjcm9sbCB1cCB0byB0aGUgIlFGZWF0dXJlcyBDb252ZXJ0ZXIiIHRpbGUuIFlvdQpjYW4gbGVhdmUgYWxsIHRoZSBkZWZhdWx0IHNldHRpbmcgYW5kIGNsaWNrIG9uIHRoZSBncmVlbiBidXR0b24KIkNvbnZlcnQgdG8gYSBRRmVhdHVyZXMgb2JqZWN0Ii4gIAoKQWZ0ZXIgdXBsb2FkaW5nIHlvdXIgZmlsZXMsIGEgcHJldmlldyBvZiB0aGUgZGF0YSBhcHBlYXJzIChmZWVsIGZyZWUKdG8gY2xpY2sgb24gdGhlIHRhYmxlIHJvdykuIFRoZSB3aW5kb3cgc2hvdWxkIGxvb2sgYXMgZm9sbG93czoKCiFbRmlndXJlIDcuIFRoZSBRRmVhdHVyZXMgb2JqZWN0IGlzIHN1Y2Nlc3NmdWxseSBjb252ZXJ0ZWRdKC4vZmlndXJlcy9xZmVhdHVyZXNfaW1wb3J0ZWQucG5nKQoKIyMjIENvbmZpZ3VyaW5nIHRoZSBwcmVwcm9jZXNzaW5nIHdvcmZsb3cKCk1vdmUgdG8gdGhlIG5leHQgdGFibGUgYnkgY2xpY2tpbmcgb24gIlByZS1Qcm9jZXNzaW5nIENvbmZpZ3VyYXRpb24iCmluIHRoZSBtZW51IHRvIHRoZSBsZWZ0LiBDbGljayBvbiB0aGUgZ3JlZW4gYnV0dG9uICIrIiB0byBhZGQgYSBzdGVwLgpJbiB0aGlzIHR1dG9yaWFsLCB5b3Ugd2lsbCBuZWVkIHRvIGFkZCA3IHN0ZXBzIGluIHRvdGFsLiBZb3Ugc2hvdWxkCnBhcmFtZXRlcmlzZSB0aGVtIGFzIGZvbGxvd3M6CgoxLiBMb2cgVHJhbnNmb3JtYXRpb24KMi4gQWRkIEFubm90YXRpb25zCjMuIEZlYXR1cmVzIGZpbHRlcmluZwo0LiBOb3JtYWxpc2F0aW9uCjUuIEFnZ3JlZ2F0aW9uCjYuIEFkZCBBbm5vdGF0aW9ucwo3LiBGZWF0dXJlcyBmaWx0ZXJpbmcKCk9uY2UgZG9uZSwgeW91ciBzY3JlZW4gc2hvdWxkIGxvb2sgYXMgZm9sbG93czoKCiFbRmlndXJlIDguIFRoZSBwcmVwcm9jZXNzaW5nIHdvcmtmbG93IHVwb24gY29uZmlndXJhdGlvbl0oLi9maWd1cmVzL3ByZXByb2Nlc3NpbmdfY29uZmlndXJhdGlvbi5wbmcpCgpZb3UgY2FuIG5vdyBjbGljayB0aGUgIkNvbmZpcm0gQ3VycmVudCBXb3JrZmxvdyIgYnV0dG9uLiBPbiB0aGUgbGVmdAptZW51LCB5b3Ugd2lsbCBzZWUgdGhhdCB0aGUgM3JkIGVudHJ5IG5vdyBtZW50aW9ucyAiMyBQcmUtcHJvY2Vzc2luZwooNyBTdGVwcykiLiBXZSB3aWxsIG5vdyBjb25maWd1cmUgYW5kIHJ1biBlYWNoIG9mIHRoZXNlIHN0ZXBzLgoKIyMjIFN0ZXAgMTogTG9nIHRyYW5zZm9ybWF0aW9uCgpGb3IgZXZlcnkgc3RlcCwgeW91IGFsd2F5cyBuZWVkIHRvIGxvYWQgdGhlIGRhdGEgZnJvbSB0aGUgcHJldmlvdXMKc3RlcCAoaW4gdGhpcyBjYXNlIHRoZSBkYXRhIGltcG9ydGF0aW9uKS4gQ2xpY2sgb24gdGhlICJMb2FkIGFzc2F5cwpmcm9tIHByZXZpb3VzIHN0ZXAiIGJ1dHRvbi4gT25jZSBsb2FkZWQsIHRoZSBkYXRhIGlzIGF1dG9tYXRpY2FsbHkKbG9nMi10cmFuc2Zvcm1lZCBieSBkZWZhdWx0LiBZb3Ugc2hvdWxkIG5vdCBjaGFuZ2UgdGhlIGRlZmF1bHRzLiBZb3UKd2lsbCBzZWUgdGhhdCB0aGUgaW50ZW5zaXR5IGRpc3RyaWJ1dGlvbiB3aXRoaW4gZWFjaCBzYW1wbGUgaXMKYXV0b21hdGljYWxseSBwaWN0dXJlZCwgYW5kIHlvdSBjYW4gcGxheSB3aXRoIHRoZSBwbG90IHNldHRpbmcgKGJvdHRvbQpyaWdodCkgYXMgeW91IHdpc2guIFlvdXIgc2NyZWVuIHNob3VsZCBiZSBzaW1pbGFyIHRvIHRoaXM6IAoKIVtGaWd1cmUgOS4gU3RlcDE6IExvZyB0cmFuc2Zvcm1hdGlvbl0oLi9maWd1cmVzL3N0ZXAxLnBuZykKCk9uY2UgeW91IGFyZSBkb25lLCBjbGljayB0aGUgIlNhdmUgdGhlIHByb2Nlc3NlZCBkYXRhIiBidXR0b24uIFRoaXMKd2lsbCBzdG9yZSB0aGUgY2hhbmdlcyBhbmQgbWFrZSB0aGUgZGF0YSBhdmFpbGFibGUgZm9yIHRoZSBuZXh0IHN0ZXAuCklmIHlvdSBmb3JnZXQgdG8gY2xpY2sgdGhpcyBidXR0b24sIGxvYWRpbmcgdGhlIG5leHQgc3RlcCB3aWxsIGxlYWQgdG8KYW4gZXJyb3IuCgojIyMgU3RlcCAyOiBhZGQgYW5ub3RhdGlvbnMKCkluIFN0ZXAgMywgd2Ugd2lsbCBmaWx0ZXIgb3V0IGZlYXR1cmVzIGJhc2VkIG9uIHRoZW4gbnVtYmVyIG9mIG1pc3NpbmcKdmFsdWVzLiBUaGlzIGluZm9ybWF0aW9uIGlzIG5vdCB5ZXQgYXZhaWxhYmxlIGluIG91ciBkYXRhIGZvcgpmaWx0ZXJpbmcsIHNvIHdlIHdpbGwgYWRkIHRoaXMgaW5mb3JtYXRpb24gYXMgYSBmZWF0dXJlIGFubm90YXRpb24uCgoxLiBNb3ZlIHRvIFN0ZXAgMiBpbiB0aGUgbGVmdCBtZW51LgoyLiBDbGljayB0aGUgYnV0dG9uIHRvIGxvYWQgdGhlIHByZXZpb3VzIHN0ZXAuIAozLiBTY3JvbGwgYXQgdGhlIGJvdHRvbSBhbiB0aWNrIHRoZSAiQWRkIG1pc3NpbmcgdmFsdWVzIG51bWJlcnMiIGJveAo0LiBDbGljayAicGVyZm9ybSBhbm5vdGF0aW9uIi4gWW91IHNob3VsZCBzZWUgYSBwcmV2aWV3IG9mIHRoZSBmZWF0dXJlCiAgIGFubm90YXRpb25zLiBZb3UgY2FuIGNoZWNrIHRoYXQgdGhlIGxhc3QgY29sdW1uIGlzICJuTkEiIHdoaWNoIAogICBwcm92aWRlcyB0aGUgbnVtYmVyIG9mIG1pc3NpbmcgdmFsdWVzLgo1LiBDbGljayB0aGUgYnV0dG9uIHRvIHNhdmUgdGhlIHByb2Nlc3NlZCBkYXRhLgoKIyMjIFN0ZXAgMzogcGVwdGlkZSBmaWx0ZXJpbmcKCkluIHRoaXMgc3RlcCwgd2Ugd2lsbCBhY3R1YWxseSByZW1vdmUgdW5kZXNpcmFibGUgcGVwdGlkZXMuIFdlIHdpbGwKdXNlIHRoZSBmb2xsb3dpbmcgY3JpdGVyaWE6CgotIFJlbW92ZSBwZXB0aWRlcyB0aGF0IGNvdWxkIG5vdCBiZSBtYXBwZWQgdG8gYSBwcm90ZWluLgotIFJlbW92ZSByZXZlcnNlIHNlcXVlbmNlcyAoZGVjb3lzKQotIFJlbW92ZSBjb250YW1pbmFudHMKLSBSZW1vdmUgcGVwdGlkZXMgdGhhdCB3ZXJlIGlkZW50aWZpZWQgaW4gbGVzcyB0aGFuIHRocmVlIHNhbXBsZQoKVG8gcGVyZm9ybSB0aGlzIGZpbHRlcmluZyBhbmQgY2Fycnkgb3V0IHRoZSBzZXAsIHlvdSBjYW46CgoxLiBNb3ZlIHRvIFN0ZXAgMyBpbiB0aGUgbGVmdCBtZW51LgoyLiBDbGljayB0aGUgYnV0dG9uIHRvIGxvYWQgdGhlIHByZXZpb3VzIHN0ZXAuIAozLiBDbGljayA0eCB0aGUgYmx1ZSAiQWRkIEJveCIgYnV0dG9uIHRvIGFkZCA0IGZpbHRlcmluZyBib3hlcy4KNC4gRmlsbCBpbiB0aGUgYm94ZXMgYXMgc2hvd24gaW4gdGhlIGZpZ3VyZSBiZWxvdy4KNS4gSW4gdGhlICJGaWx0ZXJpbmcgU3VtbWFyeSIgdGlsZSwgY2xpY2sgdGhlICJBcHBseSBGaWx0ZXJzIiBidXR0b24uCjYuIENsaWNrIHRoZSBidXR0b24gdG8gc2F2ZSB0aGUgcHJvY2Vzc2VkIGRhdGEuCgohW0ZpZ3VyZSAxMC4gU3RlcDM6IEZlYXR1cmUgZmlsdGVyaW5nLiBOb3RlIHRoZSBQQ0EgcGxvdHMgYXJlIGNvbGxhcHNlZCBmb3IgYmV0dGVyIG92ZXJ2aWV3IG9mIHRoZSBib3hlcy5dKC4vZmlndXJlcy9zdGVwMy5wbmcpCgojIyMgU3RlcCA0OiBOb3JtYWxpc2F0aW9uCgpXZSBub3JtYWxpc2UgdGhlIGRhdGEgYnkgc3Vic3RyYWN0aW5nIHRoZSBzYW1wbGUgbWVkaWFuIGZyb20gZXZlcnkKaW50ZW5zaXR5IGZvciBwZXB0aWRlICRwJCAgaW4gYSBzYW1wbGUgJGkkOgoKJCR5X3tpcH1eXHRleHR7bm9ybX0gPSB5X3tpcH0gLSBcaGF0e1xtdV9pfSQkCgp3aXRoICRcaGF0XG11X2kkIHRoZSBtZWRpYW4gaW50ZW5zaXR5IG92ZXIgYWxsIG9ic2VydmVkIHBlcHRpZGVzIGluCnNhbXBsZSAkaSQuCgoxLiBNb3ZlIHRvIFN0ZXAgNCBpbiB0aGUgbGVmdCBtZW51LgoyLiBDbGljayB0aGUgYnV0dG9uIHRvIGxvYWQgdGhlIHByZXZpb3VzIHN0ZXAuCjMuIE1lZGlhbiBub3JtYWxpc2F0aW9uIGlzIGNvbmZpZ3VyZWQgYnkgZGVmYXVsdCwgc28geW91IGNhbiBzaW1wbHkKICAgY2xpY2sgdGhlIGJ1dHRvbiB0byBzYXZlIHRoZSBwcm9jZXNzZWQgZGF0YS4KCiMjIyBTdGVwIDU6IFN1bW1hcmlzYXRpb24KCkluIHRoaXMgc3RlcCwgdGhlIHBlcHRpZGUgaW50ZW5zaXRpZXMgd2lsbCBiZSBzdW1tYXJpc2VkIChha2EKYWdncmVnYXRlZCkgaW50byBwcm90ZWluIGludGVuc2l0aWVzIHVzaW5nIHJvYnVzdCBzdW1tYXJpc2F0aW9uLiBZb3UKY2FuIHBlcmZvcm0gdGhpcyBhcyBmb2xsb3dzOgoKMS4gTW92ZSB0byBTdGVwIDUgaW4gdGhlIGxlZnQgbWVudS4KMi4gQ2xpY2sgdGhlIGJ1dHRvbiB0byBsb2FkIHRoZSBwcmV2aW91cyBzdGVwLgozLiBJbiB0aGUgc2V0dGluZ3MsIHNlbGVjdCAicm9idXN0U3VtbWFyeSIgaW4gdGhlIGZpcnN0IGZpZWxkIGFuZAogICBzZWxlY3QgIlByb3RlaW4iIGFzIHRoZSByb3dEYXRhIHZhcmlhYmxlIGRlZmluaW5nIHRoZSBmZWF0dXJlcyBvZgogICB0aGUgYXNzYXkgdG8gYWdncmVnYXRlLgo0LiBDbGljayB0aGUgYnV0dG9uIHRvIHNhdmUgdGhlIHByb2Nlc3NlZCBkYXRhLgoKIyMjIFN0ZXAgNjogYWRkIGFubm90YXRpb25zCgpSZXBlYXQgc3RlcCAyLCB0aGlzIHdpbGwgYWxsb3cgdG8gcGVyZm9ybSBhIGZpbHRlcmluZyBvbiBtaXNzaW5nLCBidXQKYXQgdGhlIHByb3RlaW4tbGV2ZWwgaW5zdGVhZCBvZiBwZXB0aWRlLWxldmVsLgoKIyMjIFN0ZXAgNzogcHJvdGVpbiBmaWx0ZXJpbmcKCkluIHRoaXMgc3RlcCwgd2Ugd2lsbCByZW1vdmUgcHJvdGVpbnMgdGhhdCB3ZXJlIGlkZW50aWZpZWQgaW4gbGVzcwp0aGFuIDQgc2FtcGxlcy4gWW91IG1heSBoYXZlIGd1ZXNzZWQgaXQgYnkgbm93LCBidXQgeW91IGNhbiBwcm9jZWVkIAp3aXRoOgoKMS4gTW92ZSB0byBTdGVwIDcgaW4gdGhlIGxlZnQgbWVudS4KMi4gQ2xpY2sgdGhlIGJ1dHRvbiB0byBsb2FkIHRoZSBwcmV2aW91cyBzdGVwLiAKMy4gQ2xpY2sgMXggdGhlIGJsdWUgIkFkZCBCb3giIGJ1dHRvbiB0byBhZGQgYSBmaWx0ZXJpbmcgYm94Lgo0LiBGaWxsIGluIHRoZSBib3hlcyBzbyB0aGF0IHRoZSBmaWx0ZXIgYmVjb21lczogYG5OQSA8PSAyYC4KNS4gSW4gdGhlICJGaWx0ZXJpbmcgU3VtbWFyeSIgdGlsZSwgY2xpY2sgdGhlICJBcHBseSBGaWx0ZXJzIiBidXR0b24uCjYuIENsaWNrIHRoZSBidXR0b24gdG8gc2F2ZSB0aGUgcHJvY2Vzc2VkIGRhdGEuCgojIyMgU2F2ZSB5b3VyIHByb2dyZXNzCgpZb3Ugbm93IGhhdmUgY29tcGxldGVkIHRoZSBkYXRhIHByb2Nlc3NpbmcuIFlvdSBjYW4gbW92ZSB0byB0aGUKU3VtbWFyeSB0YWIgKGluIHRoZSBsZWZ0IG1lbnUpLiBUaGVyZSB5b3Ugd2lsbCBmaW5kIGFuIG92ZXJ2aWV3IG9mIHRoZQpkYXRhIGFuZCB0aGUgZGF0YSBwcm9jZXNzaW5nIHN0ZXBzLgoKIVtGaWd1cmUgMTEuIFN1bW1hcnkgb2YgdGhlIGRhdGEgcHJvY2Vzc2luZy5dKC4vZmlndXJlcy9wcm9jZXNzaW5nX3N1bW1hcnkucG5nKQoKR28gdG8gdGhlIGJvdHRvbSBvZiB0aGUgcGFnZSBhbmQgY2xpY2sgb24gdGhlICJEb3dubG9hZCBRRmVhdHVyZXMiCmJ1dHRvbi4gQSBwb3AgdXAgd2luZG93biB3aWxsIGFzayB5b3UgdG8gc2VsZWN0IGEgZGlyZWN0b3J5IHRvIHN0b3JlCnRoZSByZXN1bHRpbmcgZmlsZS4gQnkgZGVmYXVsdCB0aGUgZmlsZSBpcyBjYWxsZWQKYHFmZWF0dXJlc19vYmplY3QucmRzYCwgYnV0IGZlZWwgZnJlZSB0byByZW5hbWUgYXMgeW91IHdpc2ggYnV0IHlvdQpjYW5ub3QgY2hhbmdlIHRoZSBmaWxlIGV4dGVuc2lvbiAoYC5yZHNgKS4KCllvdSBjYW4gbm93IGNsb3NlIHRoZSBhcHBsaWNhdGlvbi4KCiMjIFN0YXRpc3RpY2FsIGFuYWx5c2lzCgojIyMgT3BlbiBgbXNxcm9iMmd1aWAgCgpSZXR1cm4gdG8geW91ciBSc3R1ZGlvIGFwcGxpY2F0aW9uIGFuZCBydW4gdGhlIGZvbGxvd2luZyBjb21tYW5kOgoKYGBge3IsIGV2YWw9RkFMU0V9Cm1zcXJvYjJndWk6OmxhdW5jaE1zcXJvYjJBcHAoKQpgYGAKCkEgbmV3IHdpbmRvdyB3aWxsIG9wZW4gd2l0aCB0aGUgc2hpbnlBcHAgZm9yIGRhdGEgbW9kZWxsaW5nCgohW0ZpZ3VyZSAxMi4gbXNxcm9iMmd1aSBTaGlueUFwcF0oLi9maWd1cmVzL21zcXJvYjJndWlfZnJlc2gucG5nKQoKIyMjIEltcG9ydCB0aGUgcHJvY2Vzc2VkIGRhdGEKCldlIHN0YXJ0IHRoZSBkYXRhIG1vZGVsbGluZyB3b3JrZmxvdyB3aXRoIGltcG9ydGluZyB0aGUgZGF0YSBwcm9jZXNzZWQKaW4gdGhlIHByZXZpb3VzIHNlY3Rpb246CgoxLiBDbGljayBvbiAiQnJvd3Nlci4uLiIgYW5kIGZldGNoIHRoZSBmaWxlIHlvdSBzYXZlZCB3aXRoIHRoZQogICBgUUZlYXR1cmVzR1VJYCBhcHAuCjIuIEluIHRoZSAiU2VsZWN0IEFzc2F5Iiwgc2VsZWN0IHRoZSBsYXN0IGl0ZW0sCiAgICJxdWFudHNfZmVhdHVyZXNfZmlsdGVyaW5nXzciLgoKVGhlIGFwcGxpY2F0aW9uIGxldCdzIHlvdSBleHBsb3JlIHRoZSBkYXRhIHRhYmxlcyBhbmQgcHJvdmlkZXMgYSBwbG90CndpdGggdGhlIGludGVuc2l0eSBkaXN0cmlidXRpb25zIGZvciBlYWNoIHNhbXBsZS4KCiFbRmlndXJlIDEzLiBtc3Fyb2IyZ3VpIGFwcGxpY2F0aW9uIHVwb24gZGF0YSBpbXBvcnQuXSguL2ZpZ3VyZXMvbXNxcm9iMl9pbXBvcnRlZC5wbmcpCgpXaGVuIHlvdSBzY3JvbGwgZG93biB0aGUgcGFnZSwgeW91IHdpbGwgZmluZCBhIGRyb3AgZG93biB0ZXh0IHNlbGVjdG9yCih1bmRlciB0aGUgdGFibGUpLiBDaGFuZ2UgInJ1biIgaW50byAidHJlYXRtZW50IiBhbmQgbG9vayBhdCB0aGUKcHJpbmNpcGFsIGNvbXBvbmVudCBhbmFseXNpcyAoUENBKSBwbG90LiBIb3cgd291bGQgeW91IGludGVycHJldCB0aGlzCmdyYXBoPwoKIVtGaWd1cmUgMTQuIFBDQSBwbG90IG9mIHRoZSBDUFRBQyBkYXRhIHNldC5dKC4vZmlndXJlcy9tc3Fyb2IyX3BjYS5wbmcpCgpUaGUgUENBIHBsb3QgaW5kaWNhdGVzIHRoYXQgd2UgY2FuIGV4cGVjdCBhIHRyZWF0bWVudCBlZmZlY3QgaW4gdGhlCmRhdGEgYXMgdGhlIHNhbXBsZSBiZWxvbmdpbmcgdG8gb25lIHRyZWF0bWVudCBjYW4gYmUgc2VwYXJhdGVkIGZyb20KdGhlIHNhbXBsZXMgYmVsb25naW5nIHRvIHRoZSBvdGhlciB0cmVhdG1lbnQuIFdlIGFsc28gc2VlIHRoYXQgdGhpcwpzZXBhcmF0aW9uIG1vc3RseSBvY2N1cnMgaW4gdGhlIHNlY29uZCBwcmluY2lwYWwgY29tcG9uZW4uIFRoZSBmaXJzdApjb21wb25lbnQsIHdoaWNoIGV4cGxhaW5zIG1vc3Qgb2YgdGhlIHZhcmlhdGlvbiwgZG9lcyBub3Qgc2VlbSB0byBiZWFyCmNvcnJlbGF0aW9uIGFzc29jaWF0ZWQgd2l0aCB0cmVhdG1lbnQuIFRoaXMgaXMgZXhwZWN0ZWQgYXMgd2Uga25vdwp0aGF0IG9ubHkgYSBmZXcgcHJvdGVpbiB3ZXJlIHNwaWtlZCBpbiwgc28gd2UgZG8gbm90IGV4cGVjdCBhbiBlZmZlY3QKb2YgdHJlYXRtZW50IGZvciBtb3N0IHByb3RlaW5zLiBXZSB3aWxsIG5vdyBkZWx2ZSBpbnRvIHRoZSBkYXRhCm1vZGVsbGluZyBhbmQgaW5mZXJlbmNlIHRoYXQgd2lsbCBzdGF0aXN0aWNhbGx5IHF1YW50aWZ5IHRoZXNlIGVmZmVjdHMKZm9yIGVhY2ggcHJvdGVpbiBpbmRpdmlkdWFsbHkuCgojIyMgRGF0YSBtb2RlbGxpbmcKCllvdSBjYW4gbm93IG1vdmUgdG8gdGhlIGRhdGEgbW9kZWxsaW5nIHRhYiBieSBjbGlja2luZyAiTW9kZWwiIGluIHRoZQptZW51IG9uIHRoZSBsZWZ0LiAKCldlIHdpbGwgbW9kZWwgdGhlIGRhdGEgd2l0aCBhIGRpZmZlcmVudCBncm91cCBtZWFuIGZvciB0aGUgdmFyaWFibGUKYHRyZWF0bWVudGAgd2l0aCB0d28gbGV2ZWxzOiBzcGlrZWluIHRyZWF0bWVudCBBIGFuZCBCLiBXZSBjYW4gc3BlY2lmeQp0aGlzIG1vZGVsIGJ5IGluc2VydGluZyBgfjErdHJlYXRtZW50YCBpbiB0aGUgIkRlc2lnbiBmb3JtdWxhIgp0ZXh0Ym94LiBOb3RlLCB0aGF0IGEgZm9ybXVsYSBhbHdheXMgc3RhcnRzIHdpdGggYSBzeW1ib2wgJ34nIChzZWUgdGhlCmRlc2NyaXB0aXZlIHBhcmFncmFwaCBpbiB0aGUgYXBwbGljYXRpb24pLgoKTm90ZSB0aGF0IGFzIHNvb24gYXMgd2UgZG8gdGhhdCwgdGhlIGRlc2lnbiBpcyB2aXN1YWxpc2VkLiAKCiFbRmlndXJlIDE1LiBtc3Fyb2IyIE1vZGVsIHRhYiB3aXRoIGRlc2lnbl0oLi9maWd1cmVzL21zcXJvYjJfbW9kZWwucG5nKQoKVGhpcyB2aXN1YWxpc2F0aW9uIHNob3dzIHRoZSBkaWZmZXJlbnQgZ3JvdXAgbWVhbnMgdGhhdCBhcmUgbW9kZWxsZWQuIAoKLSBUaGUgZ3JvdXAgbWVhbiBmb3IgdGhlIHRyZWF0bWVudCBBIGlzIG1vZGVsbGVkIHVzaW5nIHRoZSBwYXJhbWV0ZXIgCiAgYChJbnRlcmNlcHQpYC4gCi0gVGhlIGdyb3VwIG1lYW4gZm9yIHRoZSB0cmVhdG1lbnQgQiBpcyBtb2RlbGxlZCB1c2luZyBhIGxpbmVhciAKICBjb21iaW5hdGlvbiBvZiB0aGUgdHdvIG1vZGVsIHBhcmFtZXRlcnMgYChJbnRlcmNlcHQpICsgdHJlYXRtZW50QmAuCi0gVGhlIGF2ZXJhZ2UgZGlmZmVyZW5jZSBpbiBwcmVwcm9jZXNzZWQgcHJvdGVpbiBleHByZXNzaW9uIHZhbHVlIAogIGJldHdlZW4gYm90aCBjb25kaXRpb25zIGVxdWFscyBgdHJlYXRtZW50QmAuCgpSZW1lbWJlciB0aGF0IHdlIGxvZy10cmFuc2Zvcm1lZCB0aGUgaW50ZW5zaXRpZXM6CgokJCAKXGxvZ18yRkNfXHRleHR7Qn09XGxvZ18yIEIgLSBcbG9nXzIgQSA9IFxsb2dfMlxmcmFje0J9e0F9ID0gXHRleHR7dHJlYXRtZW50Qn0KJCQKCk5vdGUgdGhhdCBhIGxpbmVhciBjb21iaW5hdGlvbiBvZiBtb2RlbCBwYXJhbWV0ZXJzIGlzIGFsc28gcmVmZXJyZWQgdG8KYXMgYSBjb250cmFzdCBpbiBzdGF0aXN0aWNzLiBUaGlzIGNvbnRyYXN0IGhhcyB0aGUgaW50ZXJwcmV0YXRpb24gb2YgYQpsb2cyIGZvbGQgY2hhbmdlIGJldHdlZW4gY29uZGl0aW9uIEIgYW5kIGNvbmRpdGlvbiBBLiBQb3NpdGl2ZQplc3RpbWF0ZXMgZGVub3RlIHRoYXQgdGhlIGFidW5kYW5jZSBvZiB0aGUgcHJvdGVpbiBpcyBvbiBhdmVyYWdlCmhpZ2hlciBpbiBjb25kaXRpb24gQiwgbmVnYXRpdmUgZXN0aW1hdGVzIGRlbm90ZSB0aGF0IHRoZSBhYnVuZGFuY2UgaXMKb24gYXZlcmFnZSBoaWdoZXIgaW4gY29uZGl0aW9uIEEuIEFuIGVzdGltYXRlIGVxdWFsIHRvIDAgaW5kaWNhdGVzCnRoYXQgdGhlIGVzdGltYXRlZCBhYnVuZGFuY2VzIGFyZSBlcXVhbC4KCkEgbG9nMiBGQyA9IDEgaW5kaWNhdGVzIHRoYXQgdGhlIGF2ZXJhZ2UgYWJ1bmRhbmNlIGluIGNvbmRpdGlvbiBCIGlzIDIKeCBoaWdoZXIgdGhhbiB0aGUgYXZlcmFnZSBhYnVuZGFuY2UgaW4gY29uZGl0aW9uIEEsIGkuZS4gYW4gMiBmb2xkCnVwcmVndWxhdGlvbiBpbiBjb25kaXRpb24gQiBhcyBjb21wYXJlZCB0byBjb25kaXRpb24gQS4KCldlIG5vdyBoYXZlIHRvIGNsaWNrIHRoZSBgRml0IE1vZGVsIWAgYnV0dG9uIHRvIGZpdCB0aGUgbW9kZWxzIGZvcgplYWNoIHByb3RlaW4uIFdlIGFyZSBub3cgcmVhZHkgZm9yIGFzc2Vzc2luZyBkaWZmZXJlbnRpYWwgYWJ1bmRhbmNlIG9mCmVhY2ggcHJvdGVpbiB1c2luZyBmb3JtYWwgaHlwb3RoZXNpcyB0ZXN0aW5nLgoKIyMjIEluZmVyZW5jZQoKQ2xpY2sgb24gdGhlICJJbmZlcmVuY2UiIHRhYiBpbiB0aGUgbGVmdCBtZW51LgoKSW4gdGhlIHN0YXRpc3RpY2FsIGFuYWx5c2lzIHdlIHdpbGwgd2FudCB0byB0ZXN0IHRoZSBudWxsIGh5cG90aGVzaXMKdGhhdAoKJCQgSF8wOiBcbG9nXzIgQi1cbG9nXzIgNkEgPSAwICQkCgpBZ2FpbnN0IHRoZSBhbHRlcm5hdGl2ZSB0aGF0CgokJCBIXzE6IFxsb2dfMiBCIC0gXGxvZ18yIEEgXG5lcSAwICQkCgpXZSBjYW4gc3BlY2lmeSB0aGUgbnVsbCBoeXBvdGhlc2lzIGFzIGEgbGluZWFyIGNvbWJpbmF0aW9uIG9mIHRoZQptb2RlbCBwYXJhbWV0ZXJzLCBpLmUuIGB0cmVhdG1lbnRCID0gMGAuIFdlIHdpbGwgZmFsc2lmeSB0aGlzIG51bGwKaHlwb3RoZXNpcyBmb3IgZWFjaCBwcm90ZWluIHNlcGFyYXRlbHkgYmFzZWQgb24gdGhlIGxpbmVhciBtb2RlbC4gU28sCnVuZGVyIHRoZSBudWxsIGh5cG90aGVzaXMgd2UgcmVhc29uIHRoYXQgdGhlcmUgaXMgbm8gZWZmZWN0IG9mIHRoZQpzcGlrZS1pbiB0cmVhdG1lbnQgb24gdGhlIGFidW5kYW5jZSBvZiBhIHNwZWNpZmljIHByb3RlaW4uIFRoZSBwLXZhbHVlCm9mIHRoZSBzdGF0aXN0aWNhbCB0ZXN0IHRoYW4gaW5kaWNhdGVzIHRoZSBwcm9iYWJpbGl0eSB0byBvYnNlcnZlIGFuCmVmZmVjdCAoZm9sZCBjaGFuZ2UpLCB0aGF0IGlzIGFzIGV4dHJlbWUgb3IgbW9yZSBleHRyZW1lIChlcXVhbGx5IG9yCm1vcmUgdXAgb3IgZG93biByZWd1bGF0ZWQpIHRoYW4gd2hhdCBpcyBvYnNlcnZlZCBpbiB0aGUgc2FtcGxlLCBieQpyYW5kb20gY2hhbmdlICh3aGVuIHRoZSBudWxsIGh5cG90aGVzaXMgaXMgdHJ1ZSBhbmQgd2hlbiB0aGVyZSBpcyBpbgpyZWFsaXR5IG5vIGVmZmVjdCBvZiB0aGUgdHJlYXRtZW50KS4KClRvIHByb2NlZWQsIGZpbGwgaW4gdGhlIGZpZWxkICJOdWxsIGh5cG90aGVzaXMiIHdpdGggYHRyZWF0bWVudEIgPSAwYC4KQWZ0ZXIgMS0yIHNlY29uZCwgdGhlIHdpbmRvdyBpcyB1cGRhdGVkIAoKIVtGaWd1cmUgMTYuIG1zcXJvYjIgSW5mZXJlbmNlIHRhYiB3aXRoIGNvbnRyYXN0XSguL2ZpZ3VyZXMvbXNxcm9iMl9pbmZlcmVuY2UucG5nKQoKIyMjIyBWb2xjYW5vIHBsb3QKClRoZSBhcHBsaWNhdGlvbiBub3cgYWxzbyBwcm92aWRlcyBhIHZvbGNhbm8gcGxvdCBhcHBlYXJzIGdpdmluZyB5b3UgYQp2aWV3IG9uIHN0YXRpc3RpY2FsIHNpZ25pZmljYW5jZSBpbiB0aGUgeS1heGlzLCBpLmUuIHRoZSAkLVxsb2dfezEwfSQKdHJhbnNmb3JtZWQgcC12YWx1ZTogYSB2YWx1ZSBvZiAxIGVxdWFscyB0byBhIHAtdmFsdWUgb2YgMC4xLCBhIHZhbHVlCm9mIDIgZXF1YWxzIGEgcC12YWx1ZSBvZiAwLjAxLCBldGMgYWdhaW5zdCBiaW9sb2dpY2FsIHJlbGV2YW5jZS90aGUKZWZmZWN0IHNpemUgaW4gdGhlIHgtYXhpcywgd2hpY2ggaXMgdGhlICRcbG9nXzJGQyQuCgojIyMjIFJlc3VsdCB0YWJsZQoKWW91IGFsc28gZ2V0IGEgdGFibGUgd2l0aCBzZWxlY3RlZCBmZWF0dXJlLiBCeSBkZWZhdWx0IHRoZXNlIGFyZSBhbGwKcHJvdGVpbnMgdGhhdCBhcmUgc2lnbmlmaWNhbnQgd2l0aCB0aGUgc3BlY2lmaWVkICJTaWduaWZpY2FuY2UgbGV2ZWwiCmZpZWxkLiBZb3UgYWxzbyBvYnRhaW4gYSBib3hwbG90IG9mIHRoZSBsb2cyLWZvbGQgY2hhbmdlcyBmb3IgYWxsCnByb3RlaW5zIHRoYXQgYXJlIHNlbGVjdGVkIGluIHRoZSB0YWJsZS4KCk5vdGUgdGhhdCAxOSBwcm90ZWlucyBhcmUgcmVjb3ZlcmVkIGFzIHNpZ25pZmljYW50LiBBcyBleHBlY3RlZCBhbGwKdGhlc2UgcHJvdGVpbnMgYXJlIFVQUyBwcm90ZWlucyB3aGljaCBhcmUga25vd24gdG8gYmUgc3Bpa2VkIGluIHRoZQpzYW1wbGVzLiBJZiB5b3UgdW50aWNrIHRoZSBvcHRpb24gYG9ubHkgc2lnbmlmaWNhbnQgZmVhdHVyZXMgaW4KdGFibGVgLCBhbGwgcHJvdGVpbnMgYXJlIHNob3duIGluIHRoZSB0YWJsZS4KCllvdSBjYW4gaGlnaGxpZ2h0IHByb3RlaW5zIG9uIHRoZSB2b2xjYW5vIHBsb3QgYnkgc2VsZWN0aW5nIGxpbmVzIG9mCmludGVyZXN0IGluIHRoZSByZXN1bHQgdGFibGUuIFlvdSBjYW4gYWxzbyBzZWFyY2ggZm9yIHNwZWNpZmljCnByb3RlaW5zIGluIHRoZSBsaXN0IGJ5IHVzaW5nIHRoZSBzZWFyY2ggZmllbGQgYWJvdmUgdGhlIHRhYmxlLiBFLmcuCnR5cGUgYHVwc2AuCgojIyMjIERldGFpbCBwbG90cwoKSWYgeW91IHNlbGVjdCBvbmUgcHJvdGVpbiBpbiB0aGUgdGFibGUsIHlvdSBjYW4gYWxzbyBleHBsb3JlIHRoZQp1bmRlcmx5aW5nIG5vcm1hbGlzZWQgcGVwdGlkZSBpbnRlbnNpdGllcyBhbmQgcHJvdGVpbiBpbnRlbnNpdGllcyBvZgp0aGUgdW5kZXJseWluZyBkYXRhIGluIHRoZSAiRGV0YWlsUGxvdHMiOgoKIVtGaWd1cmUgMTcuIG1zcXJvYjIgZGV0YWlsIHBsb3RzLl0oLi9maWd1cmVzL21zcXJvYjJfZGV0YWlscGxvdHMucG5nKQoKWW91IGNhbiBmdXJ0aGVyIG1vZGlmeSB0aGUgcGxvdCBieSBjb2xvcmluZyB0aGUgZGF0YSBhY2NvcmRpbmcgdG8gYQpkZXNpZ24gdmFyaWFibGUgb3IgYnkgc3BsaXR0aW5nIHRoZSBkYXRhIGhvcml6b250YWxseSBvciB2ZXJ0aWNhbGx5CmFjY29yZGluZyB0byBkZXNpZ24gdmFyaWFibGVzLgoKIyMgUmVwb3J0IFRhYgoKQSByZXByb2R1Y2libGUgUm1hcmtkb3duIHNjcmlwdCBhbmQgaHRtbCByZXBvcnQgd2l0aCB0aGUgYW5hbHlzaXMgeW91CnBlcmZvcm1lZCB3aXRoIHRoZSBHVUkgY2FuIGJlIGRvd25sb2FkZWQgaW4gdGhlICJSZXBvcnQiIHRhYi4KCiFbRmlndXJlIDE4LiBtc3Fyb2IyIHJlcG9ydCB0YWJdKC4vZmlndXJlcy9tc3Fyb2IyX3JlcG9ydC5wbmcpCgoxLiBQcm92aWRlIGEgbmFtZSB0byB5b3VyIHByb2plY3QKMi4gWW91IGNhbiBzcGVjaWZ5IHRoZSBudW1iZXIgb2YgZGV0YWlsIHBsb3RzIHlvdSB3YW50IHRvIGdlbmVyYXRlIGluCiAgIHRoZSByZXBvcnQuIFRoZSBkZWZhdWx0IGlzIDEwLCB3aGljaCBpbmRpY2F0ZXMgdGhhdCBkZXRhaWwgcGxvdHMKICAgd2lsbCBiZSBjb25zdHJ1Y3RlZCBmb3IgdGhlIDEwIG1vc3Qgc2lnbmlmaWNhbnQgcHJvdGVpbiBpbiB5b3VyIHRvcAogICBsaXN0LiBOb3RlLCB0aGF0IHRoZSBudW1iZXIgb2YgZGV0YWlsIHBsb3RzIGNhbiBiZSBzbWFsbGVyIGlmIHRoZXJlCiAgIGFyZSBsZXNzIHRoYW4gMTAgcHJvdGVpbnMgc2lnbmlmaWNhbnQgYXQgdGhlIHNwZWNpZmllZCBGRFItbGV2ZWwuCjMuIENsaWNrIHRoZSAiR2VuZXJhdGUgcmVwb3J0IiBidXR0b24gYW5kIGEgcmVwb3J0IHdpbGwgYmUgY29tcGlsZWQuCgpUaGlzIHdpbGwgY3JlYXRlIGEgemlwIGZpbGUgdGhhdCBjb250YWluczoKCi0gYHFmZWF0dXJlc0ZpbGUucmRzYDogQSB0YWIgZGVsaW1pdGVkIGZpbGUgd2l0aCB0aGUgcmF3IGludGVuc2l0eSAKICBkYXRhLgotIGByZXBvcnQuUm1kYCA6IFIvbWFya2Rvd24gZmlsZSB3aXRoIHRoZSBjb2RlIGZvciB0aGUgcmVwb3J0LiBJZiB5b3UKICBvcGVuIHRoZSBmaWxlIGluIFJzdHVkaW8gYW5kIGlmIHlvdSBoaXQgdGhlIGtuaXQgYnV0dG9uIHRoZSByZXBvcnQKICB3aWxsIGJlIGNvbXBpbGVkIHRvIGh0bWwuCgpTbywgeW91ciBhbmFseXNpcyBpcyBzdG9yZWQgaW4gYSBmdWxseSByZXByb2R1Y2libGUgd2F5LiAKCiMjIFdyYXAgdXAgZXhlcmNpc2U6IGV2YWx1YXRlIHN1bW1hcmlzYXRpb24KCldlIGZ1cnRoZXIgZXhwbG9yZSB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHN1bW1hcmlzYXRpb24gbWV0aG9kcy4gV2UKZmlyc3QgYXNzZXNzIHRoZSBxdWFsaXR5IG9mIHRoZSBmb2xkIGNoYW5nZSBlc3RpbWF0ZXMgZm9yIHRoZSByb2J1c3QKc3VtbWFyaXNhdGlvbi4gCgpHbyBiYWNrIHRvIHRoZSAiSW5mZXJlbmNlIiB0YWIuIFdlIHdpbGwgbWFrZSB1c2Ugb2YgdGhlIGJveHBsb3QgYXQgdGhlCmJvdHRvbSBvZiB0aGUgcXVhbnRpZmljYXRpb24gdGFiLgoKMS4gVW50aWNrIHRoZSBvcHRpb24gYG9ubHkgc2lnbmlmaWNhbnQgZmVhdHVyZXMgaW4gdGFibGVgIHRvIHNob3cgYWxsCiAgIHByb3RlaW5zIGluIHRoZSB0YWJsZS4gVGhlIGJveHBsb3QgYmVsb3cgdGhlIHRhYmxlIHZpc3VhbGlzZXMgdGhlCiAgIGxvZzIgZm9sZCBjaGFuZ2UgKEZDKSBlc3RpbWF0ZXMgZm9yIGFsbCBwcm90ZWlucyBpbiB0aGUgdGFibGUuCjIuIFdlIGNhbiBub3cgZmlsdGVyIHRoZSB1cHMgcHJvdGVpbnMgYnkgdHlwaW5nICJ1cHMiIGluIHRoZSBzZWFyY2gKICAgZmllbGQgYWJvdmUgdGhlIHRhYmxlLiBOb3cgYWxsIHllYXN0IHByb3RlaW5zIGFyZSByZW1vdmVkIGZyb20gdGhlCiAgIHJlc3VsdHMgdGFibGUgYW5kIGEgYm94cGxvdCBvZiB0aGUgdXBzIHByb3RlaW4gbG9nMiBGQ3Mgd2lsbCBiZQogICBtYWRlLgoKIVtGaWd1cmUgMTkuIG1zcXJvYjIgSW5mZXJlbmNlIHRhYiB3aXRoIEZvbGQgQ2hhbmdlIEJveHBsb3QgZm9yIGFsbCBVUFMgcHJvdGVpbnNdKC4vZmlndXJlcy9tc3Fyb2IyX3Vwcy5wbmcpCgpUcnkgYW5zd2VyaW5nIHRoZSBmb2xsb3dpbmcgcXVlc3Rpb25zOgoKLSBXZSBrbm93IHRoZSByZWFsIEZDIGZvciB0aGUgc3Bpa2UgaW4gcHJvdGVpbnMgKHNlZQogIGRlc2NyaXB0aW9uIG9mIHRoZSBkYXRhIDIuMikuIE5vdGUsIHRoYXQgdGhlIGJveHBsb3QgaXMgc2hvd2luZyB0aGUKICBsb2cyIEZDLiBXaGF0IGRvIHlvdSBvYnNlcnZlPwotIE5vdyBzZWxlY3QgYWxsIHllYXN0IHByb3RlaW5zLiBXaGF0IGlzIHRoZSByZWFsIGZvbGQgY2hhbmdlCiAgYW5kIHdoYXQgZG8geW91IG9ic2VydmU/Ci0gUmVwZWF0IHRoZSBjb21wbGV0ZSBhbmFseXNpcywgYnV0IHRoaXMgdGltZSBhcHBseSB0aGUgbWVkaWFuIAogIHN1bW1hcmlzYXRpb24gbWV0aG9kIGluIFN0ZXAgNSBpbiB0aGUgZGF0YSBwcmVwcm9jZXNzaW5nLiBXaGF0IGRvCiAgeW91IG9ic2VydmUsIGhvdyBkb2VzIHRoYXQgY29tcGFyZSB0byB0aGUgcm9idXN0IHN1bW1hcmlzYXRpb24gYW5kCiAgdHJ5IHRvIGV4cGxhaW4gdGhpcz8KCiMjIEZpbmFsIHJlbWFyawoKTm90ZSwgdGhhdCB0aGUgc2hpbnkgYXBwcyBhcmUgaW50ZXJmYWNlcyB0byB0aGUgc3RhdGlzdGljYWwKcHJvZ3JhbW1pbmcgc29mdHdhcmUgUi4KClRoZSBhbmFseXNpcyBjYW4gYWxzbyBiZSBjb25kdWN0ZWQgdXNpbmcgc2NyaXB0cywgd2hpY2ggZ2l2ZXMgeW91IG11Y2gKbW9yZSBmdW5jdGlvbmFsaXR5IGFuZCB0aGUgYWJpbGl0eSB0byBzdHJlYW1saW5lLCBhdXRvbWF0ZSBhbmQKZG9jdW1lbnQgeW91ciBhbmFseXNlcyBpbiBhIHJlcHJvZHVjaWJsZSB3YXkuCg==</div>
-<div class="footer">
-    <hr>
-    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
-    CC BY-NC-SA 4.0</a> licence.
-</div>
 
 
-</div>
-</div>
 
 </div>
 
@@ -1106,42 +964,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("cptac_robust_gui.Rmd");
-  window.initializeCodeFolding("show" === "show");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

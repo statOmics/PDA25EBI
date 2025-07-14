@@ -612,9 +612,8 @@ problemPlots[[1]] <- res |>
     scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
     theme_minimal() 
 
-for (i in 2:3)
-{
-problemPlots[[i]] <- colData(pe) |> 
+i <- 1
+problemPlots[[i+1]] <- colData(pe) |> 
     as.data.frame() |> 
     mutate(intensity = pe[["protein"]][rownames(res)[i],] |> 
              assay() |> 
@@ -624,7 +623,19 @@ problemPlots[[i]] <- colData(pe) |>
     geom_point() + 
     ylim(-3,0) +
     ggtitle(rownames(res)[i])
-}
+
+
+i <- 2
+problemPlots[[i+1]] <- colData(pe) |> 
+    as.data.frame() |> 
+    mutate(intensity = pe[["protein"]][rownames(res)[i],] |> 
+             assay() |> 
+             c()
+           ) |> 
+    ggplot(aes(x=genotype,y=intensity)) +
+    geom_point() + 
+    ylim(0,3) +
+    ggtitle(rownames(res)[i])
 ```
 </p></details>
 

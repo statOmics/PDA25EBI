@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.6.18)  9 JUL 2025 18:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.6.18)  14 JUL 2025 17:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -931,12 +931,12 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-28-1.pdf, id=185, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-28-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-1.pdf  used on input line 1141.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-1.pdf  used on input line 1152.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-28-2.pdf, id=186, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-2.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-28-2.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-2.pdf  used on input line 1153.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-2.pdf  used on input line 1159.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -944,7 +944,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-28-3.pdf, id=199, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-3.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-28-3.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-3.pdf  used on input line 1160.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-28-3.pdf  used on input line 1166.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -954,12 +954,12 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-30-1.pdf, id=218, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-30-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-30-1.pdf  used on input line 1228.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-30-1.pdf  used on input line 1234.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <./figures/limmaShrinkage.png, id=219, 415.5525pt x 313.17pt>
 File: ./figures/limmaShrinkage.png Graphic file (type png)
 <use ./figures/limmaShrinkage.png>
-Package pdftex.def Info: ./figures/limmaShrinkage.png  used on input line 1243.
+Package pdftex.def Info: ./figures/limmaShrinkage.png  used on input line 1249.
 (pdftex.def)             Requested size: 234.8775pt x 177.00827pt.
 
 
@@ -967,7 +967,7 @@ Package pdftex.def Info: ./figures/limmaShrinkage.png  used on input line 1243.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-33-1.pdf, id=233, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-33-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-33-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-33-1.pdf  used on input line 1324.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-33-1.pdf  used on input line 1330.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -977,7 +977,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-37-1.pdf, id=253, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-37-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-37-1.pdf  used on input line 1419.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-37-1.pdf  used on input line 1425.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -985,7 +985,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-38-1.pdf, id=258, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-38-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-38-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-38-1.pdf  used on input line 1450.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-38-1.pdf  used on input line 1456.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -993,12 +993,12 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-39-1.pdf, id=273, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-39-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-39-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-39-1.pdf  used on input line 1478.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-39-1.pdf  used on input line 1484.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
 [24 <./pda_quantification_inference_files/figure-latex/unnamed-chunk-38-1.pdf>]
-Underfull \vbox (badness 10000) detected at line 1517
+Underfull \vbox (badness 10000) detected at line 1523
  []
 
 
@@ -1007,95 +1007,95 @@ Underfull \vbox (badness 10000) detected at line 1517
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-1.pdf, id=293, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-1.pdf  used on input line 1519.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-1.pdf  used on input line 1525.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-2.pdf, id=294, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-2.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-2.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-2.pdf  used on input line 1520.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-2.pdf  used on input line 1526.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-3.pdf, id=295, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-3.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-3.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-3.pdf  used on input line 1521.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-3.pdf  used on input line 1527.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-4.pdf, id=296, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-4.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-4.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-4.pdf  used on input line 1522.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-4.pdf  used on input line 1528.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-5.pdf, id=297, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-5.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-5.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-5.pdf  used on input line 1523.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-5.pdf  used on input line 1529.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-6.pdf, id=298, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-6.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-6.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-6.pdf  used on input line 1524.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-6.pdf  used on input line 1530.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-7.pdf, id=299, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-7.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-7.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-7.pdf  used on input line 1525.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-7.pdf  used on input line 1531.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-8.pdf, id=300, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-8.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-8.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-8.pdf  used on input line 1526.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-8.pdf  used on input line 1532.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-9.pdf, id=301, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-9.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-9.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-9.pdf  used on input line 1527.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-9.pdf  used on input line 1533.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-40-10.pdf, id=302, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-10.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-40-10.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-10.pdf  used on input line 1528.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-40-10.pdf  used on input line 1534.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1535
 []
  []
 
@@ -1123,7 +1123,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1519--1529
 <./figures/mouseTcell_RCB_design.png, id=396, 465.74pt x 649.42625pt>
 File: ./figures/mouseTcell_RCB_design.png Graphic file (type png)
 <use ./figures/mouseTcell_RCB_design.png>
-Package pdftex.def Info: ./figures/mouseTcell_RCB_design.png  used on input line 1584.
+Package pdftex.def Info: ./figures/mouseTcell_RCB_design.png  used on input line 1590.
 (pdftex.def)             Requested size: 234.8775pt x 327.50679pt.
 
 
@@ -1138,21 +1138,21 @@ Package pdftex.def Info: ./figures/mouseTcell_RCB_design.png  used on input line
 [40]
 
 [41]
-Underfull \vbox (badness 10000) detected at line 2221
+Underfull \vbox (badness 10000) detected at line 2227
  []
 
 
-Underfull \vbox (badness 10000) detected at line 2221
+Underfull \vbox (badness 10000) detected at line 2227
  []
 
 
 
 [42]
-Underfull \vbox (badness 10000) detected at line 2221
+Underfull \vbox (badness 10000) detected at line 2227
  []
 
 
-Underfull \vbox (badness 10000) detected at line 2221
+Underfull \vbox (badness 10000) detected at line 2227
  []
 
 
@@ -1161,12 +1161,12 @@ Underfull \vbox (badness 10000) detected at line 2221
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-52-1.pdf, id=446, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-52-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-1.pdf  used on input line 2229.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-1.pdf  used on input line 2235.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-52-2.pdf, id=447, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-2.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-52-2.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-2.pdf  used on input line 2237.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-2.pdf  used on input line 2243.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1174,7 +1174,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-52-3.pdf, id=457, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-3.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-52-3.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-3.pdf  used on input line 2245.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-52-3.pdf  used on input line 2251.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1184,7 +1184,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-55-1.pdf, id=476, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-55-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-55-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-55-1.pdf  used on input line 2340.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-55-1.pdf  used on input line 2346.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1192,20 +1192,20 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-56-1.pdf, id=490, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-56-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-56-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-56-1.pdf  used on input line 2354.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-56-1.pdf  used on input line 2360.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-59-1.pdf, id=491, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-59-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-59-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-59-1.pdf  used on input line 2370.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-59-1.pdf  used on input line 2376.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-59-2.pdf, id=492, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-59-2.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-59-2.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-59-2.pdf  used on input line 2371.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-59-2.pdf  used on input line 2377.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2370--2372
+Underfull \hbox (badness 10000) in paragraph at lines 2376--2378
 [][]
  []
 
@@ -1217,7 +1217,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 2370--2372
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-61-1.pdf, id=517, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-61-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-61-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-61-1.pdf  used on input line 2405.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-61-1.pdf  used on input line 2411.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1231,12 +1231,12 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-73-1.pdf, id=564, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-73-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-73-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-73-1.pdf  used on input line 2738.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-73-1.pdf  used on input line 2744.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-74-1.pdf, id=565, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-74-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-74-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-74-1.pdf  used on input line 2762.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-74-1.pdf  used on input line 2768.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1244,7 +1244,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-75-1.pdf, id=575, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-75-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-75-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-75-1.pdf  used on input line 2793.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-75-1.pdf  used on input line 2799.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1254,7 +1254,7 @@ Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed
 <pda_quantification_inference_files/figure-latex/unnamed-chunk-76-1.pdf, id=601, 469.755pt x 325.215pt>
 File: pda_quantification_inference_files/figure-latex/unnamed-chunk-76-1.pdf Graphic file (type pdf)
 <use pda_quantification_inference_files/figure-latex/unnamed-chunk-76-1.pdf>
-Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-76-1.pdf  used on input line 2854.
+Package pdftex.def Info: pda_quantification_inference_files/figure-latex/unnamed-chunk-76-1.pdf  used on input line 2860.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -1275,7 +1275,7 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  83i,10n,93p,1025b,691s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on pda_quantification_inference.pdf (58 pages, 2280927 bytes).
+Output written on pda_quantification_inference.pdf (58 pages, 2281518 bytes).
 PDF statistics:
  794 PDF objects out of 1000 (max. 8388607)
  609 compressed objects within 7 object streams

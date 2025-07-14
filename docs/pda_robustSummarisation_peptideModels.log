@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.6.18)  9 JUL 2025 18:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.6.18)  14 JUL 2025 17:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -504,18 +504,18 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@toc=\write4
 \openout4 = `pda_robustSummarisation_peptideModels.toc'.
 
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 163.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 171.
 (/Users/lclement/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 164.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 172.
 
 
 [1
 
 {/Users/lclement/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/lclement/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 211.
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 219.
 (/Users/lclement/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -555,7 +555,7 @@ File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 [18]
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 1243.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 1251.
 
 
 
@@ -668,22 +668,21 @@ LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
 [72]
 
 [73]
-<pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf, id=356, 469.755pt x 325.215pt>
-File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
-<use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 4842.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
 
 [74]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4847.
+<pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf, id=360, 469.755pt x 325.215pt>
+File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
+<use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf>
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 4850.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4855.
 (/Users/lclement/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-11-1.pdf, id=361, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 4862.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 4870.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -697,7 +696,7 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-25-1.pdf, id=404, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-25-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-25-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-25-1.pdf  used on input line 5225.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-25-1.pdf  used on input line 5233.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -707,7 +706,7 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-27-1.pdf, id=423, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-27-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 5270.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 5278.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -715,7 +714,7 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-29-1.pdf, id=436, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-29-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-29-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-29-1.pdf  used on input line 5325.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-29-1.pdf  used on input line 5333.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -723,7 +722,7 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-31-1.pdf, id=447, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-31-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-31-1.pdf  used on input line 5375.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-31-1.pdf  used on input line 5383.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -731,12 +730,12 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-1.pdf, id=457, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-1.pdf  used on input line 5417.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-1.pdf  used on input line 5425.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-2.pdf, id=458, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-2.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-2.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-2.pdf  used on input line 5425.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-33-2.pdf  used on input line 5433.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -746,7 +745,7 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-35-1.pdf, id=481, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-35-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-35-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-35-1.pdf  used on input line 5500.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-35-1.pdf  used on input line 5508.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
@@ -754,15 +753,15 @@ Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-late
 <pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-37-1.pdf, id=491, 469.755pt x 325.215pt>
 File: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type pdf)
 <use pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-37-1.pdf>
-Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-37-1.pdf  used on input line 5535.
+Package pdftex.def Info: pda_robustSummarisation_peptideModels_files/figure-latex/unnamed-chunk-37-1.pdf  used on input line 5543.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <./figures/maxLFQ_principle.png, id=492, 1061.9675pt x 841.1425pt>
 File: ./figures/maxLFQ_principle.png Graphic file (type png)
 <use ./figures/maxLFQ_principle.png>
-Package pdftex.def Info: ./figures/maxLFQ_principle.png  used on input line 5554.
+Package pdftex.def Info: ./figures/maxLFQ_principle.png  used on input line 5562.
 (pdftex.def)             Requested size: 1061.64647pt x 840.94792pt.
 
-Overfull \hbox (591.89145pt too wide) in paragraph at lines 5554--5555
+Overfull \hbox (591.89145pt too wide) in paragraph at lines 5562--5563
 [][] 
  []
 
@@ -777,10 +776,10 @@ Overfull \vbox (190.51791pt too high) has occurred while \output is active []
 <./figures/msqrobsum_sum_novel.png, id=509, 3613.5pt x 2409.0pt>
 File: ./figures/msqrobsum_sum_novel.png Graphic file (type png)
 <use ./figures/msqrobsum_sum_novel.png>
-Package pdftex.def Info: ./figures/msqrobsum_sum_novel.png  used on input line 5565.
+Package pdftex.def Info: ./figures/msqrobsum_sum_novel.png  used on input line 5573.
 (pdftex.def)             Requested size: 3613.5pt x 2409.14117pt.
 
-Overfull \hbox (3143.74498pt too wide) in paragraph at lines 5565--5566
+Overfull \hbox (3143.74498pt too wide) in paragraph at lines 5573--5574
 [][] 
  []
 
@@ -792,7 +791,7 @@ Overfull \vbox (1758.71117pt too high) has occurred while \output is active []
 
 
 [90 <./figures/msqrobsum_sum_novel.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 5572--5574
+Underfull \hbox (badness 10000) in paragraph at lines 5580--5582
 
  []
 
@@ -807,13 +806,13 @@ L3 programming layer <2025-05-26>
 Here is how much of TeX's memory you used:
  14597 strings out of 469806
  236677 string characters out of 5481373
- 779265 words of memory out of 5000000
+ 779257 words of memory out of 5000000
  42463 multiletter control sequences out of 15000+600000
  688831 words of font info for 132 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 83i,6n,93p,1310b,2817s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 83i,6n,93p,1310b,2809s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/lclement/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on pda_robustSummarisation_peptideModels.pdf (91 pages, 1279615 bytes).
+Output written on pda_robustSummarisation_peptideModels.pdf (91 pages, 1280148 bytes).
 PDF statistics:
  692 PDF objects out of 1000 (max. 8388607)
  533 compressed objects within 6 object streams
