@@ -114,16 +114,21 @@ pieces of data:
    annotation.
 
 The first step is to upload the `peptides.txt` file. This is the file
-that contains your peptide-level intensities. For a MaxQuant search,
-this peptides.txt file can be found by default in the
-`path_to_raw_files/combined/txt/` folder from the MaxQuant output,
-with `path_to_raw_files` the folder where raw files were saved. In
-this tutorial, we will use a MaxQuant peptides file from MaxQuant that
-can be found on the pdaData repository. To upload the `peptide.txt`
-file, click on the "Browse..." button under the "assayData" tile
-title. You don't need to adapt the default parameters, you can click
-the "Import" button right away. A preview of the table will appear and
-will let you quickly check the data.
+that contains your peptide-level intensities. Note that the
+intensities measured in each sample are stored in a separate column
+and each row represents a peptide. This means that MaxQuant already
+performed aggregation of PSM-level data into peptide-level data. For
+more control on PSM-level quality control and data aggregation, our
+data analysis workflows can also start from the `evidence.txt` files
+which contain PSM-level information, but will not be covered in this
+tutorial. For a MaxQuant search, the `peptides.txt` file can be found
+by default in the `path_to_raw_files/combined/txt/` folder from the
+MaxQuant output, with `path_to_raw_files` the folder where raw files
+were saved. To upload the `peptide.txt` file, click on the "Browse..."
+button under the "assayData" tile title. You don't need to adapt the
+default parameters, you can click the "Import" button right away. A
+preview of the table will appear and will let you quickly check the
+data.
 
 ![Figure 5. The peptide data have been succesfully uploaded](./figures/peptides_imported.png)
 
@@ -150,12 +155,12 @@ modelling in the next section.
 
 ![Figure 6. The sample annotations have been succesfully uploaded](./figures/annotations_imported.png)
 
-For the CPTAC dataset analyzed with MaxQuant, the first column equals
+For the CPTAC dataset analysed with MaxQuant, the first column equals
 the names given in MaxQuant’s "Experiment" column. The second column
 contains the names of the quantitative columns in the table above; it
-should always be named `quantCols`. This will allow to correctly link
-the two tables. The last column is related to the study design; here
-the treatment provides the spike-in condition.
+should always be named `quantCols` as it will allow the software to
+correctly link the two tables. The last column is related to the study
+design; here the treatment provides the spike-in condition.
 
 You are now ready to link the two tables into a `QFeatures` object,
 which is the internal representation of the data we will use for the
@@ -163,9 +168,8 @@ rest of the workflow. Scroll up to the "QFeatures Converter" tile. You
 can leave all the default setting and click on the green button
 "Convert to a QFeatures object".  
 
-After setting your output location and uploading your files, a preview
-of the data appears (feel free to click on the table row). The window
-should look as follows:
+After uploading your files, a preview of the data appears (feel free
+to click on the table row). The window should look as follows:
 
 ![Figure 7. The QFeatures object is successfully converted](./figures/qfeatures_imported.png)
 
@@ -228,8 +232,8 @@ filtering, so we will add this information as a feature annotation.
 In this step, we will actually remove undesirable peptides. We will
 use the following criteria:
 
-- Remove peptides that could not be mapped to a protein
-- Remove reverse sequences (decoys) 
+- Remove peptides that could not be mapped to a protein.
+- Remove reverse sequences (decoys)
 - Remove contaminants
 - Remove peptides that were identified in less than three sample
 
@@ -249,7 +253,7 @@ To perform this filtering and carry out the sep, you can:
 We normalise the data by substracting the sample median from every
 intensity for peptide $p$  in a sample $i$:
 
-$$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$
+$$y_{ip}^\text{norm} = y_{ip} - \hat{\mu_i}$$
 
 with $\hat\mu_i$ the median intensity over all observed peptides in
 sample $i$.
@@ -335,6 +339,24 @@ with the intensity distributions for each sample.
 
 ![Figure 13. msqrob2gui application upon data import.](./figures/msqrob2_imported.png)
 
+When you scroll down the page, you will find a drop down text selector
+(under the table). Change "run" into "treatment" and look at the
+principal component analysis (PCA) plot. How would you interpret this
+graph?
+
+![Figure 14. PCA plot of the CPTAC data set.](./figures/msqrob2_pca.png)
+
+The PCA plot indicates that we can expect a treatment effect in the
+data as the sample belonging to one treatment can be separated from
+the samples belonging to the other treatment. We also see that this
+separation mostly occurs in the second principal componen. The first
+component, which explains most of the variation, does not seem to bear
+correlation associated with treatment. This is expected as we know
+that only a few protein were spiked in, so we do not expect an effect
+of treatment for most proteins. We will now delve into the data
+modelling and inference that will statistically quantify these effects
+for each protein individually.
+
 ### Data modelling
 
 You can now move to the data modelling tab by clicking "Model" in the
@@ -348,7 +370,7 @@ descriptive paragraph in the application).
 
 Note that as soon as we do that, the design is visualised. 
 
-![Figure 14. msqrob2 Model tab with design](./figures/msqrob2_model.png)
+![Figure 15. msqrob2 Model tab with design](./figures/msqrob2_model.png)
 
 This visualisation shows the different group means that are modelled. 
 
@@ -408,7 +430,7 @@ reality no effect of the treatment).
 To proceed, fill in the field "Null hypothesis" with `treatmentB = 0`.
 After 1-2 second, the window is updated 
 
-![Figure 15. msqrob2 Inference tab with contrast](./figures/msqrob2_inference.png)
+![Figure 16. msqrob2 Inference tab with contrast](./figures/msqrob2_inference.png)
 
 #### Volcano plot
 
@@ -441,7 +463,7 @@ If you select one protein in the table, you can also explore the
 underlying normalised peptide intensities and protein intensities of
 the underlying data in the "DetailPlots":
 
-![Figure 16. msqrob2 detail plots.](./figures/msqrob2_detailplots.png)
+![Figure 17. msqrob2 detail plots.](./figures/msqrob2_detailplots.png)
 
 You can further modify the plot by coloring the data according to a
 design variable or by splitting the data horizontally or vertically
@@ -452,7 +474,7 @@ according to design variables.
 A reproducible Rmarkdown script and html report with the analysis you
 performed with the GUI can be downloaded in the "Report" tab.
 
-![Figure 17. msqrob2 report tab](./figures/msqrob2_report.png)
+![Figure 18. msqrob2 report tab](./figures/msqrob2_report.png)
 
 1. Provide a name to your project
 2. You can specify the number of detail plots you want to generate in
@@ -489,7 +511,7 @@ bottom of the quantification tab.
    results table and a boxplot of the ups protein log2 FCs will be
    made.
 
-![Figure 18. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins](./figures/msqrob2_ups.png)
+![Figure 19. msqrob2 Inference tab with Fold Change Boxplot for all UPS proteins](./figures/msqrob2_ups.png)
 
 Try answering the following questions:
 
