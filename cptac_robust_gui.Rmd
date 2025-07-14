@@ -232,10 +232,10 @@ filtering, so we will add this information as a feature annotation.
 In this step, we will actually remove undesirable peptides. We will
 use the following criteria:
 
-- Remove peptides that could not be mapped to a protein.
-- Remove reverse sequences (decoys)
-- Remove contaminants
-- Remove peptides that were identified in less than three sample
+- Remove peptides that could not be mapped to a protein. In the peptides.txt file of MaxQuant the variable Proteins consists of an empty character: `Proteins != ` 
+- Remove reverse sequences (decoys). In the peptides.txt file of MaxQuant the variable Reverse is an empty character for forward sequences (targets) and an "+" character for reverse sequences: `Reverse != +`
+- Remove contaminants. In the peptides.txt file of MaxQuant the variable "Contaminants" or "Potential.contaminant" an empty character for non-contaminant sequences and a "+" character for contaminant sequences: `Potential.contaminant != +`
+- Remove peptides that were identified in less than three sample. There are 6 samples so there number of NA's has to be smaller or equal to: `nNA <= 3`
 
 To perform this filtering and carry out the sep, you can:
 
@@ -271,8 +271,8 @@ can perform this as follows:
 
 1. Move to Step 5 in the left menu.
 2. Click the button to load the previous step.
-3. In the settings, select "robustSummary" in the first field and
-   select "Protein" as the rowData variable defining the features of
+3. In the settings, first select "robustSummary" in the first field and
+   then select "Proteins" as the rowData variable defining the features of
    the assay to aggregate.
 4. Click the button to save the processed data.
 
@@ -284,7 +284,7 @@ at the protein-level instead of peptide-level.
 ### Step 7: protein filtering
 
 In this step, we will remove proteins that were identified in less
-than 4 samples. You may have guessed it by now, but you can proceed 
+than 4 samples so that for most proteins at least two protein-level expression values are observed in each treatment group. So we will tolerate at most 6-4 = 2 missing values at the protein-level. You may have guessed it by now, but you can proceed 
 with:
 
 1. Move to Step 7 in the left menu.
@@ -520,8 +520,7 @@ Try answering the following questions:
   log2 FC. What do you observe?
 - Now select all yeast proteins. What is the real fold change
   and what do you observe?
-- Repeat the complete analysis, but this time apply the median 
-  summarisation method in Step 5 in the data preprocessing. What do
+- Close and reopen the ahiny App and repeat the complete analysis, but this time apply the median summarisation method in Step 5 in the data preprocessing. What do
   you observe, how does that compare to the robust summarisation and
   try to explain this?
 
