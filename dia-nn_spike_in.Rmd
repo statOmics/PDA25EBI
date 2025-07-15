@@ -26,7 +26,7 @@ We will only use the data of two spikin concentrations, which we refer to as con
   The report file can be found in 
   `data/quantification/ups_spikein_dia-nn`.
   
-If you use the GUI for the first time we suggest to first follow the DDA cptac vignette study prior to this DIA vignette. 
+If you use the GUI for the first time we suggest to first follow the DDA cptac vignette study prior to this DIA vignette: [cptac vignette](./cptac_robust_gui.html). 
 
 
 ## Data preprocessing
