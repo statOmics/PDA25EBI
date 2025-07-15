@@ -1,0 +1,7 @@
+runCol	sampleId	condition	rep	quantCols
+B000254_Ap_6883_EXT-765_DIA_Yeast_UPS2_ratio02_DIA	ratio02	A	rep1	Ms1.Area
+B000258_Ap_6883_EXT-765_DIA_Yeast_UPS2_ratio04_DIA	ratio04	B	rep1	Ms1.Area
+B000278_Ap_6883_EXT-765_DIA_Yeast_UPS2_ratio02_DIA_2	ratio02_2	A	rep2	Ms1.Area
+B000282_Ap_6883_EXT-765_DIA_Yeast_UPS2_ratio04_DIA_2	ratio04_2	B	rep2	Ms1.Area
+B000302_Ap_6883_EXT-765_DIA_Yeast_UPS2_ratio02_DIA_3	ratio02_3	A	rep3	Ms1.Area
+B000306_Ap_6883_EXT-765_DIA_Yeast_UPS2_ratio04_DIA_3	ratio04_3	B	rep3	Ms1.Area
