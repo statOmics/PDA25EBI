@@ -76,6 +76,9 @@ If you encounter problems related to the course material (e.g. package installat
   2. Statistical Inference & Analysis of Experiments with Factorial Designs
   - Lecture: [Differential Abundance Analysis](./pda_quantification_inference.html), [[PDF](./pda_quantification_inference.pdf)]
   - Tutorial: [Design](pda_tutorialDesign.html)
+  
+  3. Additional Materials
+  - Vignette to analyse DIA-NN data [DIA-NN workflow](dia-nn_spike_in.html)
 
 ---
 

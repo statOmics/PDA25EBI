@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>Introduction to proteomics data analysis</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PDA25EBI</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Topics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pda_quantification_preprocessing.html">Quantification - Preprocessing</a>
+    </li>
+    <li>
+      <a href="pda_robustSummarisation_peptideModels.html">Wrap-up Preprocessing - Peptide-Level-Models</a>
+    </li>
+    <li>
+      <a href="pda_quantification_inference.html">Quantification - Differential Abundance Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pda_tutorialPreprocessing.html">Quantification - Preprocessing</a>
+    </li>
+    <li>
+      <a href="pda_tutorialDesign.html">Quantification - Design</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/PDA25EBI">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Introduction to proteomics data analysis</h1>
+<h3 class="subtitle">Impact of summarisation</h3>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<div id="the-ups-dia-spike-in-a-vs-b-dataset" class="section level2" number="1">
+<h2><span class="header-section-number">1</span> The UPS DIA Spike in A vs B dataset</h2>
+<p>The DIA case-study is a subset of Staes et al. <span class="citation">(Staes et al. 2024)</span>.
+They spiked digested UPS proteins at five different concentrations in a yeast digest background.
+We will only use the data of two spikin concentrations, which we refer to as condition A and B.</p>
+<ul>
+<li>The subset of the dia-nn data can be downloaded <a href="https://github.com/statOmics/PDA25EBI/archive/refs/heads/data.zip">zip file with
+data</a>.
+The report file can be found in
+<code>data/quantification/ups_spikein_dia-nn</code>.</li>
+</ul>
+<p>If you use the GUI for the first time we suggest to first follow the DDA cptac vignette study prior to this DIA vignette.</p>
+</div>
+<div id="data-preprocessing" class="section level2" number="2">
+<h2><span class="header-section-number">2</span> Data preprocessing</h2>
+<p>Before analysing the data, we must perform data preprocessing. The
+will ensure the data meet our model assumptions. Data import and
+preprocessing is performed by the <code>QFeaturesGUI</code> application.</p>
+<div id="open-qfeaturesgui" class="section level3" number="2.1">
+<h3><span class="header-section-number">2.1</span> Open <code>QFeaturesGUI</code></h3>
+<p>Run the following command (like above):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>QFeaturesGUI<span class="sc">::</span><span class="fu">importQFeatures</span>()</span></code></pre></div>
+</div>
+<div id="import-the-data" class="section level3" number="2.2">
+<h3><span class="header-section-number">2.2</span> Import the data</h3>
+<p>Our MS-based proteomics data analysis workflows always start with 2
+pieces of data:</p>
+<ol style="list-style-type: decimal">
+<li><p>The search engine output. In this tutorial, we will use the
+identified and quantified peptide data by DIA-NN, called
+<code>peptides.txt</code>.</p></li>
+<li><p>An annotation file describing the experimental design. Each line
+corresponds to a sample and each column provides a sample
+annotation.</p></li>
+</ol>
+<p>The main difference with the peptide.txt file of MaxQuant is that the DIA-NN report file is a flat file while the MaxQuant peptide.txt file is a wide file.</p>
+<p>This will involve an additional step in the data preprocessing.</p>
+<p>When importing a flat file in the QFeaturesGUI will store the data of each run in a separate assay.</p>
+<p>We will then join the assays of each of the runs in a separate assay.</p>
+<p>Similarly as in the CPTAC vignette, we will</p>
+<ol style="list-style-type: decimal">
+<li><p>first import the DIA-NN data in the assayData tab: <code>report_libfree2023_2-4_small.tsv</code> and</p></li>
+<li><p>The corresponding experimental annotation file <code>report_libfree2023_2-4_annotation_Precursor.Quantity.tsv</code> in the colData tab. The annotation file contains a variable quantCols that refers to the Precursor.Quantity column from DIA-NN, which provide the MS2 quantifications. If you want to work with the MS1 quantifications you need to use <code>Ms1.Area</code> in the variable quantCols (see report_libfree2023_2-4_annotation_Ms1.Area). Because the DIA-NN report file is a flat file the annotation file also have to provide a column with the information of the run names in the annotation file. The name of the latter column has to be <code>runCol</code>.</p></li>
+<li><p>Finaly we import the data in a QFeatures object using the QFeatures converter tab.
+Note, in the QFeatures tab we also have to indicate the name of the run column in the assayData for files in a flat format. For DIA-NN data this column is named <code>run</code>.</p></li>
+</ol>
+<p><img src="figures/qfeatures_imported_diann.png" alt="Figure 1. The QFeatures object is successfully converted" />
+Note, that multiple assays are created. One for each run.</p>
+</div>
+<div id="configuring-the-preprocessing-worflow" class="section level3" number="2.3">
+<h3><span class="header-section-number">2.3</span> Configuring the preprocessing worflow</h3>
+<p>Move to the next table by clicking on “Pre-Processing Configuration”
+in the menu to the left. Click on the green button “+” to add a step.
+In this tutorial, you will need to add 9 steps in total.
+Two steps more then for the cptac vignette:</p>
+<ul>
+<li><p>An additional feature filtering step to retain precursors that have not been identified, which have a low Q value (low FDR for identification) or a low protein group Q value.</p></li>
+<li><p>A step to join the assays of the different runs in a single assay.</p></li>
+</ul>
+<p>You should
+parameterise them as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Feature filtering</li>
+<li>Join assays</li>
+<li>Log Transformation</li>
+<li>Add Annotations</li>
+<li>Features filtering</li>
+<li>Normalisation</li>
+<li>Aggregation</li>
+<li>Add Annotations</li>
+<li>Features filtering</li>
+</ol>
+<p>You can now click the “Confirm Current Workflow” button. On the left
+menu, you will see that the 3rd entry now mentions “3 Pre-processing
+(9 Steps)”. We will now configure and run each of these steps.</p>
+<div class="float">
+<img src="figures/preprocessing_configuration_diann.png" alt="Figure 2. The preprocessing workflow upon configuration" />
+<div class="figcaption">Figure 2. The preprocessing workflow upon configuration</div>
+</div>
+</div>
+<div id="step-1-feature-filtering" class="section level3" number="2.4">
+<h3><span class="header-section-number">2.4</span> Step 1: Feature filtering</h3>
+<p>Note that the PCA plots will fail because every run only contains information about 1 run.</p>
+<p>Add three filtering boxes.</p>
+<ol style="list-style-type: decimal">
+<li>Box to retain precursors that have been identified: <code>Precursor.Id !=</code></li>
+<li>Box to retain precursors with a Q-value below 0.01: <code>Q.Value &lt;= 0.01</code></li>
+<li>Box to retain precursors with a Q-value below 0.01: <code>PG.Q.Value &lt;= 0.01</code></li>
+</ol>
+<p>Then we perform the filtering and save the assay:
+4. Click <code>apply filters</code>
+5. Click <code>save the processed assays</code></p>
+</div>
+<div id="step-2-assay-joining" class="section level3" number="2.5">
+<h3><span class="header-section-number">2.5</span> Step 2: Assay joining</h3>
+<ol style="list-style-type: decimal">
+<li>Click <code>Load assays from previous steps</code></li>
+<li>Select the <code>Precursor.Id</code> column as the annotation name</li>
+<li>Click <code>join assays</code></li>
+<li>Click <code>save the processed assays</code></li>
+</ol>
+<div class="float">
+<img src="figures/assayjoining.png" alt="Figure 3. Assay joining" />
+<div class="figcaption">Figure 3. Assay joining</div>
+</div>
+</div>
+<div id="step-3-log-transformation" class="section level3" number="2.6">
+<h3><span class="header-section-number">2.6</span> Step 3: Log transformation</h3>
+<p>Similar to the cptac vignette we log transform the data.</p>
+<p>Once you are done, click the “Save the processed data” button.</p>
+</div>
+<div id="step-4-add-annotations" class="section level3" number="2.7">
+<h3><span class="header-section-number">2.7</span> Step 4: add annotations</h3>
+<p>Similar to the cptac vignette we add the annotation on the missing values.</p>
+</div>
+<div id="step-5-precursor-filtering" class="section level3" number="2.8">
+<h3><span class="header-section-number">2.8</span> Step 5: precursor filtering</h3>
+<ol style="list-style-type: decimal">
+<li><p>We filter the precursors based on the number of NAs.
+Again we want only precursors that were observed in at least 3 runs so nNA has to be smaller or equal to than 6-3 = 3 .
+<code>nNA &lt;= 3</code></p></li>
+<li><p>With DIA-NN you can keep the precursors that only map to one protein:
+<code>Proteotypic == 1</code></p></li>
+<li><p>In the “Filtering Summary” tile, click the “Apply Filters” button.</p></li>
+<li><p>Click the button to save the processed data.</p></li>
+</ol>
+</div>
+<div id="step-6-normalisation" class="section level3" number="2.9">
+<h3><span class="header-section-number">2.9</span> Step 6: Normalisation</h3>
+<p>Again we normalise the data as in the previous vignette by using median centering.</p>
+</div>
+<div id="step-7-summarisation" class="section level3" number="2.10">
+<h3><span class="header-section-number">2.10</span> Step 7: Summarisation</h3>
+<p>Again we summarize the data as in the previous vignette us <code>Protein.Ids</code> to aggregate the precursor-level data in a protein-level expression value.</p>
+</div>
+<div id="step-8-add-annotations" class="section level3" number="2.11">
+<h3><span class="header-section-number">2.11</span> Step 8: add annotations</h3>
+<p>Repeat step 2, this will allow to perform a filtering on missing, but
+at the protein-level instead of peptide-level.</p>
+</div>
+<div id="step-9-protein-filtering" class="section level3" number="2.12">
+<h3><span class="header-section-number">2.12</span> Step 9: protein filtering</h3>
+<p>Again, we will remove proteins that were identified in less
+than 4 samples so that for most proteins at least two protein-level expression values are observed in each treatment group.</p>
+<p>So we will tolerate at most 6-4 = 2 missing values at the protein-level.</p>
+</div>
+<div id="save-your-progress" class="section level3" number="2.13">
+<h3><span class="header-section-number">2.13</span> Save your progress</h3>
+<p>You now have completed the data processing. You can move to the
+Summary tab (in the left menu). There you will find an overview of the
+data and the data processing steps.</p>
+<p>Go to the bottom of the page and click on the “Download QFeatures”
+button. A pop up windown will ask you to select a directory to store
+the resulting file. By default the file is called
+<code>qfeatures_object.rds</code>, but feel free to rename as you wish but you
+cannot change the file extension (<code>.rds</code>).</p>
+<p>You can now close the application.</p>
+</div>
+</div>
+<div id="statistical-analysis" class="section level2" number="3">
+<h2><span class="header-section-number">3</span> Statistical analysis</h2>
+<div id="open-msqrob2gui" class="section level3" number="3.1">
+<h3><span class="header-section-number">3.1</span> Open <code>msqrob2gui</code></h3>
+<p>The differential analysis in the msqrob2gui remains similar to the previous vignette and tutorials.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Staes2024" class="csl-entry">
+Staes, An, Teresa Maia, Sara Dufour, Robbin Bouwmeester, Ralf Gabriels, Lennart Martens, Kris Gevaert, Francis Impens, and Simon Devos. 2024. <span>“Benefit of in Silico Predicted Spectral Libraries in Data‑independent Acquisition Data Analysis Workflows.”</span> <em>Journal of Proteome Research</em> 23 (6): 2078–89. <a href="https://doi.org/10.1021/acs.jproteome.4c00048">https://doi.org/10.1021/acs.jproteome.4c00048</a>.
+</div>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWN0aW9uIHRvIHByb3Rlb21pY3MgZGF0YSBhbmFseXNpcyIKc3VidGl0bGU6ICJJbXBhY3Qgb2Ygc3VtbWFyaXNhdGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIHRoZW1lOiBmbGF0bHkgICAgICAKICAgICAgY29kZV9kb3dubG9hZDogZmFsc2UKICAgICAgdG9jOiBmYWxzZQogICAgICB0b2NfZmxvYXQ6IGZhbHNlCiAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKYmlibGlvZ3JhcGh5OiBtc3Fyb2IyLmJpYgotLS0KCjxhIHJlbD0ibGljZW5zZSIgaHJlZj0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCI+PGltZyBhbHQ9IkNyZWF0aXZlIENvbW1vbnMgTGljZW5zZSIgc3R5bGU9ImJvcmRlci13aWR0aDowIiBzcmM9Imh0dHBzOi8vaS5jcmVhdGl2ZWNvbW1vbnMub3JnL2wvYnktbmMtc2EvNC4wLzg4eDMxLnBuZyIgLz48L2E+CgojIyBUaGUgVVBTIERJQSBTcGlrZSBpbiBBIHZzIEIgZGF0YXNldAoKVGhlIERJQSBjYXNlLXN0dWR5IGlzIGEgc3Vic2V0IG9mIFN0YWVzIGV0IGFsLiBbQFN0YWVzMjAyNF0uIApUaGV5IHNwaWtlZCBkaWdlc3RlZCBVUFMgcHJvdGVpbnMgYXQgZml2ZSBkaWZmZXJlbnQgY29uY2VudHJhdGlvbnMgaW4gYSB5ZWFzdCBkaWdlc3QgYmFja2dyb3VuZC4gCldlIHdpbGwgb25seSB1c2UgdGhlIGRhdGEgb2YgdHdvIHNwaWtpbiBjb25jZW50cmF0aW9ucywgd2hpY2ggd2UgcmVmZXIgdG8gYXMgY29uZGl0aW9uIEEgYW5kIEIuIAoKLSBUaGUgc3Vic2V0IG9mIHRoZSBkaWEtbm4gZGF0YSBjYW4gYmUgZG93bmxvYWRlZCBbemlwIGZpbGUgd2l0aCAKICBkYXRhXShodHRwczovL2dpdGh1Yi5jb20vc3RhdE9taWNzL1BEQTI1RUJJL2FyY2hpdmUvcmVmcy9oZWFkcy9kYXRhLnppcCkuCiAgVGhlIHJlcG9ydCBmaWxlIGNhbiBiZSBmb3VuZCBpbiAKICBgZGF0YS9xdWFudGlmaWNhdGlvbi91cHNfc3Bpa2Vpbl9kaWEtbm5gLgogIApJZiB5b3UgdXNlIHRoZSBHVUkgZm9yIHRoZSBmaXJzdCB0aW1lIHdlIHN1Z2dlc3QgdG8gZmlyc3QgZm9sbG93IHRoZSBEREEgY3B0YWMgdmlnbmV0dGUgc3R1ZHkgcHJpb3IgdG8gdGhpcyBESUEgdmlnbmV0dGUuIAoKCiMjIERhdGEgcHJlcHJvY2Vzc2luZwoKQmVmb3JlIGFuYWx5c2luZyB0aGUgZGF0YSwgd2UgbXVzdCBwZXJmb3JtIGRhdGEgcHJlcHJvY2Vzc2luZy4gVGhlCndpbGwgZW5zdXJlIHRoZSBkYXRhIG1lZXQgb3VyIG1vZGVsIGFzc3VtcHRpb25zLiBEYXRhIGltcG9ydCBhbmQKcHJlcHJvY2Vzc2luZyBpcyBwZXJmb3JtZWQgYnkgdGhlIGBRRmVhdHVyZXNHVUlgIGFwcGxpY2F0aW9uLgoKIyMjIE9wZW4gYFFGZWF0dXJlc0dVSWAgCgpSdW4gdGhlIGZvbGxvd2luZyBjb21tYW5kIChsaWtlIGFib3ZlKToKCmBgYHtyLCBldmFsPUZBTFNFfQpRRmVhdHVyZXNHVUk6OmltcG9ydFFGZWF0dXJlcygpCmBgYAoKCiMjIyBJbXBvcnQgdGhlIGRhdGEKCk91ciBNUy1iYXNlZCBwcm90ZW9taWNzIGRhdGEgYW5hbHlzaXMgd29ya2Zsb3dzIGFsd2F5cyBzdGFydCB3aXRoIDIgCnBpZWNlcyBvZiBkYXRhOiAKCjEuIFRoZSBzZWFyY2ggZW5naW5lIG91dHB1dC4gSW4gdGhpcyB0dXRvcmlhbCwgd2Ugd2lsbCB1c2UgdGhlCiAgIGlkZW50aWZpZWQgYW5kIHF1YW50aWZpZWQgcGVwdGlkZSBkYXRhIGJ5IERJQS1OTiwgY2FsbGVkCiAgIGBwZXB0aWRlcy50eHRgLgogICAKMi4gQW4gYW5ub3RhdGlvbiBmaWxlIGRlc2NyaWJpbmcgdGhlIGV4cGVyaW1lbnRhbCBkZXNpZ24uIEVhY2ggbGluZQogICBjb3JyZXNwb25kcyB0byBhIHNhbXBsZSBhbmQgZWFjaCBjb2x1bW4gcHJvdmlkZXMgYSBzYW1wbGUgCiAgIGFubm90YXRpb24uCgpUaGUgbWFpbiBkaWZmZXJlbmNlIHdpdGggdGhlIHBlcHRpZGUudHh0IGZpbGUgb2YgTWF4UXVhbnQgaXMgdGhhdCB0aGUgRElBLU5OIHJlcG9ydCBmaWxlIGlzIGEgZmxhdCBmaWxlIHdoaWxlIHRoZSBNYXhRdWFudCBwZXB0aWRlLnR4dCBmaWxlIGlzIGEgd2lkZSBmaWxlLiAKClRoaXMgd2lsbCBpbnZvbHZlIGFuIGFkZGl0aW9uYWwgc3RlcCBpbiB0aGUgZGF0YSBwcmVwcm9jZXNzaW5nLiAKCldoZW4gaW1wb3J0aW5nIGEgZmxhdCBmaWxlIGluIHRoZSBRRmVhdHVyZXNHVUkgd2lsbCBzdG9yZSB0aGUgZGF0YSBvZiBlYWNoIHJ1biBpbiBhIHNlcGFyYXRlIGFzc2F5LiAKCldlIHdpbGwgdGhlbiBqb2luIHRoZSBhc3NheXMgb2YgZWFjaCBvZiB0aGUgcnVucyBpbiBhIHNlcGFyYXRlIGFzc2F5LiAKClNpbWlsYXJseSBhcyBpbiB0aGUgQ1BUQUMgdmlnbmV0dGUsIHdlIHdpbGwgCgoxLiBmaXJzdCBpbXBvcnQgdGhlIERJQS1OTiBkYXRhIGluIHRoZSBhc3NheURhdGEgdGFiOiBgcmVwb3J0X2xpYmZyZWUyMDIzXzItNF9zbWFsbC50c3ZgIGFuZCAKMi4gVGhlIGNvcnJlc3BvbmRpbmcgZXhwZXJpbWVudGFsIGFubm90YXRpb24gZmlsZSBgcmVwb3J0X2xpYmZyZWUyMDIzXzItNF9hbm5vdGF0aW9uX1ByZWN1cnNvci5RdWFudGl0eS50c3ZgIGluIHRoZSBjb2xEYXRhIHRhYi4gVGhlIGFubm90YXRpb24gZmlsZSBjb250YWlucyBhIHZhcmlhYmxlIHF1YW50Q29scyB0aGF0IHJlZmVycyB0byB0aGUgUHJlY3Vyc29yLlF1YW50aXR5IGNvbHVtbiBmcm9tIERJQS1OTiwgd2hpY2ggcHJvdmlkZSB0aGUgTVMyIHF1YW50aWZpY2F0aW9ucy4gSWYgeW91IHdhbnQgdG8gd29yayB3aXRoIHRoZSBNUzEgcXVhbnRpZmljYXRpb25zIHlvdSBuZWVkIHRvIHVzZSBgTXMxLkFyZWFgIGluIHRoZSB2YXJpYWJsZSBxdWFudENvbHMgKHNlZSByZXBvcnRfbGliZnJlZTIwMjNfMi00X2Fubm90YXRpb25fTXMxLkFyZWEpLiBCZWNhdXNlIHRoZSBESUEtTk4gcmVwb3J0IGZpbGUgaXMgYSBmbGF0IGZpbGUgdGhlIGFubm90YXRpb24gZmlsZSBhbHNvIGhhdmUgdG8gcHJvdmlkZSBhIGNvbHVtbiB3aXRoIHRoZSBpbmZvcm1hdGlvbiBvZiB0aGUgcnVuIG5hbWVzIGluIHRoZSBhbm5vdGF0aW9uIGZpbGUuIFRoZSBuYW1lIG9mIHRoZSBsYXR0ZXIgY29sdW1uIGhhcyB0byBiZSBgcnVuQ29sYC4gCgozLiBGaW5hbHkgd2UgaW1wb3J0IHRoZSBkYXRhIGluIGEgUUZlYXR1cmVzIG9iamVjdCB1c2luZyB0aGUgUUZlYXR1cmVzIGNvbnZlcnRlciB0YWIuIApOb3RlLCBpbiB0aGUgUUZlYXR1cmVzIHRhYiB3ZSBhbHNvIGhhdmUgdG8gaW5kaWNhdGUgdGhlIG5hbWUgb2YgdGhlIHJ1biBjb2x1bW4gaW4gdGhlIGFzc2F5RGF0YSBmb3IgZmlsZXMgaW4gYSBmbGF0IGZvcm1hdC4gRm9yIERJQS1OTiBkYXRhIHRoaXMgY29sdW1uIGlzIG5hbWVkIGBydW5gLgoKCiFbRmlndXJlIDEuIFRoZSBRRmVhdHVyZXMgb2JqZWN0IGlzIHN1Y2Nlc3NmdWxseSBjb252ZXJ0ZWRdKC4vZmlndXJlcy9xZmVhdHVyZXNfaW1wb3J0ZWRfZGlhbm4ucG5nKQpOb3RlLCB0aGF0IG11bHRpcGxlIGFzc2F5cyBhcmUgY3JlYXRlZC4gT25lIGZvciBlYWNoIHJ1bi4gCgojIyMgQ29uZmlndXJpbmcgdGhlIHByZXByb2Nlc3Npbmcgd29yZmxvdwoKTW92ZSB0byB0aGUgbmV4dCB0YWJsZSBieSBjbGlja2luZyBvbiAiUHJlLVByb2Nlc3NpbmcgQ29uZmlndXJhdGlvbiIKaW4gdGhlIG1lbnUgdG8gdGhlIGxlZnQuIENsaWNrIG9uIHRoZSBncmVlbiBidXR0b24gIisiIHRvIGFkZCBhIHN0ZXAuCkluIHRoaXMgdHV0b3JpYWwsIHlvdSB3aWxsIG5lZWQgdG8gYWRkIDkgc3RlcHMgaW4gdG90YWwuIApUd28gc3RlcHMgbW9yZSB0aGVuIGZvciB0aGUgY3B0YWMgdmlnbmV0dGU6IAoKLSBBbiBhZGRpdGlvbmFsIGZlYXR1cmUgZmlsdGVyaW5nIHN0ZXAgdG8gcmV0YWluIHByZWN1cnNvcnMgdGhhdCBoYXZlIG5vdCBiZWVuIGlkZW50aWZpZWQsIHdoaWNoIGhhdmUgYSBsb3cgUSB2YWx1ZSAobG93IEZEUiBmb3IgaWRlbnRpZmljYXRpb24pIG9yIGEgbG93IHByb3RlaW4gZ3JvdXAgUSB2YWx1ZS4gCgotIEEgc3RlcCB0byBqb2luIHRoZSBhc3NheXMgb2YgdGhlIGRpZmZlcmVudCBydW5zIGluIGEgc2luZ2xlIGFzc2F5LiAKCllvdSBzaG91bGQKcGFyYW1ldGVyaXNlIHRoZW0gYXMgZm9sbG93czoKCjEuIEZlYXR1cmUgZmlsdGVyaW5nCjIuIEpvaW4gYXNzYXlzCjMuIExvZyBUcmFuc2Zvcm1hdGlvbgo0LiBBZGQgQW5ub3RhdGlvbnMKNS4gRmVhdHVyZXMgZmlsdGVyaW5nCjYuIE5vcm1hbGlzYXRpb24KNy4gQWdncmVnYXRpb24KOC4gQWRkIEFubm90YXRpb25zCjkuIEZlYXR1cmVzIGZpbHRlcmluZwoKCllvdSBjYW4gbm93IGNsaWNrIHRoZSAiQ29uZmlybSBDdXJyZW50IFdvcmtmbG93IiBidXR0b24uIE9uIHRoZSBsZWZ0Cm1lbnUsIHlvdSB3aWxsIHNlZSB0aGF0IHRoZSAzcmQgZW50cnkgbm93IG1lbnRpb25zICIzIFByZS1wcm9jZXNzaW5nCig5IFN0ZXBzKSIuIFdlIHdpbGwgbm93IGNvbmZpZ3VyZSBhbmQgcnVuIGVhY2ggb2YgdGhlc2Ugc3RlcHMuCgoKIVtGaWd1cmUgMi4gVGhlIHByZXByb2Nlc3Npbmcgd29ya2Zsb3cgdXBvbiBjb25maWd1cmF0aW9uXSguL2ZpZ3VyZXMvcHJlcHJvY2Vzc2luZ19jb25maWd1cmF0aW9uX2RpYW5uLnBuZykKCiMjIyBTdGVwIDE6IEZlYXR1cmUgZmlsdGVyaW5nIAoKTm90ZSB0aGF0IHRoZSBQQ0EgcGxvdHMgd2lsbCBmYWlsIGJlY2F1c2UgZXZlcnkgcnVuIG9ubHkgY29udGFpbnMgaW5mb3JtYXRpb24gYWJvdXQgMSBydW4uIAoKQWRkIHRocmVlIGZpbHRlcmluZyBib3hlcy4gCgoxLiBCb3ggdG8gcmV0YWluIHByZWN1cnNvcnMgdGhhdCBoYXZlIGJlZW4gaWRlbnRpZmllZDogYFByZWN1cnNvci5JZCAhPSBgIAoyLiBCb3ggdG8gcmV0YWluIHByZWN1cnNvcnMgd2l0aCBhIFEtdmFsdWUgYmVsb3cgMC4wMTogYFEuVmFsdWUgPD0gMC4wMWAKMy4gQm94IHRvIHJldGFpbiBwcmVjdXJzb3JzIHdpdGggYSBRLXZhbHVlIGJlbG93IDAuMDE6IGBQRy5RLlZhbHVlIDw9IDAuMDFgCgpUaGVuIHdlIHBlcmZvcm0gdGhlIGZpbHRlcmluZyBhbmQgc2F2ZSB0aGUgYXNzYXk6IAo0LiBDbGljayBgYXBwbHkgZmlsdGVyc2AKNS4gQ2xpY2sgYHNhdmUgdGhlIHByb2Nlc3NlZCBhc3NheXNgCgojIyMgU3RlcCAyOiBBc3NheSBqb2luaW5nCgoxLiBDbGljayBgTG9hZCBhc3NheXMgZnJvbSBwcmV2aW91cyBzdGVwc2AKMi4gU2VsZWN0IHRoZSBgUHJlY3Vyc29yLklkYCBjb2x1bW4gYXMgdGhlIGFubm90YXRpb24gbmFtZQozLiBDbGljayBgam9pbiBhc3NheXNgCjQuIENsaWNrIGBzYXZlIHRoZSBwcm9jZXNzZWQgYXNzYXlzYAoKIVtGaWd1cmUgMy4gQXNzYXkgam9pbmluZ10oLi9maWd1cmVzL2Fzc2F5am9pbmluZy5wbmcpCgojIyMgU3RlcCAzOiBMb2cgdHJhbnNmb3JtYXRpb24KClNpbWlsYXIgdG8gdGhlIGNwdGFjIHZpZ25ldHRlIHdlIGxvZyB0cmFuc2Zvcm0gdGhlIGRhdGEuIAoKT25jZSB5b3UgYXJlIGRvbmUsIGNsaWNrIHRoZSAiU2F2ZSB0aGUgcHJvY2Vzc2VkIGRhdGEiIGJ1dHRvbi4gCgojIyMgU3RlcCA0OiBhZGQgYW5ub3RhdGlvbnMKClNpbWlsYXIgdG8gdGhlIGNwdGFjIHZpZ25ldHRlIHdlIGFkZCB0aGUgYW5ub3RhdGlvbiBvbiB0aGUgbWlzc2luZyB2YWx1ZXMuIAoKIyMjIFN0ZXAgNTogcHJlY3Vyc29yIGZpbHRlcmluZwoKMS4gV2UgZmlsdGVyIHRoZSBwcmVjdXJzb3JzIGJhc2VkIG9uIHRoZSBudW1iZXIgb2YgTkFzLiAKQWdhaW4gd2Ugd2FudCBvbmx5IHByZWN1cnNvcnMgdGhhdCB3ZXJlIG9ic2VydmVkIGluIGF0IGxlYXN0IDMgcnVucyBzbyBuTkEgaGFzIHRvIGJlIHNtYWxsZXIgb3IgZXF1YWwgdG8gdGhhbiA2LTMgPSAzIC4gCmBuTkEgPD0gM2AKCjIuIFdpdGggRElBLU5OIHlvdSBjYW4ga2VlcCB0aGUgcHJlY3Vyc29ycyB0aGF0IG9ubHkgbWFwIHRvIG9uZSBwcm90ZWluOiAKYFByb3Rlb3R5cGljID09IDFgCjMuIEluIHRoZSAiRmlsdGVyaW5nIFN1bW1hcnkiIHRpbGUsIGNsaWNrIHRoZSAiQXBwbHkgRmlsdGVycyIgYnV0dG9uLgo0LiBDbGljayB0aGUgYnV0dG9uIHRvIHNhdmUgdGhlIHByb2Nlc3NlZCBkYXRhLgoKCiMjIyBTdGVwIDY6IE5vcm1hbGlzYXRpb24KCkFnYWluIHdlIG5vcm1hbGlzZSB0aGUgZGF0YSBhcyBpbiB0aGUgcHJldmlvdXMgdmlnbmV0dGUgYnkgdXNpbmcgbWVkaWFuIGNlbnRlcmluZy4gCgojIyMgU3RlcCA3OiBTdW1tYXJpc2F0aW9uCgpBZ2FpbiB3ZSBzdW1tYXJpemUgdGhlIGRhdGEgYXMgaW4gdGhlIHByZXZpb3VzIHZpZ25ldHRlIHVzIGBQcm90ZWluLklkc2AgdG8gYWdncmVnYXRlIHRoZSBwcmVjdXJzb3ItbGV2ZWwgZGF0YSBpbiBhIHByb3RlaW4tbGV2ZWwgZXhwcmVzc2lvbiB2YWx1ZS4gCgojIyMgU3RlcCA4OiBhZGQgYW5ub3RhdGlvbnMKClJlcGVhdCBzdGVwIDIsIHRoaXMgd2lsbCBhbGxvdyB0byBwZXJmb3JtIGEgZmlsdGVyaW5nIG9uIG1pc3NpbmcsIGJ1dAphdCB0aGUgcHJvdGVpbi1sZXZlbCBpbnN0ZWFkIG9mIHBlcHRpZGUtbGV2ZWwuCgojIyMgU3RlcCA5OiBwcm90ZWluIGZpbHRlcmluZwoKQWdhaW4sIHdlIHdpbGwgcmVtb3ZlIHByb3RlaW5zIHRoYXQgd2VyZSBpZGVudGlmaWVkIGluIGxlc3MKdGhhbiA0IHNhbXBsZXMgc28gdGhhdCBmb3IgbW9zdCBwcm90ZWlucyBhdCBsZWFzdCB0d28gcHJvdGVpbi1sZXZlbCBleHByZXNzaW9uIHZhbHVlcyBhcmUgb2JzZXJ2ZWQgaW4gZWFjaCB0cmVhdG1lbnQgZ3JvdXAuIAoKU28gd2Ugd2lsbCB0b2xlcmF0ZSBhdCBtb3N0IDYtNCA9IDIgbWlzc2luZyB2YWx1ZXMgYXQgdGhlIHByb3RlaW4tbGV2ZWwuIAoKIyMjIFNhdmUgeW91ciBwcm9ncmVzcwoKWW91IG5vdyBoYXZlIGNvbXBsZXRlZCB0aGUgZGF0YSBwcm9jZXNzaW5nLiBZb3UgY2FuIG1vdmUgdG8gdGhlClN1bW1hcnkgdGFiIChpbiB0aGUgbGVmdCBtZW51KS4gVGhlcmUgeW91IHdpbGwgZmluZCBhbiBvdmVydmlldyBvZiB0aGUKZGF0YSBhbmQgdGhlIGRhdGEgcHJvY2Vzc2luZyBzdGVwcy4KCkdvIHRvIHRoZSBib3R0b20gb2YgdGhlIHBhZ2UgYW5kIGNsaWNrIG9uIHRoZSAiRG93bmxvYWQgUUZlYXR1cmVzIgpidXR0b24uIEEgcG9wIHVwIHdpbmRvd24gd2lsbCBhc2sgeW91IHRvIHNlbGVjdCBhIGRpcmVjdG9yeSB0byBzdG9yZQp0aGUgcmVzdWx0aW5nIGZpbGUuIEJ5IGRlZmF1bHQgdGhlIGZpbGUgaXMgY2FsbGVkCmBxZmVhdHVyZXNfb2JqZWN0LnJkc2AsIGJ1dCBmZWVsIGZyZWUgdG8gcmVuYW1lIGFzIHlvdSB3aXNoIGJ1dCB5b3UKY2Fubm90IGNoYW5nZSB0aGUgZmlsZSBleHRlbnNpb24gKGAucmRzYCkuCgpZb3UgY2FuIG5vdyBjbG9zZSB0aGUgYXBwbGljYXRpb24uCgojIyBTdGF0aXN0aWNhbCBhbmFseXNpcwoKIyMjIE9wZW4gYG1zcXJvYjJndWlgIAoKVGhlIGRpZmZlcmVudGlhbCBhbmFseXNpcyBpbiB0aGUgbXNxcm9iMmd1aSByZW1haW5zIHNpbWlsYXIgdG8gdGhlIHByZXZpb3VzIHZpZ25ldHRlIGFuZCB0dXRvcmlhbHMuIAo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("dia-nn_spike_in.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

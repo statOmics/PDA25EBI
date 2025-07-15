@@ -13,10 +13,9 @@
 
 <title>Proteomics Data Analysis (PDA)</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -29,9 +28,14 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -44,20 +48,15 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
 }
-</script>
-
-
-
-
+</style>
 
 <style type="text/css">
 /* for pandoc --citeproc since 2.11 */
@@ -83,6 +82,7 @@ div.csl-indent {
 }
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 
 
@@ -241,7 +241,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -251,6 +317,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -328,6 +404,16 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Proteomics Data Analysis (PDA)</h1>
@@ -337,31 +423,17 @@ $(document).ready(function () {
 
 <hr />
 <p><img src="figures/IntroFig.png" width="1440" /></p>
-<div id="course-description" class="section level3">
-<h3>Course Description</h3>
-<p>Mass spectrometry based proteomic experiments generate ever larger
-datasets and, as a consequence, complex data interpretation challenges.
-This course focuses on the statistical concepts for peptide
-identification, quantification, and differential analysis. Moreover,
-more advanced experimental designs and blocking will also be introduced.
-The core focus will be on shotgun proteomics data, and quantification
-using label-free precursor peptide (MS1) ion intensities. The course
-will rely exclusively on free and userfriendly opensource tools in
-R/Bioconductor. The course will provide a solid basis for beginners, but
-will also bring new perspectives to those already familiar with standard
-data interpretation procedures in proteomics.</p>
-<p>Students can sharpen their background knowledge on Mass Spectrometry,
-Proteomics &amp; Bioinformatics for Proteomics here: <a
-href="./techvid.html">Mass Spectrometry and Bioinformatics for
-Proteomics</a></p>
+<div id="course-description" class="section level3" number="1">
+<h3><span class="header-section-number">1</span> Course Description</h3>
+<p>Mass spectrometry based proteomic experiments generate ever larger datasets and, as a consequence, complex data interpretation challenges. This course focuses on the statistical concepts for peptide identification, quantification, and differential analysis. Moreover, more advanced experimental designs and blocking will also be introduced. The core focus will be on shotgun proteomics data, and quantification using label-free precursor peptide (MS1) ion intensities. The course will rely exclusively on free and userfriendly opensource tools in R/Bioconductor. The course will provide a solid basis for beginners, but will also bring new perspectives to those already familiar with standard data interpretation procedures in proteomics.</p>
+<p>Students can sharpen their background knowledge on Mass Spectrometry, Proteomics &amp; Bioinformatics for Proteomics
+here:
+<a href="./techvid.html">Mass Spectrometry and Bioinformatics for Proteomics</a></p>
 </div>
-<div id="target-audience" class="section level3">
-<h3>Target Audience</h3>
-<p>This course is oriented towards biologists and bioinformaticians with
-a particular interest in differential analysis for quantitative
-proteomics.</p>
-<p>According to the target audience of the course we either work with a
-graphical user interface (GUI) in a R/shiny App msqrob2gui e.g. </p>
+<div id="target-audience" class="section level3" number="2">
+<h3><span class="header-section-number">2</span> Target Audience</h3>
+<p>This course is oriented towards biologists and bioinformaticians with a particular interest in differential analysis for quantitative proteomics.</p>
+<p>According to the target audience of the course we either work with a graphical user interface (GUI) in a R/shiny App msqrob2gui e.g. </p>
 <ul>
 <li>Proteomics Data Analysis course at the Gulbenkian institute</li>
 <li>Proteomics Bioinformatics course of the EBI</li>
@@ -373,132 +445,91 @@ graphical user interface (GUI) in a R/shiny App msqrob2gui e.g. </p>
 <li>Statistical Genomics Course at Ghent University.</li>
 </ul>
 </div>
-<div id="software-data" class="section level3">
-<h3>Software &amp; Data</h3>
+<div id="software-data" class="section level3" number="3">
+<h3><span class="header-section-number">3</span> Software &amp; Data</h3>
 <ul>
 <li><a href="./software.html">Install msqrob2 software</a></li>
-<li><a
-href="https://github.com/statOmics/PDA25EBI/archive/refs/heads/data.zip">Download
-data</a></li>
+<li><a href="https://github.com/statOmics/PDA25EBI/archive/refs/heads/data.zip">Download data</a></li>
 </ul>
-<p>Note, that users who develop R/markdown scripts can access data both
-from the web or from disk within their scripts. So they do not need to
-download the data first. The msqrob2gui Shiny App only works with data
-that is available on disk.</p>
+<p>Note, that users who develop R/markdown scripts can access data both from the web or from disk within their scripts. So they do not need to download the data first. The msqrob2gui Shiny App only works with data that is available on disk.</p>
 <ul>
-<li>More information on our tools can be found in our papers <span
-class="citation">(L. J. Goeminne, Gevaert, and Clement 2016)</span>,
-<span class="citation">(L. J. E. Goeminne et al. 2020)</span>, <span
-class="citation">(Sticker et al. 2020)</span> and <span
-class="citation">(Vandenbulcke and Clement 2025)</span>. Please refer to
-our work when using our tools.</li>
+<li>More information on our tools can be found in our papers <span class="citation">(L. J. Goeminne, Gevaert, and Clement 2016)</span>, <span class="citation">(L. J. E. Goeminne et al. 2020)</span>, <span class="citation">(Sticker et al. 2020)</span> and <span class="citation">(Vandenbulcke and Clement 2025)</span>. Please refer to our work when using our tools.</li>
 </ul>
 </div>
-<div id="instructor" class="section level3">
-<h3>Instructor</h3>
+<div id="instructor" class="section level3" number="4">
+<h3><span class="header-section-number">4</span> Instructor</h3>
 <ul>
-<li><a href="https://statomics.github.io/pages/about.html">Lieven
-Clement</a>, Associate Professor of Statistical Genomics, <a
-href="https://statomics.github.io/">statOmics</a>, <a
-href="https://www.ugent.be/">Ghent University</a>, Belgium</li>
+<li><a href="https://statomics.github.io/pages/about.html">Lieven Clement</a>, Associate Professor of Statistical Genomics, <a href="https://statomics.github.io/">statOmics</a>, <a href="https://www.ugent.be/">Ghent University</a>, Belgium</li>
 </ul>
 </div>
-<div id="issues" class="section level3">
-<h3>Issues</h3>
-<p>If you encounter problems related to the course material
-(e.g. package installation problems, bugs in the code, typos, …), please
-consider <a href="https://github.com/statOmics/PDA/issues">posting an
-issue on GitHub</a>.</p>
+<div id="issues" class="section level3" number="5">
+<h3><span class="header-section-number">5</span> Issues</h3>
+<p>If you encounter problems related to the course material (e.g. package installation problems, bugs in the code, typos, …), please consider <a href="https://github.com/statOmics/PDA/issues">posting an issue on GitHub</a>.</p>
 <hr />
 </div>
-<div id="detailed-program" class="section level3">
-<h3>Detailed Program</h3>
+<div id="detailed-program" class="section level3" number="6">
+<h3><span class="header-section-number">6</span> Detailed Program</h3>
 <ol style="list-style-type: decimal">
-<li>Preprocessing &amp; Analysis of Label Free Quantitative Proteomics
-Experiments with Simple Designs</li>
+<li>Preprocessing &amp; Analysis of Label Free Quantitative Proteomics Experiments with Simple Designs</li>
 </ol>
 <ul>
-<li>Lecture: <a
-href="./pda_quantification_preprocessing.html">Preprocessing</a>, [<a
-href="./pda_quantification_preprocessing.pdf">PDF</a>]</li>
-<li>Tutorial: <a
-href="./pda_tutorialPreprocessing.html">preprocessing</a></li>
-<li>Wrap-up: <a
-href="./pda_robustSummarisation_peptideModels.html">Peptide-based
-Models</a>[<a
-href="./pda_robustSummarisation_peptideModels.pdf">PDF</a>]</li>
+<li>Lecture: <a href="./pda_quantification_preprocessing.html">Preprocessing</a>, [<a href="./pda_quantification_preprocessing.pdf">PDF</a>]</li>
+<li>Tutorial: <a href="./pda_tutorialPreprocessing.html">preprocessing</a></li>
+<li>Wrap-up: <a href="./pda_robustSummarisation_peptideModels.html">Peptide-based Models</a>[<a href="./pda_robustSummarisation_peptideModels.pdf">PDF</a>]</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Statistical Inference &amp; Analysis of Experiments with Factorial
-Designs</li>
+<li>Statistical Inference &amp; Analysis of Experiments with Factorial Designs</li>
 </ol>
 <ul>
-<li>Lecture: <a href="./pda_quantification_inference.html">Differential
-Abundance Analysis</a>, [<a
-href="./pda_quantification_inference.pdf">PDF</a>]</li>
+<li>Lecture: <a href="./pda_quantification_inference.html">Differential Abundance Analysis</a>, [<a href="./pda_quantification_inference.pdf">PDF</a>]</li>
 <li>Tutorial: <a href="pda_tutorialDesign.html">Design</a></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Additional Materials</li>
+</ol>
+<ul>
+<li>Vignette to analyse DIA-NN data <a href="dia-nn_spike_in.html">DIA-NN workflow</a></li>
 </ul>
 <hr />
 </div>
-<div id="acknowledgements" class="section level3">
-<h3>Acknowledgements</h3>
-<p>A special thanks to Pedro Fernandes, Coordinator of the GTPB
-Bioinformatics Training Programme, Instituto Gulbenkian de Ciencia, who
-radically changed our view on teaching and immersed us in the teaching
-method that we use in this course.</p>
+<div id="acknowledgements" class="section level3" number="7">
+<h3><span class="header-section-number">7</span> Acknowledgements</h3>
+<p>A special thanks to Pedro Fernandes, Coordinator of the GTPB Bioinformatics Training Programme, Instituto Gulbenkian de Ciencia, who radically changed our view on teaching and immersed us in the teaching method that we use in this course.</p>
 </div>
-<div id="license" class="section level3">
-<h3>License</h3>
+<div id="license" class="section level3" number="8">
+<h3><span class="header-section-number">8</span> License</h3>
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<p>This project is licensed under the <a
-href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative
-Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC
-BY-NC-SA 4.0)</a></p>
+<p>This project is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
 <hr />
 </div>
 <div id="references" class="section level3 unnumbered">
-<h3 class="unnumbered">References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-goeminne2020" class="csl-entry">
-Goeminne, L. J. E., A. Sticker, L. Martens, K. Gevaert, and L. Clement.
-2020. <span>“<span
-class="nocase"><span>M</span><span>S</span>q<span>R</span>ob
-<span>T</span>akes the <span>M</span>issing <span>H</span>urdle:
-<span>U</span>niting <span>I</span>ntensity- and
-<span>C</span>ount-<span>B</span>ased
-<span>P</span>roteomics</span>.”</span> <em>Anal Chem</em> 92 (9):
-6278–87.
+Goeminne, L. J. E., A. Sticker, L. Martens, K. Gevaert, and L. Clement. 2020. <span>“<span class="nocase"><span>M</span><span>S</span>q<span>R</span>ob <span>T</span>akes the <span>M</span>issing <span>H</span>urdle: <span>U</span>niting <span>I</span>ntensity- and <span>C</span>ount-<span>B</span>ased <span>P</span>roteomics</span>.”</span> <em>Anal Chem</em> 92 (9): 6278–87.
 </div>
 <div id="ref-goeminne2016" class="csl-entry">
-Goeminne, L. J., K. Gevaert, and L. Clement. 2016. <span>“<span
-class="nocase"><span>P</span>eptide-level <span>R</span>obust
-<span>R</span>idge <span>R</span>egression <span>I</span>mproves
-<span>E</span>stimation, <span>S</span>ensitivity, and
-<span>S</span>pecificity in <span>D</span>ata-dependent
-<span>Q</span>uantitative <span>L</span>abel-free <span>S</span>hotgun
-<span>P</span>roteomics</span>.”</span> <em>Mol Cell Proteomics</em> 15
-(2): 657–68.
+Goeminne, L. J., K. Gevaert, and L. Clement. 2016. <span>“<span class="nocase"><span>P</span>eptide-level <span>R</span>obust <span>R</span>idge <span>R</span>egression <span>I</span>mproves <span>E</span>stimation, <span>S</span>ensitivity, and <span>S</span>pecificity in <span>D</span>ata-dependent <span>Q</span>uantitative <span>L</span>abel-free <span>S</span>hotgun <span>P</span>roteomics</span>.”</span> <em>Mol Cell Proteomics</em> 15 (2): 657–68.
 </div>
 <div id="ref-sticker2020" class="csl-entry">
-Sticker, A., L. Goeminne, L. Martens, and L. Clement. 2020. <span>“<span
-class="nocase"><span>R</span>obust <span>S</span>ummarization and
-<span>I</span>nference in <span>P</span>roteome-wide
-<span>L</span>abel-free <span>Q</span>uantification</span>.”</span>
-<em>Mol Cell Proteomics</em> 19 (7): 1209–19.
+Sticker, A., L. Goeminne, L. Martens, and L. Clement. 2020. <span>“<span class="nocase"><span>R</span>obust <span>S</span>ummarization and <span>I</span>nference in <span>P</span>roteome-wide <span>L</span>abel-free <span>Q</span>uantification</span>.”</span> <em>Mol Cell Proteomics</em> 19 (7): 1209–19.
 </div>
 <div id="ref-vandenbulcke2025" class="csl-entry">
-Vandenbulcke, C., S. Vanderaa, and L. Clement. 2025. <span>“msqrob2TMT:
-Robust Linear Mixed Models for Inferring Differential Signals in Tandem
-Mass Tag-Based Proteomics.”</span> <em>Molecular &amp; Cellular
-Proteomics</em> 24 (3): e10101–1. <a
-href="https://doi.org/10.1016/j.mcpro.2025.00101-X">https://doi.org/10.1016/j.mcpro.2025.00101-X</a>.
+Vandenbulcke, C., S. Vanderaa, and L. Clement. 2025. <span>“msqrob2TMT: Robust Linear Mixed Models for Inferring Differential Signals in Tandem Mass Tag-Based Proteomics.”</span> <em>Molecular &amp; Cellular Proteomics</em> 24 (3): e10101–1. <a href="https://doi.org/10.1016/j.mcpro.2025.00101-X">https://doi.org/10.1016/j.mcpro.2025.00101-X</a>.
 </div>
 </div>
 </div>
 
+<div id="rmd-source-code">LS0tCnRpdGxlOiBQcm90ZW9taWNzIERhdGEgQW5hbHlzaXMgKFBEQSkKb3V0cHV0OgogICAgaHRtbF9kb2N1bWVudDoKICAgICAgY29kZV9kb3dubG9hZDogZmFsc2UKICAgICAgdG9jOiBmYWxzZQogICAgICB0b2NfZmxvYXQ6IGZhbHNlCiAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKYmlibGlvZ3JhcGh5OiBtc3Fyb2IyLmJpYgoKLS0tCgoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0UsIGNhY2hlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IEZBTFNFKQpgYGAKCioqKgoKYGBge3IgZWNobz1GQUxTRX0Ka25pdHI6OmluY2x1ZGVfZ3JhcGhpY3MoIi4vZmlndXJlcy9JbnRyb0ZpZy5wbmciKQpgYGAKCgojIyMgQ291cnNlIERlc2NyaXB0aW9uCgpNYXNzIHNwZWN0cm9tZXRyeSBiYXNlZCBwcm90ZW9taWMgZXhwZXJpbWVudHMgZ2VuZXJhdGUgZXZlciBsYXJnZXIgZGF0YXNldHMgYW5kLCBhcyBhIGNvbnNlcXVlbmNlLCBjb21wbGV4IGRhdGEgaW50ZXJwcmV0YXRpb24gY2hhbGxlbmdlcy4gVGhpcyBjb3Vyc2UgZm9jdXNlcyBvbiB0aGUgc3RhdGlzdGljYWwgY29uY2VwdHMgZm9yIHBlcHRpZGUgaWRlbnRpZmljYXRpb24sIHF1YW50aWZpY2F0aW9uLCBhbmQgZGlmZmVyZW50aWFsIGFuYWx5c2lzLiBNb3Jlb3ZlciwgbW9yZSBhZHZhbmNlZCBleHBlcmltZW50YWwgZGVzaWducyBhbmQgYmxvY2tpbmcgd2lsbCBhbHNvIGJlIGludHJvZHVjZWQuIFRoZSBjb3JlIGZvY3VzIHdpbGwgYmUgb24gc2hvdGd1biBwcm90ZW9taWNzIGRhdGEsIGFuZCBxdWFudGlmaWNhdGlvbiB1c2luZyBsYWJlbC1mcmVlIHByZWN1cnNvciBwZXB0aWRlIChNUzEpIGlvbiBpbnRlbnNpdGllcy4gVGhlIGNvdXJzZSB3aWxsIHJlbHkgZXhjbHVzaXZlbHkgb24gZnJlZSBhbmQgdXNlcmZyaWVuZGx5IG9wZW5zb3VyY2UgdG9vbHMgaW4gUi9CaW9jb25kdWN0b3IuIFRoZSBjb3Vyc2Ugd2lsbCBwcm92aWRlIGEgc29saWQgYmFzaXMgZm9yIGJlZ2lubmVycywgYnV0IHdpbGwgYWxzbyBicmluZyBuZXcgcGVyc3BlY3RpdmVzIHRvIHRob3NlIGFscmVhZHkgZmFtaWxpYXIgd2l0aCBzdGFuZGFyZCBkYXRhIGludGVycHJldGF0aW9uIHByb2NlZHVyZXMgaW4gcHJvdGVvbWljcy4KClN0dWRlbnRzIGNhbiBzaGFycGVuIHRoZWlyIGJhY2tncm91bmQga25vd2xlZGdlIG9uIE1hc3MgU3BlY3Ryb21ldHJ5LCBQcm90ZW9taWNzICYgQmlvaW5mb3JtYXRpY3MgZm9yIFByb3Rlb21pY3MKIGhlcmU6CltNYXNzIFNwZWN0cm9tZXRyeSBhbmQgQmlvaW5mb3JtYXRpY3MgZm9yIFByb3Rlb21pY3NdKC4vdGVjaHZpZC5odG1sKQoKIyMjIFRhcmdldCBBdWRpZW5jZQpUaGlzIGNvdXJzZSBpcyBvcmllbnRlZCB0b3dhcmRzIGJpb2xvZ2lzdHMgYW5kIGJpb2luZm9ybWF0aWNpYW5zIHdpdGggYSBwYXJ0aWN1bGFyIGludGVyZXN0IGluIGRpZmZlcmVudGlhbCBhbmFseXNpcyBmb3IgcXVhbnRpdGF0aXZlIHByb3Rlb21pY3MuCgpBY2NvcmRpbmcgdG8gdGhlIHRhcmdldCBhdWRpZW5jZSBvZiB0aGUgY291cnNlIHdlIGVpdGhlciB3b3JrIHdpdGggYSBncmFwaGljYWwgdXNlciBpbnRlcmZhY2UgKEdVSSkgaW4gYSBSL3NoaW55IEFwcCBtc3Fyb2IyZ3VpIGUuZy4gCgotIFByb3Rlb21pY3MgRGF0YSBBbmFseXNpcyBjb3Vyc2UgYXQgdGhlIEd1bGJlbmtpYW4gaW5zdGl0dXRlIAotIFByb3Rlb21pY3MgQmlvaW5mb3JtYXRpY3MgY291cnNlIG9mIHRoZSBFQkkKLSBCZVBBIGludHJvZHVjdGlvbjogV2hhdCBjYW4gcHJvdGVvbWljcyBkbyBmb3IgeW91PwoKb3Igd2l0aCBSL21hcmtkb3ducyBzY3JpcHRzIGUuZy4gCgotIEJpb2luZm9ybWF0aWNzIFN1bW1lciBTY2hvb2wgYXQgVUNMb3V2YWluIAotIFN0YXRpc3RpY2FsIEdlbm9taWNzIENvdXJzZSBhdCBHaGVudCBVbml2ZXJzaXR5LiAKCiMjIyBTb2Z0d2FyZSAmIERhdGEgCgotIFtJbnN0YWxsIG1zcXJvYjIgc29mdHdhcmVdKC4vc29mdHdhcmUuaHRtbCkKLSBbRG93bmxvYWQgZGF0YV0oaHR0cHM6Ly9naXRodWIuY29tL3N0YXRPbWljcy9QREEyNUVCSS9hcmNoaXZlL3JlZnMvaGVhZHMvZGF0YS56aXApCgpOb3RlLCB0aGF0IHVzZXJzIHdobyBkZXZlbG9wIFIvbWFya2Rvd24gc2NyaXB0cyBjYW4gYWNjZXNzIGRhdGEgYm90aCBmcm9tIHRoZSB3ZWIgb3IgZnJvbSBkaXNrIHdpdGhpbiB0aGVpciBzY3JpcHRzLiBTbyB0aGV5IGRvIG5vdCBuZWVkIHRvIGRvd25sb2FkIHRoZSBkYXRhIGZpcnN0LiBUaGUgbXNxcm9iMmd1aSBTaGlueSBBcHAgb25seSB3b3JrcyB3aXRoIGRhdGEgdGhhdCBpcyBhdmFpbGFibGUgb24gZGlzay4gIAoKCi0gTW9yZSBpbmZvcm1hdGlvbiBvbiBvdXIgdG9vbHMgY2FuIGJlIGZvdW5kIGluIG91ciBwYXBlcnMgW0Bnb2VtaW5uZTIwMTZdLCBbQGdvZW1pbm5lMjAyMF0sIFtAc3RpY2tlcjIwMjBdIGFuZCBbQHZhbmRlbmJ1bGNrZTIwMjVdLiBQbGVhc2UgcmVmZXIgdG8gb3VyIHdvcmsgd2hlbiB1c2luZyBvdXIgdG9vbHMuIAoKCiMjIyBJbnN0cnVjdG9yCgotIFtMaWV2ZW4gQ2xlbWVudF0oaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvL3BhZ2VzL2Fib3V0Lmh0bWwpLCBBc3NvY2lhdGUgUHJvZmVzc29yIG9mIFN0YXRpc3RpY2FsIEdlbm9taWNzLCBbc3RhdE9taWNzXShodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8vKSwgW0doZW50IFVuaXZlcnNpdHldKGh0dHBzOi8vd3d3LnVnZW50LmJlLyksIEJlbGdpdW0KCiMjIyBJc3N1ZXMKCklmIHlvdSBlbmNvdW50ZXIgcHJvYmxlbXMgcmVsYXRlZCB0byB0aGUgY291cnNlIG1hdGVyaWFsIChlLmcuIHBhY2thZ2UgaW5zdGFsbGF0aW9uIHByb2JsZW1zLCBidWdzIGluIHRoZSBjb2RlLCB0eXBvcywgLi4uKSwgcGxlYXNlIGNvbnNpZGVyIFtwb3N0aW5nIGFuIGlzc3VlIG9uIEdpdEh1Yl0oaHR0cHM6Ly9naXRodWIuY29tL3N0YXRPbWljcy9QREEvaXNzdWVzKS4KCi0tLQoKIyMjIERldGFpbGVkIFByb2dyYW0KCgogIDEuIFByZXByb2Nlc3NpbmcgJiBBbmFseXNpcyBvZiBMYWJlbCBGcmVlIFF1YW50aXRhdGl2ZSBQcm90ZW9taWNzIEV4cGVyaW1lbnRzIHdpdGggU2ltcGxlIERlc2lnbnMKICAtIExlY3R1cmU6IFtQcmVwcm9jZXNzaW5nXSguL3BkYV9xdWFudGlmaWNhdGlvbl9wcmVwcm9jZXNzaW5nLmh0bWwpLCBbW1BERl0oLi9wZGFfcXVhbnRpZmljYXRpb25fcHJlcHJvY2Vzc2luZy5wZGYpXQogIC0gVHV0b3JpYWw6IFtwcmVwcm9jZXNzaW5nXSguL3BkYV90dXRvcmlhbFByZXByb2Nlc3NpbmcuaHRtbCkKICAtIFdyYXAtdXA6IFtQZXB0aWRlLWJhc2VkIE1vZGVsc10oLi9wZGFfcm9idXN0U3VtbWFyaXNhdGlvbl9wZXB0aWRlTW9kZWxzLmh0bWwpW1tQREZdKC4vcGRhX3JvYnVzdFN1bW1hcmlzYXRpb25fcGVwdGlkZU1vZGVscy5wZGYpXQoKICAyLiBTdGF0aXN0aWNhbCBJbmZlcmVuY2UgJiBBbmFseXNpcyBvZiBFeHBlcmltZW50cyB3aXRoIEZhY3RvcmlhbCBEZXNpZ25zCiAgLSBMZWN0dXJlOiBbRGlmZmVyZW50aWFsIEFidW5kYW5jZSBBbmFseXNpc10oLi9wZGFfcXVhbnRpZmljYXRpb25faW5mZXJlbmNlLmh0bWwpLCBbW1BERl0oLi9wZGFfcXVhbnRpZmljYXRpb25faW5mZXJlbmNlLnBkZildCiAgLSBUdXRvcmlhbDogW0Rlc2lnbl0ocGRhX3R1dG9yaWFsRGVzaWduLmh0bWwpCiAgCiAgMy4gQWRkaXRpb25hbCBNYXRlcmlhbHMKICAtIFZpZ25ldHRlIHRvIGFuYWx5c2UgRElBLU5OIGRhdGEgW0RJQS1OTiB3b3JrZmxvd10oZGlhLW5uX3NwaWtlX2luLmh0bWwpCgotLS0KCiMjIyBBY2tub3dsZWRnZW1lbnRzIAoKQSBzcGVjaWFsIHRoYW5rcyB0byBQZWRybyBGZXJuYW5kZXMsIENvb3JkaW5hdG9yIG9mIHRoZSBHVFBCIEJpb2luZm9ybWF0aWNzIFRyYWluaW5nIFByb2dyYW1tZSwgSW5zdGl0dXRvIEd1bGJlbmtpYW4gZGUgQ2llbmNpYSwgd2hvIHJhZGljYWxseSBjaGFuZ2VkIG91ciB2aWV3IG9uIHRlYWNoaW5nIGFuZCBpbW1lcnNlZCB1cyBpbiB0aGUgdGVhY2hpbmcgbWV0aG9kIHRoYXQgd2UgdXNlIGluIHRoaXMgY291cnNlLgoKIyMjIExpY2Vuc2UKCjxhIHJlbD0ibGljZW5zZSIgaHJlZj0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCI+PGltZyBhbHQ9IkNyZWF0aXZlIENvbW1vbnMgTGljZW5zZSIgc3R5bGU9ImJvcmRlci13aWR0aDowIiBzcmM9Imh0dHBzOi8vaS5jcmVhdGl2ZWNvbW1vbnMub3JnL2wvYnktbmMtc2EvNC4wLzg4eDMxLnBuZyIgLz48L2E+CgpUaGlzIHByb2plY3QgaXMgbGljZW5zZWQgdW5kZXIgdGhlIFtDcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uLU5vbkNvbW1lcmNpYWwtU2hhcmVBbGlrZSA0LjAgSW50ZXJuYXRpb25hbCAoQ0MgQlktTkMtU0EgNC4wKV0oaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCkKCi0tLQoKIyMjIFJlZmVyZW5jZXMgCgoK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
 
 
+</div>
+</div>
 
 </div>
 
@@ -530,7 +561,42 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("index.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
