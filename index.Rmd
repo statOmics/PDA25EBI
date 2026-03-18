@@ -88,7 +88,7 @@ A special thanks to
 
 - Pedro Fernandes, Coordinator of the GTPB Bioinformatics Training Programme, Instituto Gulbenkian de Ciencia, who radically changed our view on teaching and immersed us in the teaching method that we use in this course.
 
-- Léopold Guyot, Loïc Guille and the Laurent Gatto lab for the development of [QFeaturesGUI](https://github.com/UCLouvain-CBIO/QFeaturesGUI), which we forked to add some additional features for this course. 
+- Léopold Guyot, Loïc Guille and the Laurent Gatto lab for the development of [QFeaturesGUI](https://github.com/UCLouvain-CBIO/QFeaturesGUI), which we temporarily forked because we needed some additional functionalities for this course. 
 
 ### License
 

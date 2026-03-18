@@ -87,6 +87,9 @@ In this course, we will use 2 graphical user interfaces (GUIs):
 data modelling. For installing the GUIs, you'll again need to install
 specific versions as the software is still in a developmental stage.
 
+Note, that [QFeaturesGUI](https://github.com/UCLouvain-CBIO/QFeaturesGUI) is actively developed and maintained by the Laurent Gatto lab. 
+However, we forked QFeaturesGUI temporarily for this version of the course because we needed some additional functionalities. 
+
 ```{r, eval=FALSE}
 BiocManager::install("statOmics/QFeaturesGUI") ## this installs QFeaturesGUI
 BiocManager::install("statOmics/msqrob2gui", ref = "gui2modules") ## this installs msqrob2gui
